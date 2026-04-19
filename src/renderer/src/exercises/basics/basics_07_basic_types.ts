@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 7,
-  description: `Learn Go's fundamental data types including integers, floats, strings, and booleans. Go provides both signed and unsigned integer variants of different sizes.`,
+  description: `Work with Go's basic types: integers (int, int32, int64), floats (float32, float64), strings, and booleans. Learn the differences between these types.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Integer types come in different sizes: int, int8, int16, int32, int64',
-    'Use \`uint\` for unsigned integers (no negative values)',
-    'Float types include float32 and float64; use float64 as the default',
+    'Integer types come in different sizes; int is platform-dependent but int64 is always 64-bit',
+    'Use float64 by default for floating point numbers unless you have a specific reason for float32',
+    'Strings in Go are UTF-8 encoded by default',
   ],
 }
 

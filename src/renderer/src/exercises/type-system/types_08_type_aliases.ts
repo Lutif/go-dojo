@@ -13,12 +13,14 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Define with \`type Name = ExistingType\` (note the equals sign)',
+    'Define with `type Name = ExistingType` (note the equals sign)',
     'Aliases are interchangeable with the original type',
     'Useful for improving readability without creating a distinct type',
   ],

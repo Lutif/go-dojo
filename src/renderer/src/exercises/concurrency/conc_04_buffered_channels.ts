@@ -13,14 +13,21 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestChannel(t *testing.T) {
+	ch := make(chan int)
+	go func() {
+		ch <- 42
+	}()
+	
+	if v := <-ch; v != 42 {
+		t.Errorf("got %d, want 42", v)
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Create buffered channels with \`make(chan T, size)\` where size is the buffer capacity',
-    'Sends only block when the buffer is full, receives block when it's empty',
-    'Use \`cap(ch)\` to get buffer size and \`len(ch)\` to get current elements',
+    'Create buffered channels with `make(chan T, size)` where size is the buffer capacity',
+    'Sends only block when the buffer is full, receives block when it\'s empty',
+    'Use `cap(ch)` to get buffer size and `len(ch)` to get current elements',
   ],
 }
 

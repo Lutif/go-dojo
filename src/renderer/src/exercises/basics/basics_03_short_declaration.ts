@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'The \`:=\` operator is only available inside functions, not at package level',
-    'The compiler infers the type from the right-hand side value',
-    'This is more concise than using \`var\` keyword with explicit type',
+    'The := operator declares and initializes a variable in one step',
+    'This syntax only works inside functions, not at package level',
+    'Go infers the type automatically from the assigned value',
   ],
 }
 

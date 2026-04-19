@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 13,
-  description: `Learn conditional execution with if-else statements. Go supports if, else if, and else with an optional initialization statement that can declare variables.`,
+  description: `Use if and else statements for conditional logic. Understand Go's if syntax which doesn't require parentheses around conditions.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Conditions don\'t need parentheses: \`if x > 0 { }\`',
-    'You can initialize variables in the if condition: \`if x := getValue(); x > 0 { }\`',
-    'An else block can appear after an if block without parentheses',
+    'Go if statements don\'t require parentheses: if condition { ... }',
+    'else if chains are written as else if, not elif',
+    'You can initialize variables in the if condition using semicolon syntax',
   ],
 }
 

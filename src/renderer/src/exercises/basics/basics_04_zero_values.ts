@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 4,
-  description: `Learn about Go's zero value concept. When variables are declared without initialization, they automatically receive their type's zero value (0 for numbers, empty string for strings, nil for pointers, etc.).`,
+  description: `Understand Go's zero values for different types. Every declared variable has a default value if not explicitly initialized.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Numeric types have a zero value of 0',
-    'Strings have an empty string as their zero value',
-    'Pointers and slices have nil as their zero value',
+    'Zero values depend on the type: 0 for numbers, false for bool, empty string for string',
+    'Declared but uninitialized variables still have valid values',
+    'This is different from uninitialized variables in some other languages',
   ],
 }
 

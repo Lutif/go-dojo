@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 19,
-  description: `Understand Go strings, which are sequences of bytes. Strings are immutable, and basic string operations include concatenation, indexing, and slicing.`,
+  description: `Work with Go's string type and basic string operations. Understand that strings are immutable sequences of bytes.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Strings in Go are immutable sequences of UTF-8 encoded bytes',
-    'Use \`+\` operator to concatenate strings',
-    'Index a string to get a byte: \`str[0]\` returns a byte value',
+    'Strings are immutable in Go; string concatenation creates new strings',
+    'Access individual characters with indexing, but this gives a byte value',
+    'Use len() to get the number of bytes in a string',
   ],
 }
 

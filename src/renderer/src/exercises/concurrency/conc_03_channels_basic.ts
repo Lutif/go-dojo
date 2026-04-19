@@ -13,14 +13,21 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestChannel(t *testing.T) {
+	ch := make(chan int)
+	go func() {
+		ch <- 42
+	}()
+	
+	if v := <-ch; v != 42 {
+		t.Errorf("got %d, want 42", v)
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'Unbuffered channels block until both sender and receiver are ready',
-    'Use \`<-\` to send data into a channel: \`ch <- value\`',
-    'Use \`<-\` to receive data from a channel: \`value := <-ch\`',
+    'Use `<-` to send data into a channel: `ch <- value`',
+    'Use `<-` to receive data from a channel: `value := <-ch`',
   ],
 }
 

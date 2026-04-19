@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 18,
-  description: `Learn that Go implements while-loop behavior using the for loop with only a condition. This simulates while loops from other languages.`,
+  description: `Implement while loop behavior using for with just a condition. Go doesn't have a while keyword.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'While loop syntax in Go: \`for condition { }\`',
-    'This is equivalent to: \`for ; condition; { }\`',
-    'The loop continues until the condition becomes false',
+    'Use for condition { ... } to create a while-like loop',
+    'This is semantically equivalent to while loops in other languages',
+    'Remember to update the condition variable inside the loop',
   ],
 }
 

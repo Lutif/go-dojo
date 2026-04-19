@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Use \`append(slice, value)\` to add elements to a slice',
-    'Use \`copy(dest, src)\` to copy elements from one slice to another',
-    'Reslicing: \`slice[start:end]\` creates a new slice view',
+    'append adds elements to a slice and returns a new slice',
+    'When append exceeds capacity, a new underlying array is allocated',
+    'copy copies elements from one slice to another and returns the number copied',
   ],
 }
 

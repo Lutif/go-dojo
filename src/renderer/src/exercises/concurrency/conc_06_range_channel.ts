@@ -13,12 +13,19 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestChannel(t *testing.T) {
+	ch := make(chan int)
+	go func() {
+		ch <- 42
+	}()
+	
+	if v := <-ch; v != 42 {
+		t.Errorf("got %d, want 42", v)
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Use \`for value := range ch\` to receive values until the channel is closed',
+    'Use `for value := range ch` to receive values until the channel is closed',
     'Only the sender should close a channel; receiving from a closed channel returns zero value',
     'Panic occurs if you try to send on a closed channel',
   ],

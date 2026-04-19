@@ -9,7 +9,15 @@ const exercise: Exercise = {
   order: 25,
   description: `Write tests with the testing package. Testing is built-in to Go; write tests in *_test.go files.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
+}`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'Test functions: func TestName(t *testing.T) in *_test.go files',

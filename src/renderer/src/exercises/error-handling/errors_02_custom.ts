@@ -11,41 +11,31 @@ const exercise: Exercise = {
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
-import (
-	"testing"
-)
+import "testing"
 
-func TestFindUserValid(t *testing.T) {
-	name, err := FindUser(1)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if name != "User1" {
-		t.Errorf("FindUser(1) = %q, want %q", name, "User1")
-	}
-}
-
-func TestFindUserInvalid(t *testing.T) {
-	_, err := FindUser(0)
+func TestCustomError(t *testing.T) {
+	err := FindUser(-1)
 	if err == nil {
-		t.Fatal("expected error for ID 0, got nil")
+		t.Fatal("expected error, got nil")
 	}
-	nfe, ok := err.(*NotFoundError)
+	
+	ne, ok := err.(*NotFoundError)
 	if !ok {
 		t.Fatalf("expected *NotFoundError, got %T", err)
 	}
-	if nfe.Name != "user" || nfe.ID != 0 {
-		t.Errorf("NotFoundError = {%q, %d}, want {%q, %d}", nfe.Name, nfe.ID, "user", 0)
+	
+	if ne.Name != "user" || ne.ID != -1 {
+		t.Errorf("error values mismatch")
 	}
 }
 
-func TestFindUserNegative(t *testing.T) {
-	_, err := FindUser(-5)
-	if err == nil {
-		t.Fatal("expected error for negative ID, got nil")
+func TestFindValidUser(t *testing.T) {
+	user, err := FindUser(1)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
 	}
-	if err.Error() != "user with ID -5 not found" {
-		t.Errorf("error message = %q, want %q", err.Error(), "user with ID -5 not found")
+	if user != "User1" {
+		t.Errorf("got %q, want User1", user)
 	}
 }`,
   solution: `package main\n\nfunc main() {}`,

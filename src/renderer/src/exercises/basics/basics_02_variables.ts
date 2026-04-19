@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 2,
-  description: `Understand how to declare and use variables in Go. Variables must be declared with a type or initialized with a value so the compiler can infer the type.`,
+  description: `Declare and use variables with explicit types using the var keyword. Understand how Go's type system works with variable declarations.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Use the \`var\` keyword to declare variables with a specific type',
-    'You can declare multiple variables at once with \`var x, y, z int\`',
-    'Variables must be used after declaration or the compiler will produce an error',
+    'The var keyword is used to declare variables with their type',
+    'You can declare a variable and optionally initialize it on the same line',
+    'Multiple variables can be declared together using var parentheses syntax',
   ],
 }
 

@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'Slice header contains: pointer to data, length, capacity',
     'Multiple slices can reference the same underlying array',
-    'Modifying one slice's data affects other slices pointing to same array',
+    'Modifying one slice\'s data affects other slices pointing to same array',
   ],
 }
 

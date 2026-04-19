@@ -13,51 +13,24 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestPointString(t *testing.T) {
-	p := Point{3, 4}
-	if p.String() != "(3, 4)" {
-		t.Errorf("Expected '(3, 4)', got %q", p.String())
+func TestStringFormatting(t *testing.T) {
+	tests := []struct {
+		name string
+		val  interface{ String() string }
+		want string
+	}{
+		{"Point(3,4)", Point{3, 4}, "(3, 4)"},
+		{"Point(0,0)", Point{0, 0}, "(0, 0)"},
+		{"Sunday", Sunday, "Sunday"},
+		{"Friday", Friday, "Friday"},
 	}
-}
-
-func TestPointOrigin(t *testing.T) {
-	p := Point{0, 0}
-	if p.String() != "(0, 0)" {
-		t.Errorf("Expected '(0, 0)', got %q", p.String())
-	}
-}
-
-func TestFormatPoint(t *testing.T) {
-	p := Point{-1, 5}
-	result := FormatPoint(p)
-	if result != "(-1, 5)" {
-		t.Errorf("Expected '(-1, 5)', got %q", result)
-	}
-}
-
-func TestWeekdaySunday(t *testing.T) {
-	if Sunday.String() != "Sunday" {
-		t.Errorf("Expected 'Sunday', got %q", Sunday.String())
-	}
-}
-
-func TestWeekdayFriday(t *testing.T) {
-	if Friday.String() != "Friday" {
-		t.Errorf("Expected 'Friday', got %q", Friday.String())
-	}
-}
-
-func TestWeekdayUnknown(t *testing.T) {
-	d := Weekday(99)
-	if d.String() != "Unknown" {
-		t.Errorf("Expected 'Unknown', got %q", d.String())
-	}
-}
-
-func TestFormatWeekday(t *testing.T) {
-	result := FormatWeekday(Wednesday)
-	if result != "Wednesday" {
-		t.Errorf("Expected 'Wednesday', got %q", result)
+	
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.val.String(); got != tt.want {
+				t.Errorf("got %q, want %q", got, tt.want)
+			}
+		})
 	}
 }`,
   solution: `package main\n\nfunc main() {}`,

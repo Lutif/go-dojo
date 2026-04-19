@@ -13,8 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestObserver(t *testing.T) {
+	sub := &TestSubscriber{}
+	pub := NewPublisher()
+	pub.Subscribe(sub)
+	
+	pub.Publish("test message")
+	
+	if sub.LastMessage != "test message" {
+		t.Errorf("got %q", sub.LastMessage)
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [

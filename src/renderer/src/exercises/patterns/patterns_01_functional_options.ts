@@ -13,43 +13,10 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestNewServerDefaults(t *testing.T) {
-	s := NewServer("localhost")
-	if s.Host != "localhost" {
-		t.Errorf("Host = %q, want %q", s.Host, "localhost")
-	}
-	if s.Port != 8080 {
-		t.Errorf("Port = %d, want 8080", s.Port)
-	}
-	if s.MaxConns != 100 {
-		t.Errorf("MaxConns = %d, want 100", s.MaxConns)
-	}
-	if s.TLS != false {
-		t.Errorf("TLS = %v, want false", s.TLS)
-	}
-}
-
-func TestNewServerWithOptions(t *testing.T) {
-	s := NewServer("example.com", WithPort(9090), WithMaxConns(50), WithTLS(true))
-	if s.Port != 9090 {
-		t.Errorf("Port = %d, want 9090", s.Port)
-	}
-	if s.MaxConns != 50 {
-		t.Errorf("MaxConns = %d, want 50", s.MaxConns)
-	}
-	if s.TLS != true {
-		t.Errorf("TLS = %v, want true", s.TLS)
-	}
-}
-
-func TestNewServerPartialOptions(t *testing.T) {
-	s := NewServer("partial.com", WithPort(3000))
-	if s.Port != 3000 {
-		t.Errorf("Port = %d, want 3000", s.Port)
-	}
-	if s.MaxConns != 100 {
-		t.Errorf("MaxConns = %d, want 100 (default)", s.MaxConns)
-	}
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [

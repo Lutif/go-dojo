@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 25,
-  description: `Understand maps, Go's implementation of hash tables or dictionaries. Maps store key-value pairs and provide fast lookups by key.`,
+  description: `Create and use maps for key-value storage. Maps are Go's hash table implementation.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Declare a map: \`var m map[string]int\` or \`m := make(map[string]int)\`',
-    'Access values: \`value := m[key]\` or \`value, ok := m[key]\` to check if key exists',
-    'Maps are unordered and not safe for concurrent access',
+    'Map syntax: map[KeyType]ValueType like map[string]int',
+    'Initialize maps using make() or map literal syntax',
+    'Access values with m[key] and check existence with ok := m[key]',
   ],
 }
 

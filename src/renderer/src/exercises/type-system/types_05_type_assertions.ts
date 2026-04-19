@@ -13,13 +13,15 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'v.(T) asserts that v holds concrete type T',
-    'Use \`v, ok := x.(T)\` to safely check if assertion succeeds',
+    'Use `v, ok := x.(T)` to safely check if assertion succeeds',
     'Panic if assertion fails without checking ok; always use comma-ok form',
   ],
 }

@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Function syntax: \`func functionName(param1 type1, param2 type2) returnType { }\`',
-    'Parameters can share a type: \`func add(x, y int) int\`',
-    'Functions in Go can return multiple values',
+    'Function syntax is: func functionName(param1 Type, param2 Type) ReturnType { ... }',
+    'Parameters must have their types explicitly specified',
+    'A function with a return type must have a return statement',
   ],
 }
 

@@ -13,14 +13,18 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestHello(t *testing.T) {
+	got := Hello()
+	want := "Hello, World!"
+	if got != want {
+		t.Errorf("Hello() = %q, want %q", got, want)
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Every Go program starts with a package declaration',
-    'The \`main\` function is where your program execution begins',
-    'Use \`fmt.Println()\` to print output to the console',
+    'Every executable Go program needs a main package and a main() function',
+    'Use the fmt package\'s Println function to output text',
+    'Remember to include the proper import statement at the top of your file',
   ],
 }
 

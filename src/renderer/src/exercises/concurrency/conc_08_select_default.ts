@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'Default case runs if no other case is ready',
-    'Useful for non-blocking sends: \`select { case ch <- v: ... default: ... }\`',
-    'Non-blocking receives: \`select { case v := <-ch: ... default: ... }\`',
+    'Useful for non-blocking sends: `select { case ch <- v: ... default: ... }`',
+    'Non-blocking receives: `select { case v := <-ch: ... default: ... }`',
   ],
 }
 

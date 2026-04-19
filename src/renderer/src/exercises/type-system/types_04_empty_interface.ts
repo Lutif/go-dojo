@@ -13,14 +13,24 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestEmptyInterface(t *testing.T) {
+	var v interface{}
+	
+	v = 42
+	if i, ok := v.(int); !ok || i != 42 {
+		t.Error("Failed to assert int")
+	}
+	
+	v = "hello"
+	if s, ok := v.(string); !ok || s != "hello" {
+		t.Error("Failed to assert string")
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Empty interface \`interface{}\` matches any type',
+    'Empty interface `interface{}` matches any type',
     'Commonly used in generic containers (maps, slices of any type)',
-    'Requires type assertions to use values: \`value.(Type)\`',
+    'Requires type assertions to use values: `value.(Type)`',
   ],
 }
 

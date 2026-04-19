@@ -13,13 +13,15 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'Select waits on multiple channel operations and executes the first ready one',
-    'Use \`case\` for each channel operation to handle',
+    'Use `case` for each channel operation to handle',
     'If multiple cases are ready, one is chosen at random',
   ],
 }

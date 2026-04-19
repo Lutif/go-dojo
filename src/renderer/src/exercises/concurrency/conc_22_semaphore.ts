@@ -13,13 +13,15 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'A buffered channel acts as a simple semaphore: capacity = N concurrent accessors',
-    'Before accessing: \`<-sem\` (acquire), after: \`sem <- struct{}{}\` (release)',
+    'Before accessing: `<-sem` (acquire), after: `sem <- struct{}{}` (release)',
     'Or use weighted semaphores from golang.org/x/sync/semaphore for finer control',
   ],
 }

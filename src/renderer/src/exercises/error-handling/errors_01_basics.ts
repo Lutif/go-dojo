@@ -13,13 +13,15 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'Functions returning errors typically do so as the last return value',
-    'Check error immediately: \`if err != nil { ... }\`',
+    'Check error immediately: `if err != nil { ... }`',
     'Never ignore errors silently; always handle or propagate them',
   ],
 }

@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'intermediate',
   order: 29,
-  description: `Master pointers, which hold memory addresses of values. Pointers allow you to pass values by reference and create shared references to data.`,
+  description: `Understand pointers, addresses, and pointer dereferencing. Pointers are essential for passing values by reference.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Declare a pointer: \`var p *int\` or \`p := &value\`',
-    'Dereference a pointer: \`*p\` accesses the value the pointer points to',
-    'Take the address of a value: \`&value\` creates a pointer to it',
+    '& gives the address of a variable, creating a pointer',
+    '* dereferences a pointer to access the value it points to',
+    'nil is the zero value for pointers',
   ],
 }
 

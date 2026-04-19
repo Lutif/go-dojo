@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 15,
-  description: `Understand switch statements without an expression, which act like multiple if-else statements. Each case contains a full boolean expression to evaluate.`,
+  description: `Use switch without a condition as a cleaner alternative to if-else chains. This is a Go-specific pattern.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'A switch without an expression evaluates cases that are boolean expressions',
-    'This is equivalent to chaining multiple if-else statements',
-    'The first case that evaluates to true is executed',
+    'Write switch without an expression: switch { case condition1: ... case condition2: ... }',
+    'Each case should be a boolean expression',
+    'This pattern is often more readable than many if-else statements',
   ],
 }
 

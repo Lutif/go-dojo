@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 17,
-  description: `Master the range-based for loop for iterating over collections. The range clause provides the index and value for each iteration over arrays, slices, strings, maps, and channels.`,
+  description: `Use range to iterate over arrays, slices, maps, strings, and channels. Learn the different range patterns.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Syntax: \`for index, value := range collection { }\`',
-    'You can ignore the index with \`_\`: \`for _, value := range collection\`',
-    'Range over strings gives you runes (Unicode characters), not bytes',
+    'for i, value := range collection iterates with both index and value',
+    'You can use _ to ignore the index or value: for _, v := range collection',
+    'When iterating over a string with range, values are runes, not bytes',
   ],
 }
 

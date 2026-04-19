@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Use \`int(floatValue)\` to convert from float to int',
-    'Use \`float64(intValue)\` to convert from int to float64',
-    'Type conversion truncates float values when converting to integers',
+    'Type conversion syntax is TypeName(value) like int(3.14) or string(65)',
+    'Go requires explicit conversion; you cannot mix types without converting',
+    'Numeric conversions may lose precision or cause overflow',
   ],
 }
 

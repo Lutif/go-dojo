@@ -11,14 +11,24 @@ const exercise: Exercise = {
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestErrorWrapping(t *testing.T) {
+	err := ReadConfig("missing.txt")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+	
+	if !errors.Is(err, ErrMissing) {
+		t.Error("error chain broken")
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Use \`fmt.Errorf("%w", err)\` to wrap errors with context',
+    'Use `fmt.Errorf("%w", err)` to wrap errors with context',
     'Wrapped errors preserve the original error for inspection',
     'Build error chains that show the full path from root cause to caller',
   ],

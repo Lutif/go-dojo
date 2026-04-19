@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Cases in Go automatically break, so you don\'t need break statements',
-    'Use \`fallthrough\` keyword if you need to execute the next case',
-    'Switch can work without an expression: \`switch { case x > 0: case x < 0: }\`',
+    'Go switch statements automatically break between cases',
+    'Each case value is compared for equality with the switch expression',
+    'Use fallthrough keyword only if you explicitly want to continue to the next case',
   ],
 }
 

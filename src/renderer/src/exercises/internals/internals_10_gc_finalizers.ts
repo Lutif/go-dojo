@@ -13,13 +13,15 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'runtime.SetFinalizer(obj, finalizer) registers cleanup function',
-    'Finalizers are unpredictable; don't rely on timing',
+    'Finalizers are unpredictable; don\'t rely on timing',
     'Prefer explicit cleanup (defer, Close()) when possible',
   ],
 }

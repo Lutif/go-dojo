@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'intermediate',
   order: 26,
-  description: `Master map operations including insertion, deletion, and checking key existence. Maps use a simple syntax for these operations.`,
+  description: `Manipulate maps by adding, retrieving, and deleting key-value pairs. Learn how to iterate over maps.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Add/update: \`m[key] = value\`',
-    'Delete: \`delete(m, key)\` removes a key from the map',
-    'Check existence: \`value, ok := m[key]\` returns true if key exists',
+    'Assign to a map with m[key] = value',
+    'Delete from a map with delete(m, key)',
+    'When accessing a key that doesn\'t exist, you get the zero value',
   ],
 }
 

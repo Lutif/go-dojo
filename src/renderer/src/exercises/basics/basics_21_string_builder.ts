@@ -13,16 +13,25 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestBuilder(t *testing.T) {
-	// Test fluent builder API
-	// Verify method chaining
-	// Check final object state
+func TestQueryBuilder(t *testing.T) {
+	q := NewQueryBuilder("users").
+		Where("age > 18").
+		SetOrderBy("name").
+		SetLimit(10).
+		Build()
+	
+	if q.Table != "users" || q.Clause != "age > 18" {
+		t.Error("builder failed")
+	}
+	if q.Limit != 10 {
+		t.Errorf("Limit = %d, want 10", q.Limit)
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Import \`strings\` package and use \`strings.Builder\`',
-    'Use \`builder.WriteString()\` to append strings',
-    'Call \`builder.String()\` to get the final concatenated string',
+    'strings.Builder accumulates strings in a buffer before converting to a final string',
+    'Use the Write or WriteString methods to add to the builder',
+    'Call String() at the end to get the final result',
   ],
 }
 

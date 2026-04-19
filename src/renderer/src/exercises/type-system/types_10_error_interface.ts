@@ -13,8 +13,25 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestStringFormatting(t *testing.T) {
+	tests := []struct {
+		name string
+		val  interface{ String() string }
+		want string
+	}{
+		{"Point(3,4)", Point{3, 4}, "(3, 4)"},
+		{"Point(0,0)", Point{0, 0}, "(0, 0)"},
+		{"Sunday", Sunday, "Sunday"},
+		{"Friday", Friday, "Friday"},
+	}
+	
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.val.String(); got != tt.want {
+				t.Errorf("got %q, want %q", got, tt.want)
+			}
+		})
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [

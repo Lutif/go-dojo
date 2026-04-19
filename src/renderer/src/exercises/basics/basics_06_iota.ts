@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    '\`iota\` is only available within const blocks',
-    '\`iota\` resets to 0 in each new const block',
-    'You can use expressions with iota, like \`iota * 2\` to create custom patterns',
+    'iota starts at 0 and increments by 1 for each const declaration in the same block',
+    'iota is reset when a new const block begins',
+    'You can perform operations on iota values to create different sequences',
   ],
 }
 

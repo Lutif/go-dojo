@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    '\`fmt.Println()\` prints with a newline',
-    '\`fmt.Printf()\` formats strings like C's printf',
-    '\`fmt.Sprintf()\` returns formatted string without printing',
+    '`fmt.Println()` prints with a newline',
+    '`fmt.Printf()` formats strings like C\'s printf',
+    '`fmt.Sprintf()` returns formatted string without printing',
   ],
 }
 

@@ -13,13 +13,20 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestChannel(t *testing.T) {
+	ch := make(chan int)
+	go func() {
+		ch <- 42
+	}()
+	
+	if v := <-ch; v != 42 {
+		t.Errorf("got %d, want 42", v)
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Send-only channels: \`chan<- T\` prevents receives from that parameter',
-    'Receive-only channels: \`<-chan T\` prevents sends from that parameter',
+    'Send-only channels: `chan<- T` prevents receives from that parameter',
+    'Receive-only channels: `<-chan T` prevents sends from that parameter',
     'Directional constraints help document intent and prevent misuse',
   ],
 }

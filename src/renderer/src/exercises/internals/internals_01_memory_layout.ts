@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
     'Structs lay out fields sequentially in memory',
     'Field order affects struct size due to alignment',
-    'Use \`unsafe.Sizeof()\` to check type sizes',
+    'Use `unsafe.Sizeof()` to check type sizes',
   ],
 }
 

@@ -13,12 +13,14 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Use \`time.After(duration)\` in a select case to implement timeouts',
+    'Use `time.After(duration)` in a select case to implement timeouts',
     'time.After() returns a channel that sends after the duration elapses',
     'Combine with context to handle cancellation across multiple goroutines',
   ],

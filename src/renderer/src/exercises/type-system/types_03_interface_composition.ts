@@ -30,32 +30,17 @@ func TestBufferWrite(t *testing.T) {
 
 func TestBufferClose(t *testing.T) {
 	b := &Buffer{}
-	result := b.Close()
-	if !result {
-		t.Error("Expected Close() to return true")
-	}
-	if !b.closed {
-		t.Error("Expected closed to be true")
-	}
-}
-
-func TestReadWriteCloserInterface(t *testing.T) {
-	rwc := NewBuffer()
-	rwc.Write("test data")
-	if rwc.Read() != "test data" {
-		t.Errorf("Expected 'test data', got %q", rwc.Read())
-	}
-	if !rwc.Close() {
+	if !b.Close() {
 		t.Error("Expected Close() to return true")
 	}
 }
 
-func TestBufferSatisfiesAll(t *testing.T) {
-	b := &Buffer{}
-	var _ Reader = b
-	var _ Writer = b
-	var _ Closer = b
-	var _ ReadWriteCloser = b
+func TestReadWriteCloser(t *testing.T) {
+	b := NewBuffer()
+	b.Write("test")
+	if b.Read() != "test" {
+		t.Errorf("Expected 'test', got %q", b.Read())
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [

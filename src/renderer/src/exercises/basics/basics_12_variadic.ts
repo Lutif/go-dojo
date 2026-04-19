@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Declare variadic parameters with \`...Type\` syntax',
-    'Variadic parameters must be the last parameter in the function',
+    'Use ... before the type to make a parameter variadic: func name(args ...Type)',
     'Inside the function, the variadic parameter is a slice of that type',
+    'You can pass individual values or unpack a slice using ...',
   ],
 }
 

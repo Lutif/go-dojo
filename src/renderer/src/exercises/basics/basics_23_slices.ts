@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 23,
-  description: `Master slices, Go's dynamic array type. Slices are flexible views into arrays that can grow and shrink. They're more powerful and commonly used than arrays.`,
+  description: `Work with slices, Go's flexible dynamic array type. Learn how slices are built on top of arrays.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Slice syntax: \`var s []int\` creates a slice without specifying length',
-    'Slice from an array: \`arr[1:3]\` creates a slice from index 1 to 3',
-    'Slices have length (\`len\`) and capacity (\`cap\`)',
+    'Slice syntax: []Type without specifying a size',
+    'Slices are dynamic and can grow as needed',
+    'A slice has length (current elements) and capacity (allocated space)',
   ],
 }
 

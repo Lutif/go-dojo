@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'intermediate',
   order: 30,
-  description: `Learn how pointers work with structs. You can create pointers to structs and modify fields through the pointer, useful for passing structs to functions that need to modify them.`,
+  description: `Use pointers to structs for efficient passing and modification. Learn how pointer receivers enable you to modify struct values.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Create a pointer to a struct: \`p := &person\`',
-    'Access struct fields through a pointer: \`p.Name\` (Go allows this shorthand)',
-    'Use pointer receivers in methods when you need to modify the struct',
+    'Pointers to structs can be created with &variable or new(Type)',
+    'Go automatically dereferences struct pointers for field access',
+    'Methods with pointer receivers can modify the original struct',
   ],
 }
 

@@ -13,8 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestFactory(t *testing.T) {
+	circle := NewShape("circle")
+	if circle.Name() != "circle" {
+		t.Error("factory failed to create circle")
+	}
+	
+	rect := NewShape("rectangle")
+	if rect.Name() != "rectangle" {
+		t.Error("factory failed to create rectangle")
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [

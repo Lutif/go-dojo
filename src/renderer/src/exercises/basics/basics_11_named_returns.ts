@@ -7,20 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 11,
-  description: `Learn about named return values that act as variables in function bodies. Named returns are automatically initialized to their zero values and enable cleaner code with implicit returns.`,
+  description: `Use named return values in function signatures. Named returns can make code more readable and allow implicit returns.`,
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Name return values in the function signature: \`func getValue() (value int, err error)\`',
-    'Named returns can be modified like regular variables',
-    'A bare \`return\` statement returns all named return values',
+    'Name the return values in the function signature like (result int, err error)',
+    'Named returns are automatically initialized to their zero values',
+    'You can use a bare return statement to return the named values',
   ],
 }
 

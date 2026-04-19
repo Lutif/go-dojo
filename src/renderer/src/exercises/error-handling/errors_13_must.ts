@@ -13,12 +13,14 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Create helpers like \`func must(err error) { if err != nil { panic(err) } }\`',
+    'Create helpers like `func must(err error) { if err != nil { panic(err) } }`',
     'Use in tests and initialization where you expect no errors',
     'Document clearly why errors are not expected to make assumptions explicit',
   ],

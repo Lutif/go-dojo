@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'Constants are declared with the \`const\` keyword',
+    'Use const instead of var to declare values that won\'t change',
     'Constants must be assigned a value at declaration time',
-    'Constants can be typed or untyped (ideal for expressions)',
+    'Constants can be strings, numbers, or booleans',
   ],
 }
 

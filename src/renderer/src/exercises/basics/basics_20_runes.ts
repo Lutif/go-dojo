@@ -13,14 +13,16 @@ const exercise: Exercise = {
 
 import "testing"
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestImplementation(t *testing.T) {
+	// Verify the implementation matches the exercise requirements
+	// Refer to the exercise description and hints for specific test cases
+	t.Skip("Implement test based on exercise requirements")
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
-    'A rune is declared as \`r := \'A\'\` (single quotes for rune literals)',
-    'Use the \`rune\` type for Unicode characters',
-    'Convert between runes and strings using type conversion',
+    'A rune is an int32 representing a Unicode code point',
+    'Convert a string to a slice of runes for proper Unicode handling',
+    'When iterating strings with range, you get runes automatically',
   ],
 }
 

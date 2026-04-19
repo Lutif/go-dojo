@@ -11,10 +11,25 @@ const exercise: Exercise = {
   code: `package main\n\nfunc main() {}`,
   testCode: `package main
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func TestExercise(t *testing.T) {
-	// TODO: Implement tests based on exercise requirements
+func TestGoroutine(t *testing.T) {
+	results := make(chan string, 1)
+	go func() {
+		results <- "done"
+	}()
+	
+	select {
+	case msg := <-results:
+		if msg != "done" {
+			t.Errorf("got %q", msg)
+		}
+	case <-time.After(time.Second):
+		t.Fatal("timeout")
+	}
 }`,
   solution: `package main\n\nfunc main() {}`,
   hints: [
