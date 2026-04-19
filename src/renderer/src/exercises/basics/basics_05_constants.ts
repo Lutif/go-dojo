@@ -4,25 +4,54 @@ const exercise: Exercise = {
   id: 'basics_05_constants',
   title: 'Constants',
   category: 'Basics',
-  subcategory: 'Basics',
+  subcategory: 'Variables & Declarations',
   difficulty: 'beginner',
   order: 5,
-  description: `Master Go's constant declarations. Constants are immutable values that must be assigned at compile time and cannot be changed. Use \`const\` keyword to define them.`,
-  code: `package main\n\nfunc main() {}`,
+  description: `Constants are declared with \`const\` and cannot be changed after declaration. Their values must be known at compile time — you can't assign a function call to a constant.
+
+Syntax: \`const Pi = 3.14159\` or \`const Name string = "Go"\`
+
+Your task: define three constants and return them from the function.`,
+  code: `package main
+
+// TODO: Define three constants at package level:
+//   AppName  = "GoDojo"
+//   Version  = 1
+//   IsStable = true
+
+func GetConstants() (string, int, bool) {
+	// Return the three constants
+	return "", 0, false
+}`,
   testCode: `package main
 
 import "testing"
 
-func TestImplementation(t *testing.T) {
-	// Verify the implementation matches the exercise requirements
-	// Refer to the exercise description and hints for specific test cases
-	t.Skip("Implement test based on exercise requirements")
+func TestGetConstants(t *testing.T) {
+	name, ver, stable := GetConstants()
+	if name != "GoDojo" {
+		t.Errorf("AppName = %q, want %q", name, "GoDojo")
+	}
+	if ver != 1 {
+		t.Errorf("Version = %d, want %d", ver, 1)
+	}
+	if stable != true {
+		t.Errorf("IsStable = %v, want %v", stable, true)
+	}
 }`,
-  solution: `package main\n\nfunc main() {}`,
+  solution: `package main
+
+const AppName = "GoDojo"
+const Version = 1
+const IsStable = true
+
+func GetConstants() (string, int, bool) {
+	return AppName, Version, IsStable
+}`,
   hints: [
-    'Use const instead of var to declare values that won\'t change',
-    'Constants must be assigned a value at declaration time',
-    'Constants can be strings, numbers, or booleans',
+    'Use const instead of var: const AppName = "GoDojo"',
+    'Constants can be declared at package level (outside functions) — unlike :=',
+    'You can group constants: const (AppName = "GoDojo"; Version = 1)'
   ],
 }
 

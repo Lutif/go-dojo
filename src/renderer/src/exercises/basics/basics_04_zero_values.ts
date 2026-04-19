@@ -4,25 +4,61 @@ const exercise: Exercise = {
   id: 'basics_04_zero_values',
   title: 'Zero Values',
   category: 'Basics',
-  subcategory: 'Basics',
+  subcategory: 'Variables & Declarations',
   difficulty: 'beginner',
   order: 4,
-  description: `Understand Go's zero values for different types. Every declared variable has a default value if not explicitly initialized.`,
-  code: `package main\n\nfunc main() {}`,
+  description: `In Go, every variable is automatically initialized to its **zero value** if you don't assign one. This means you never have "undefined" — every variable always has a valid value.
+
+Zero values by type:
+- \`int\`, \`float64\` → \`0\`
+- \`string\` → \`""\` (empty string)
+- \`bool\` → \`false\`
+
+Your task: declare variables with \`var\` (no assignment) and return them to demonstrate zero values.`,
+  code: `package main
+
+// ZeroValues declares variables without assigning values
+// and returns them to show Go's zero-value defaults.
+// Declare: an int, a float64, a string, and a bool.
+func ZeroValues() (int, float64, string, bool) {
+	// TODO: Declare four variables using var (without assigning values)
+	// Then return all four.
+
+	return 0, 0, "", false
+}`,
   testCode: `package main
 
 import "testing"
 
-func TestImplementation(t *testing.T) {
-	// Verify the implementation matches the exercise requirements
-	// Refer to the exercise description and hints for specific test cases
-	t.Skip("Implement test based on exercise requirements")
+func TestZeroValues(t *testing.T) {
+	i, f, s, b := ZeroValues()
+
+	if i != 0 {
+		t.Errorf("int zero value = %d, want 0", i)
+	}
+	if f != 0.0 {
+		t.Errorf("float64 zero value = %f, want 0.0", f)
+	}
+	if s != "" {
+		t.Errorf("string zero value = %q, want empty string", s)
+	}
+	if b != false {
+		t.Errorf("bool zero value = %v, want false", b)
+	}
 }`,
-  solution: `package main\n\nfunc main() {}`,
+  solution: `package main
+
+func ZeroValues() (int, float64, string, bool) {
+	var i int
+	var f float64
+	var s string
+	var b bool
+	return i, f, s, b
+}`,
   hints: [
-    'Zero values depend on the type: 0 for numbers, false for bool, empty string for string',
-    'Declared but uninitialized variables still have valid values',
-    'This is different from uninitialized variables in some other languages',
+    'Declare with var but no assignment: var i int — i is automatically 0.',
+    'Go has no "undefined" or "null" for basic types. Every type has a well-defined zero value.',
+    'You can also group declarations: var (i int; f float64; s string; b bool)'
   ],
 }
 
