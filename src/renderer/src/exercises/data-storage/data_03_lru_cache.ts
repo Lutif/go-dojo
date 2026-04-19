@@ -1,0 +1,17 @@
+import { Exercise } from '../../types'
+
+const exercise: Exercise = {
+  id: 'data_03_lru_cache',
+  title: 'LRU Cache',
+  category: 'Data & Storage',
+  subcategory: 'Data & Storage',
+  difficulty: 'advanced',
+  order: 3,
+  description: `## LRU Cache`,
+  code: `package main\n\nfunc main() {}`,
+  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  solution: `package main\n\nfunc main() {}`,
+  hints: [],
+}
+
+export default exercise

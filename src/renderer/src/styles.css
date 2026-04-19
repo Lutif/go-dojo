@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #060a12;
+  color: #e2e8f0;
+  -webkit-app-region: drag;
+}
+
+button, input, select, textarea, a {
+  -webkit-app-region: no-drag;
+}
+
+/* Ensure Monaco editor and interactive elements can receive events */
+.monaco-editor,
+.monaco-editor * {
+  -webkit-app-region: no-drag;
+  pointer-events: auto !important;
+}
+
+.flex-1 {
+  -webkit-app-region: no-drag;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e2d3d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3f55;
+}
+
+/* Monaco editor overrides */
+.monaco-editor {
+  border-radius: 8px;
+}
+
+.exercise-description h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: #00ADD8; }
+.exercise-description h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: #5DC9E2; }
+.exercise-description h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+.exercise-description p { margin-bottom: 0.75rem; line-height: 1.6; }
+.exercise-description code {
+  background: #1a2332;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: #5DC9E2;
+}
+.exercise-description pre {
+  background: #111827;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  overflow-x: auto;
+  border: 1px solid #1e2d3d;
+}
+.exercise-description pre code {
+  background: none;
+  padding: 0;
+  color: #e2e8f0;
+}
+.exercise-description ul, .exercise-description ol {
+  margin-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.exercise-description li {
+  margin-bottom: 0.25rem;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 173, 216, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(0, 173, 216, 0.15); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}

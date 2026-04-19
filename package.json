@@ -1,0 +1,33 @@
+{
+  "name": "go-dojo",
+  "version": "1.0.0",
+  "description": "The most comprehensive Go learning app - from basics to senior-level mastery",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "start": "electron-vite preview"
+  },
+  "dependencies": {
+    "@electron-toolkit/utils": "^4.0.0",
+    "@monaco-editor/react": "^4.6.0",
+    "@xyflow/react": "^12.10.2",
+    "dagre": "^0.8.5",
+    "monaco-editor": "^0.45.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/dagre": "^0.7.54",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "electron": "^28.1.0",
+    "electron-vite": "^2.0.0",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3"
+  }
+}

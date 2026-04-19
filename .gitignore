@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+out/
+build/
+*.exe
+*.dmg
+*.AppImage
+
+# Development
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary
+tmp/
+temp/
+*.tmp
+.cache/
+
+# Go Dojo specific
+/tmp/go-dojo-*
+~/.go-dojo-progress.json
+.go-dojo-progress.json
+
+# Electron
+release/

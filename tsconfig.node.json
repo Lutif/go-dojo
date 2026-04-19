@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "outDir": "./out",
+    "lib": ["ESNext"],
+    "types": ["node"]
+  },
+  "include": [
+    "src/main/**/*",
+    "src/preload/**/*",
+    "electron.vite.config.ts"
+  ]
+}
