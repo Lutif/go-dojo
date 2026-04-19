@@ -2,19 +2,15 @@ name: Build & Release
 
 on:
   push:
-    branches:
-      - main
-      - master
-  # Allow manual triggers from the GitHub Actions tab
+    branches: [main, master]
   workflow_dispatch:
 
-# Only one release workflow runs at a time; cancel previous in-progress run
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  # ─── Bump version & create a Git tag ──────────────────────────────────────
+  # ── Create the release tag once; all build jobs reference it ─────────────
   tag:
     name: Create Release Tag
     runs-on: ubuntu-latest
@@ -22,55 +18,41 @@ jobs:
       contents: write
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Get version from package.json
-        id: pkg
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-
-      - name: Generate unique tag
+      - name: Generate tag
         id: tag
         run: |
-          VERSION=${{ steps.pkg.outputs.version }}
-          SHA_SHORT=${GITHUB_SHA::7}
-          TAG="v${VERSION}-${SHA_SHORT}"
+          VERSION=$(node -p "require('./package.json').version")
+          SHA=${GITHUB_SHA::7}
+          TAG="v${VERSION}-${SHA}"
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
-          echo "Tag will be: ${TAG}"
+          echo "Generated tag: ${TAG}"
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release (empty, assets added by build jobs)
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
-          release_name: "Go Dojo ${{ steps.tag.outputs.tag }}"
+          name: "Go Dojo ${{ steps.tag.outputs.tag }}"
           draft: false
           prerelease: false
           body: |
             ## Go Dojo ${{ steps.tag.outputs.tag }}
 
-            Built from commit ${{ github.sha }}
+            Built from commit [`${{ github.sha }}`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
 
             ### Downloads
-            | Platform | File | Notes |
-            |----------|------|-------|
-            | macOS (Apple Silicon) | `Go-Dojo-*-arm64.dmg` | M1/M2/M3 Macs |
-            | macOS (Intel) | `Go-Dojo-*-x64.dmg` | Intel Macs |
-            | Windows | `Go-Dojo-Setup-*.exe` | Installer |
-            | Windows (portable) | `Go-Dojo-*.exe` | No install needed |
-            | Linux | `Go-Dojo-*.AppImage` | Universal Linux |
-            | Linux | `go-dojo_*.deb` | Debian/Ubuntu |
-            | Linux | `go-dojo-*.rpm` | Fedora/RHEL |
+            | Platform | Installer |
+            |----------|-----------|
+            | macOS (Apple Silicon M1/M2/M3) | `*-arm64.dmg` |
+            | macOS (Intel) | `*-x64.dmg` or `*.dmg` |
+            | Windows | `*-Setup-*.exe` (installer) or `*.exe` (portable) |
+            | Linux | `*.AppImage` · `*.deb` · `*.rpm` |
 
-            ### Requirements
-            - **Go 1.21+** must be installed on your machine for exercise execution
+            > **Go 1.21+** must be installed on your machine for exercises to run.
 
-  # ─── Build macOS ────────────────────────────────────────────────────────────
+  # ── macOS ────────────────────────────────────────────────────────────────
   build-mac:
     name: Build macOS
     needs: tag
@@ -80,58 +62,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      - name: Build & package (macOS)
+      - name: Build (macOS)
         run: npm run dist:mac
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Code signing (optional — set these secrets if you have an Apple Developer account)
-          # CSC_LINK: ${{ secrets.MAC_CERTS }}
-          # CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_PASSWORD }}
-          # APPLE_ID: ${{ secrets.APPLE_ID }}
-          # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
 
-      - name: Upload macOS artifacts
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.tag.outputs.upload_url }}
-          asset_path: ./release/Go Dojo-${{ needs.tag.outputs.tag }}-arm64.dmg
-          asset_name: Go-Dojo-${{ needs.tag.outputs.tag }}-arm64.dmg
-          asset_content_type: application/octet-stream
-        continue-on-error: true
+      - name: List release output
+        run: ls -lh release/
 
-      - name: Upload macOS x64 DMG
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload macOS artifacts to release
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ needs.tag.outputs.upload_url }}
-          asset_path: ./release/Go Dojo-${{ needs.tag.outputs.tag }}.dmg
-          asset_name: Go-Dojo-${{ needs.tag.outputs.tag }}-x64.dmg
-          asset_content_type: application/octet-stream
-        continue-on-error: true
-
-      - name: Upload all macOS release files
-        uses: actions/upload-artifact@v4
-        with:
-          name: mac-artifacts
-          path: |
+          tag_name: ${{ needs.tag.outputs.tag }}
+          files: |
             release/*.dmg
             release/*.zip
-          if-no-files-found: warn
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # ─── Build Windows ──────────────────────────────────────────────────────────
+  # ── Windows ──────────────────────────────────────────────────────────────
   build-win:
     name: Build Windows
     needs: tag
@@ -141,40 +97,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      - name: Build & package (Windows)
+      - name: Build (Windows)
         run: npm run dist:win
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Windows artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: win-artifacts
-          path: |
-            release/*.exe
-          if-no-files-found: warn
+      - name: List release output
+        run: dir release
 
-      - name: Upload Windows installer to release
-        uses: actions/upload-release-asset@v1
+      - name: Upload Windows artifacts to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.tag.outputs.tag }}
+          files: |
+            release/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.tag.outputs.upload_url }}
-          asset_path: ./release/Go Dojo Setup ${{ needs.tag.outputs.tag }}.exe
-          asset_name: Go-Dojo-Setup-${{ needs.tag.outputs.tag }}.exe
-          asset_content_type: application/octet-stream
-        continue-on-error: true
 
-  # ─── Build Linux ────────────────────────────────────────────────────────────
+  # ── Linux ─────────────────────────────────────────────────────────────────
   build-linux:
     name: Build Linux
     needs: tag
@@ -184,61 +131,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Install Linux build dependencies
         run: |
           sudo apt-get update
-          # libwebkit2gtk was renamed in Ubuntu 22.04+ — try both
           sudo apt-get install -y \
             libgtk-3-dev \
             libayatana-appindicator3-dev \
             librsvg2-dev \
             rpm || true
-          # webkit: 4.1 (Ubuntu 22.04+) with fallback to 4.0 (older)
           sudo apt-get install -y libwebkit2gtk-4.1-dev 2>/dev/null || \
           sudo apt-get install -y libwebkit2gtk-4.0-dev
 
-      - name: Build & package (Linux)
+      - name: Build (Linux)
         run: npm run dist:linux
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Linux artifacts
-        uses: actions/upload-artifact@v4
+      - name: List release output
+        run: ls -lh release/
+
+      - name: Upload Linux artifacts to release
+        uses: softprops/action-gh-release@v2
         with:
-          name: linux-artifacts
-          path: |
+          tag_name: ${{ needs.tag.outputs.tag }}
+          files: |
             release/*.AppImage
             release/*.deb
             release/*.rpm
-          if-no-files-found: warn
-
-      - name: Upload Linux AppImage to release
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.tag.outputs.upload_url }}
-          asset_path: ./release/Go Dojo-${{ needs.tag.outputs.tag }}.AppImage
-          asset_name: Go-Dojo-${{ needs.tag.outputs.tag }}.AppImage
-          asset_content_type: application/octet-stream
-        continue-on-error: true
-
-      - name: Upload .deb to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.tag.outputs.upload_url }}
-          asset_path: ./release/go-dojo_${{ needs.tag.outputs.tag }}_amd64.deb
-          asset_name: go-dojo_${{ needs.tag.outputs.tag }}_amd64.deb
-          asset_content_type: application/octet-stream
-        continue-on-error: true
