@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Type System',
   difficulty: 'advanced',
   order: 20,
-  description: `## Constraints Package`,
+  description: `Use constraints from the constraints package for common restrictions. The constraints package defines commonly-used constraint types.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'constraints.Ordered for types supporting <, >, <=, >=',
+    'constraints.Integer for all integer types',
+    'constraints.Signed and constraints.Unsigned for signed/unsigned integers',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'intermediate',
   order: 20,
-  description: `## Runes`,
+  description: `Learn about runes, Go's way of handling Unicode characters. A rune is an alias for \`int32\` and represents a single Unicode code point.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'A rune is declared as \`r := \'A\'\` (single quotes for rune literals)',
+    'Use the \`rune\` type for Unicode characters',
+    'Convert between runes and strings using type conversion',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'advanced',
   order: 16,
-  description: `## Circuit Breaker`,
+  description: `Implement circuit breaker to prevent cascading failures. Circuit breakers stop requests to failing services.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Track failures; open circuit after threshold',
+    'Return errors immediately when circuit open',
+    'Periodically test service; close circuit when it recovers',
+  ],
 }
 
 export default exercise

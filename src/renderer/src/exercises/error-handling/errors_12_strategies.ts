@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'intermediate',
   order: 12,
-  description: `## Error Strategies`,
+  description: `Learn multiple error handling strategies for different scenarios. Different situations call for different error handling approaches.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Return errors for recoverable failures; let caller decide handling',
+    'Panic for unrecoverable situations (invariant violations)',
+    'Use middleware and interceptors to centralize error handling in servers',
+  ],
 }
 
 export default exercise

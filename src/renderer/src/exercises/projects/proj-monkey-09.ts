@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 109,
-  description: `## Parser — Infix Expressions (Arithmetic)`,
+  description: `Add function evaluation with closures. Functions capture their environment.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Store function literals as values',
+    'Create new environment for function calls',
+    'Functions can reference outer variables (closures)',
+  ],
 }
 
 export default exercise

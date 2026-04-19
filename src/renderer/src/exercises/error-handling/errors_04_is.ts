@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'intermediate',
   order: 4,
-  description: `## errors.Is`,
+  description: `Check for specific error values using errors.Is(). Is() checks if an error in the chain matches a target error.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'errors.Is(err, target) returns true if target is in the error chain',
+    'Works with wrapped errors created with fmt.Errorf("%w", err)',
+    'Use for checking sentinel errors or specific error types',
+  ],
 }
 
 export default exercise

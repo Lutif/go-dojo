@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Type System',
   difficulty: 'beginner',
   order: 1,
-  description: `## Interfaces`,
+  description: `Learn interfaces as contracts that define method sets. Interfaces are Go's way of specifying what methods a type must have.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Interface types define a set of methods that implementing types must have',
+    'Any type implementing all methods automatically satisfies the interface',
+    'Use small, focused interfaces; larger ones are harder to implement',
+  ],
 }
 
 export default exercise

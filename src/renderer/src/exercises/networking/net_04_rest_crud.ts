@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Networking',
   difficulty: 'intermediate',
   order: 4,
-  description: `## REST CRUD API`,
+  description: `Implement REST endpoints for CRUD operations. REST APIs use HTTP methods and paths to create a uniform interface.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'POST to create, GET to read, PUT to update, DELETE to remove',
+    'Use request.Method to determine operation',
+    'Parse IDs from URL path using path parameters',
+  ],
 }
 
 export default exercise

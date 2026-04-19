@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'intermediate',
   order: 21,
-  description: `## time.Ticker`,
+  description: `Use tickers for periodic operations. Tickers enable executing code at regular intervals.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'time.NewTicker(duration) creates ticker',
+    'Ticker.C channel sends at intervals',
+    'Defer ticker.Stop() to stop the ticker',
+  ],
 }
 
 export default exercise

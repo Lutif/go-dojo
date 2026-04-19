@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'beginner',
   order: 4,
-  description: `## sort Package`,
+  description: `Sort and search data with the sort package. Sort provides sorting algorithms and interfaces for custom types.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'sort.Ints(), sort.Strings(), sort.Float64s() sort built-in types',
+    'sort.Sort(Interface) sorts custom types implementing Interface',
+    'sort.Search() finds element using binary search',
+  ],
 }
 
 export default exercise

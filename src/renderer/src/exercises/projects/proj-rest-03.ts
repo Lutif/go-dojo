@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 30,
-  description: `## REST API — GET, PUT, DELETE by ID`,
+  description: `Implement filtering, sorting, and pagination. These features help manage large datasets.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Query parameters for filtering: ?name=value',
+    'Sorting: ?sort=field or ?sort=-field for reverse',
+    'Pagination: ?page=1&limit=10',
+  ],
 }
 
 export default exercise

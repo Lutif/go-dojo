@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 10,
-  description: `## Multiple Returns`,
+  description: `Master returning multiple values from functions, a powerful Go feature. Functions can return multiple values by listing them in the return type specification.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Specify multiple return types in parentheses: \`func getValue() (int, error)\`',
+    'Return multiple values separated by commas: \`return value, err\`',
+    'This pattern is commonly used for error handling',
+  ],
 }
 
 export default exercise

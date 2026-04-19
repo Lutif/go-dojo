@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 11,
-  description: `## Named Returns`,
+  description: `Learn about named return values that act as variables in function bodies. Named returns are automatically initialized to their zero values and enable cleaner code with implicit returns.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Name return values in the function signature: \`func getValue() (value int, err error)\`',
+    'Named returns can be modified like regular variables',
+    'A bare \`return\` statement returns all named return values',
+  ],
 }
 
 export default exercise

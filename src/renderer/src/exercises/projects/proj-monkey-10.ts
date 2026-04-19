@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 110,
-  description: `## Parser — Comparison Operators`,
+  description: `Implement function calls with argument binding. Arguments bind to parameters in the function scope.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Extend environment with parameter bindings',
+    'Evaluate function body in extended environment',
+    'Return result of last expression in function',
+  ],
 }
 
 export default exercise

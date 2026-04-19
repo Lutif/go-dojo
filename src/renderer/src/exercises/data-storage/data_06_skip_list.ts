@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Data & Storage',
   difficulty: 'expert',
   order: 6,
-  description: `## Skip List`,
+  description: `Implement a skip list for efficient searching in sorted data. Skip lists provide O(log n) search with simpler code than balanced trees.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Skip lists are linked lists with multiple levels of "express lanes"',
+    'Higher levels skip more nodes, enabling fast traversal',
+    'Each node randomly gets promoted to higher levels (typically 50% chance)',
+  ],
 }
 
 export default exercise

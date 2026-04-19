@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 32,
-  description: `## REST API — Auth Middleware`,
+  description: `Implement content negotiation (JSON, XML). Content negotiation enables multiple formats.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Check Accept header for desired format',
+    'Return appropriate Content-Type',
+    'Support both JSON and XML responses',
+  ],
 }
 
 export default exercise

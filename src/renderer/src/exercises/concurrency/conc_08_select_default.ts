@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Concurrency',
   difficulty: 'intermediate',
   order: 8,
-  description: `## Select Default`,
+  description: `Learn default cases in select for non-blocking operations. The default case executes immediately if no other channel is ready, enabling non-blocking sends/receives.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Default case runs if no other case is ready',
+    'Useful for non-blocking sends: \`select { case ch <- v: ... default: ... }\`',
+    'Non-blocking receives: \`select { case v := <-ch: ... default: ... }\`',
+  ],
 }
 
 export default exercise

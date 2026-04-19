@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'intermediate',
   order: 23,
-  description: `## crypto Hashing`,
+  description: `Compute cryptographic hashes with crypto package. Hashes are essential for security and integrity checking.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'crypto/sha256 provides SHA-256 hashing',
+    'hash.Hash interface: Write() accumulates data, Sum() gets hash',
+    'Useful for checksums, password hashing (with bcrypt), signatures',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Concurrency',
   difficulty: 'intermediate',
   order: 11,
-  description: `## RWMutex`,
+  description: `Learn RWMutex for multiple readers and exclusive writers. RWMutex allows concurrent reads while ensuring exclusive write access for better performance in read-heavy scenarios.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'RLock() for read-only access allows multiple concurrent readers',
+    'Lock() for exclusive write access blocks all other operations',
+    'RUnlock() releases read locks, Unlock() releases write locks',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'advanced',
   order: 17,
-  description: `## Retry with Backoff`,
+  description: `Add retry logic with exponential backoff. Retries with backoff handle transient failures gracefully.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Calculate delay: base * (2 ^ attempt) with random jitter',
+    'Limit max retries to avoid infinite loops',
+    'Useful for network calls and database operations',
+  ],
 }
 
 export default exercise

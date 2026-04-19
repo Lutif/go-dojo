@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 10,
-  description: `## CLI Parser — Parse -key=value Syntax`,
+  description: `Initialize CLI parser with basic flag support. The first step builds the foundation for parsing command-line arguments.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Create a flag package or custom parser',
+    'Parse common flags like -h, -help, -v, -version',
+    'Return structured flags for application logic',
+  ],
 }
 
 export default exercise

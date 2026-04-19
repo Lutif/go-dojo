@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'intermediate',
   order: 11,
-  description: `## JSON Marshal`,
+  description: `Convert structs to JSON with encoding/json. Marshaling enables JSON serialization of data.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'json.Marshal() converts struct to JSON bytes',
+    'Use struct tags: \`json:"fieldName"\`',
+    'Unexported fields are ignored; use capitalized field names',
+  ],
 }
 
 export default exercise

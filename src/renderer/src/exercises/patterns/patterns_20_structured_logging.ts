@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'intermediate',
   order: 20,
-  description: `## Structured Logging`,
+  description: `Implement structured logging for better debugging. Structured logging outputs key-value pairs for easier parsing and analysis.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Log messages with key-value pairs instead of strings',
+    'Include context like request ID, user ID, operation name',
+    'Use slog or similar for standard structured logging',
+  ],
 }
 
 export default exercise

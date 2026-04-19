@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Networking',
   difficulty: 'expert',
   order: 12,
-  description: `## RPC Protocol`,
+  description: `Implement a protocol similar to gRPC for efficient RPC. Structured protocols enable type-safe remote calls.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Define message formats with clear serialization (protobuf-like)',
+    'Implement server that reads messages and dispatches to methods',
+    'Implement client that sends messages and reads responses',
+  ],
 }
 
 export default exercise

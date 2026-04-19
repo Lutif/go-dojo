@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 115,
-  description: `## Evaluator — Integer & Boolean Values`,
+  description: `Add hash (map) data type with key-value pairs. Hashes enable dictionary-like data structures.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Parse hash literals: {key: value, key: value}',
+    'Implement hash indexing: hash[key]',
+    'Support string and integer keys',
+  ],
 }
 
 export default exercise

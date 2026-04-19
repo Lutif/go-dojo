@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Internals',
   difficulty: 'advanced',
   order: 17,
-  description: `## Linker Flags`,
+  description: `Use -ldflags to embed build information. Linker flags allow setting variables at compile time.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'go build -ldflags "-X main.Version=1.0" sets main.Version variable',
+    'Useful for embedding version, build date, git commit hash',
+    'Must be an uninitialized string variable for -X to work',
+  ],
 }
 
 export default exercise

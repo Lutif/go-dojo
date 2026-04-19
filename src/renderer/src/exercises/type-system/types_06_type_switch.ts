@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Type System',
   difficulty: 'intermediate',
   order: 6,
-  description: `## Type Switch`,
+  description: `Use type switches to handle multiple types in one expression. Type switches are like switch statements but for types.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'switch x.(type) { case int: ... case string: ... }',
+    'Type switches work with interfaces to branch on the concrete type',
+    'More elegant than multiple if-statements with type assertions',
+  ],
 }
 
 export default exercise

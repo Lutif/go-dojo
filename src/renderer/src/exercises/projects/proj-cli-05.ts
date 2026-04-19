@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 14,
-  description: `## CLI Parser — Parse() and Lookup`,
+  description: `Support environment variables and config files in the CLI. Configuration sources enable flexible application setup.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Check environment variables for defaults',
+    'Load config file if present (toml, yaml, json)',
+    'Priority: command-line > env vars > config file > defaults',
+  ],
 }
 
 export default exercise

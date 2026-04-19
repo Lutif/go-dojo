@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'advanced',
   order: 25,
-  description: `## Registry Pattern`,
+  description: `Create registry pattern for dynamic component registration. Registries enable plugins and dynamic feature discovery.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Global registry map: type -> factory function',
+    'Register() adds entries, Get() retrieves them',
+    'Enables plugins and dynamic loading',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'intermediate',
   order: 28,
-  description: `## Struct Methods`,
+  description: `Understand methods, which are functions with a receiver argument. Methods allow you to add behavior to structs without inheritance.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Method syntax: \`func (r Receiver) MethodName() ReturnType { }\`',
+    'Methods can have value receivers or pointer receivers',
+    'Use pointer receivers when you need to modify the receiver',
+  ],
 }
 
 export default exercise

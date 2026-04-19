@@ -7,11 +7,23 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'intermediate',
   order: 21,
-  description: `## String Builder`,
+  description: `Master efficient string building with \`strings.Builder\`. Building strings with \`+\` in loops is inefficient; StringBuilder accumulates strings and builds them all at once.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestBuilder(t *testing.T) {
+	// Test fluent builder API
+	// Verify method chaining
+	// Check final object state
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Import \`strings\` package and use \`strings.Builder\`',
+    'Use \`builder.WriteString()\` to append strings',
+    'Call \`builder.String()\` to get the final concatenated string',
+  ],
 }
 
 export default exercise

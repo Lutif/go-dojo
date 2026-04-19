@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 23,
-  description: `## Slices`,
+  description: `Master slices, Go's dynamic array type. Slices are flexible views into arrays that can grow and shrink. They're more powerful and commonly used than arrays.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Slice syntax: \`var s []int\` creates a slice without specifying length',
+    'Slice from an array: \`arr[1:3]\` creates a slice from index 1 to 3',
+    'Slices have length (\`len\`) and capacity (\`cap\`)',
+  ],
 }
 
 export default exercise

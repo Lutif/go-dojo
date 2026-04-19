@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Internals',
   difficulty: 'advanced',
   order: 1,
-  description: `## Memory Layout`,
+  description: `Learn how Go stores values in memory. Understanding memory layout helps optimize performance and prevents subtle bugs.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Structs lay out fields sequentially in memory',
+    'Field order affects struct size due to alignment',
+    'Use \`unsafe.Sizeof()\` to check type sizes',
+  ],
 }
 
 export default exercise

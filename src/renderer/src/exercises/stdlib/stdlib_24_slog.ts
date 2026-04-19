@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'intermediate',
   order: 24,
-  description: `## log/slog Structured Logging`,
+  description: `Use structured logging with slog (Go 1.21+). Structured logging outputs key-value pairs for easy parsing.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'slog.Info(), slog.Error(), slog.Warn() log at different levels',
+    'Pass key-value pairs: slog.Info("msg", "key", value)',
+    'Handler determines output format (JSON, text, custom)',
+  ],
 }
 
 export default exercise

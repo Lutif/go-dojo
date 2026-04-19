@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Concurrency',
   difficulty: 'beginner',
   order: 6,
-  description: `## Range over Channel`,
+  description: `Learn to iterate over channel values with range until the channel is closed. Range on channels provides a clean way to consume all values sent on a channel.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Use \`for value := range ch\` to receive values until the channel is closed',
+    'Only the sender should close a channel; receiving from a closed channel returns zero value',
+    'Panic occurs if you try to send on a closed channel',
+  ],
 }
 
 export default exercise

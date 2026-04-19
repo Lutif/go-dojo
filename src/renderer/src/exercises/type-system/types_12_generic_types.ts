@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Type System',
   difficulty: 'intermediate',
   order: 12,
-  description: `## Generic Types`,
+  description: `Create generic types with type parameters. Generic types allow building data structures that work with any type.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'type Name[T Type] struct { value T } defines a generic struct',
+    'Can reference T in methods: func (v Name[T]) Method() T { ... }',
+    'Instantiate with: var x Name[int]',
+  ],
 }
 
 export default exercise

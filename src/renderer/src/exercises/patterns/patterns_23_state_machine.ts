@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'advanced',
   order: 23,
-  description: `## State Machine`,
+  description: `Build state machines for complex workflows. State machines manage transitions between states based on events.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Define states and events',
+    'Current state determines valid next states',
+    'Handle transitions and side effects',
+  ],
 }
 
 export default exercise

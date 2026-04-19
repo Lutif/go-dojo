@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'beginner',
   order: 1,
-  description: `## Hello World`,
+  description: `Learn the basics of a Go program structure. Every Go program must have a \`main\` package and a \`main()\` function, which is the entry point for execution.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Every Go program starts with a package declaration',
+    'The \`main\` function is where your program execution begins',
+    'Use \`fmt.Println()\` to print output to the console',
+  ],
 }
 
 export default exercise

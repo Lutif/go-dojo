@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Concurrency',
   difficulty: 'intermediate',
   order: 14,
-  description: `## Context Basic`,
+  description: `Understand context.Context for passing request-scoped values. Context is used to manage cancellation, deadlines, and values across API boundaries.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'context.Background() creates a root context; use it as the top-level context',
+    'Pass context through function calls to enable cancellation and timeouts',
+    'context.WithValue() attaches request-scoped values to context',
+  ],
 }
 
 export default exercise

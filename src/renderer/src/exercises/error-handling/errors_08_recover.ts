@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'intermediate',
   order: 8,
-  description: `## Recover`,
+  description: `Use recover to catch panics in deferred functions. Recover allows recovering from panics and continuing execution gracefully.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'recover() only works in deferred functions and returns the panic value',
+    'If no panic occurred, recover() returns nil',
+    'Useful for preventing entire process crash; still log the panic',
+  ],
 }
 
 export default exercise

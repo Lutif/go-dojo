@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'intermediate',
   order: 8,
-  description: `## Singleton with sync.Once`,
+  description: `Implement singleton pattern for shared instance. Singletons ensure only one instance exists globally.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Use sync.Once in init function to create single instance',
+    'Export accessor function that returns singleton',
+    'Goroutine-safe initialization with sync.Once',
+  ],
 }
 
 export default exercise

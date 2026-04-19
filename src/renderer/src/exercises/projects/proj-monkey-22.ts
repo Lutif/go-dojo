@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 122,
-  description: `## Evaluator — Capstone (Full Interpreter)`,
+  description: `Polish the interpreter with comprehensive builtins. Builtins provide standard functionality.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Implement useful builtin functions',
+    'Add type checking functions (is_integer, is_string, etc.)',
+    'Complete standard library',
+  ],
 }
 
 export default exercise

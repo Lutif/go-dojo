@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'intermediate',
   order: 19,
-  description: `## Regular Expressions`,
+  description: `Pattern matching with regexp package. Regular expressions enable powerful text searching and manipulation.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'regexp.Compile() creates regex; MustCompile() panics on error',
+    'FindString(), FindAllString() find matches',
+    'ReplaceAllString() replaces matches',
+  ],
 }
 
 export default exercise

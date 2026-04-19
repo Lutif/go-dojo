@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Type System',
   difficulty: 'intermediate',
   order: 5,
-  description: `## Type Assertions`,
+  description: `Extract concrete types from interface values using assertions. Type assertions allow you to use specific type methods on interface values.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'v.(T) asserts that v holds concrete type T',
+    'Use \`v, ok := x.(T)\` to safely check if assertion succeeds',
+    'Panic if assertion fails without checking ok; always use comma-ok form',
+  ],
 }
 
 export default exercise

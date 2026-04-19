@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Data & Storage',
   difficulty: 'advanced',
   order: 11,
-  description: `## Object Pool`,
+  description: `Implement a generic resource pool with reuse and cleanup. Resource pools reduce allocation overhead by reusing expensive-to-create objects.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Maintain a pool of available resources; hand out on request, return when done',
+    'Pre-allocate objects at startup to avoid allocation overhead',
+    'Track availability with a channel; blocking when empty',
+  ],
 }
 
 export default exercise

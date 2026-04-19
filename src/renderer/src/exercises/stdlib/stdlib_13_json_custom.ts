@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'advanced',
   order: 13,
-  description: `## JSON Custom Encoding`,
+  description: `Implement custom JSON marshaling for special types. Custom marshaling handles non-standard serialization.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'MarshalJSON() method customizes marshaling',
+    'UnmarshalJSON() method customizes unmarshaling',
+    'Useful for time.Time, custom types, computed fields',
+  ],
 }
 
 export default exercise

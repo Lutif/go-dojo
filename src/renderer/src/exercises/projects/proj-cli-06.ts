@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'expert',
   order: 15,
-  description: `## CLI Parser — Usage, Vars & Capstone`,
+  description: `Implement validation and error handling in the CLI parser. Good error messages help users fix issues quickly.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Validate required arguments are provided',
+    'Check flag values are valid (numeric ranges, enums)',
+    'Return clear error messages suggesting fixes',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Type System',
   difficulty: 'beginner',
   order: 2,
-  description: `## Implicit Implementation`,
+  description: `Understand implicit interface implementation without explicit declarations. Go uses structural typing, not nominal typing like Java.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'No "implements" keyword needed; any type with matching methods satisfies interface',
+    'If a type has all interface methods, it implicitly satisfies that interface',
+    'Enables decoupling: writers don't need to know about interface definitions',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Concurrency',
   difficulty: 'advanced',
   order: 21,
-  description: `## Pipeline`,
+  description: `Build data processing pipelines where each stage is a goroutine. Pipelines chain operations where each stage processes output from the previous stage.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Each pipeline stage is a goroutine that reads from one channel, processes, writes to another',
+    'Stages can be easily composed and reused',
+    'Use WaitGroup or channels to synchronize pipeline completion',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'intermediate',
   order: 6,
-  description: `## Sentinel Errors`,
+  description: `Use sentinel errors for precise error checking. Sentinel errors are specific error values used for comparison with errors.Is().`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Define package-level error variables: \`var ErrNotFound = errors.New(...)\`',
+    'Compare using errors.Is() rather than == which fails with wrapped errors',
+    'Sentinel errors enable callers to handle specific failure modes',
+  ],
 }
 
 export default exercise

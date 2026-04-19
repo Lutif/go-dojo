@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Basics',
   difficulty: 'intermediate',
   order: 26,
-  description: `## Map Operations`,
+  description: `Master map operations including insertion, deletion, and checking key existence. Maps use a simple syntax for these operations.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Add/update: \`m[key] = value\`',
+    'Delete: \`delete(m, key)\` removes a key from the map',
+    'Check existence: \`value, ok := m[key]\` returns true if key exists',
+  ],
 }
 
 export default exercise

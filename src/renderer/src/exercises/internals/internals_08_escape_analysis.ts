@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Internals',
   difficulty: 'expert',
   order: 8,
-  description: `## Escape Analysis`,
+  description: `Understand escape analysis and when variables are allocated on heap vs stack. Escape analysis optimizes memory allocation.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Compiler determines if a variable "escapes" outside its function',
+    'Non-escaping variables allocated on stack (faster, no GC)',
+    'Escaping variables allocated on heap (slower, requires GC)',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 13,
-  description: `## CLI Parser — FlagSet with Typed Registration`,
+  description: `Add usage and help generation to the CLI parser. Good help text is essential for user experience.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Auto-generate help from flags and descriptions',
+    'Display usage when -h or -help is provided',
+    'Include examples in help output',
+  ],
 }
 
 export default exercise

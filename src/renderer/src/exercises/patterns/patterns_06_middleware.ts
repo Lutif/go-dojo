@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'advanced',
   order: 6,
-  description: `## Middleware Chain`,
+  description: `Create middleware for request/response processing pipelines. Middleware wraps handlers and adds behavior.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Middleware takes handler, returns wrapped handler',
+    'Process request before passing to wrapped handler',
+    'Process response after wrapped handler completes',
+  ],
 }
 
 export default exercise

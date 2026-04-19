@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'intermediate',
   order: 8,
-  description: `## Reading Files`,
+  description: `Read files with the os package. Os provides file handling operations.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'os.Open(filename) opens file for reading',
+    'file.Read() or ioutil.ReadFile() reads content',
+    'Defer file.Close() to ensure file is closed',
+  ],
 }
 
 export default exercise

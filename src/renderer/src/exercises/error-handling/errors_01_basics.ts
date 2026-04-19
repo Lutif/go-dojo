@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'beginner',
   order: 1,
-  description: `## Error Basics`,
+  description: `Learn Go's error handling model where functions return error as the last value. Go treats errors as values, enabling explicit error handling.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Functions returning errors typically do so as the last return value',
+    'Check error immediately: \`if err != nil { ... }\`',
+    'Never ignore errors silently; always handle or propagate them',
+  ],
 }
 
 export default exercise

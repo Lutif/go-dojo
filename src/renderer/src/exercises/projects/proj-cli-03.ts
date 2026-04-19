@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 12,
-  description: `## CLI Parser — Full Parse Loop`,
+  description: `Implement subcommands for hierarchical CLI structure. Subcommands enable grouping related operations (like "git commit", "git push").`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Parse first positional argument as subcommand name',
+    'Route remaining arguments to subcommand handler',
+    'Each subcommand has its own flags and arguments',
+  ],
 }
 
 export default exercise

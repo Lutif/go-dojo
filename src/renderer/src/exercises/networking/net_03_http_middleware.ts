@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Networking',
   difficulty: 'intermediate',
   order: 3,
-  description: `## HTTP Middleware`,
+  description: `Build middleware to wrap HTTP handlers. Middleware adds cross-cutting concerns like logging, authentication, and metrics.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Middleware wraps a handler and returns a wrapped handler',
+    'Execute logic before handler, process response, execute after',
+    'Chain multiple middleware for composition',
+  ],
 }
 
 export default exercise

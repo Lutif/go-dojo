@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 34,
-  description: `## Subcommands — Command Registry`,
+  description: `Implement basic subcommand routing. Subcommands enable CLI applications with multiple operations.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Parse first argument as subcommand name',
+    'Route to appropriate handler',
+    'Show help if subcommand not recognized',
+  ],
 }
 
 export default exercise

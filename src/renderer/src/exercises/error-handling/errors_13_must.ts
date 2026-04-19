@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'intermediate',
   order: 13,
-  description: `## Must Pattern`,
+  description: `Implement "must" helpers for assertions. Must functions panic if the underlying operation returns an error, useful for known-safe operations.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Create helpers like \`func must(err error) { if err != nil { panic(err) } }\`',
+    'Use in tests and initialization where you expect no errors',
+    'Document clearly why errors are not expected to make assumptions explicit',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'intermediate',
   order: 9,
-  description: `## Writing Files`,
+  description: `Write files with the os package. Os file writes are essential for data persistence.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'os.Create() creates/truncates file for writing',
+    'file.Write() or file.WriteString() writes content',
+    'os.WriteFile() writes entire content in one call',
+  ],
 }
 
 export default exercise

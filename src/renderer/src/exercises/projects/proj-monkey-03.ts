@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 103,
-  description: `## Lexer — Whitespace Handling`,
+  description: `Parse statements (let, return, expression statements). Statements are the top-level program structure.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Parse let statements: let identifier = expression;',
+    'Parse return statements: return expression;',
+    'Parse expression statements for side effects',
+  ],
 }
 
 export default exercise

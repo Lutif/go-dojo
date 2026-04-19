@@ -7,11 +7,22 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 28,
-  description: `## REST API — Thread-Safe Store`,
+  description: `Create REST API with basic CRUD endpoints. REST APIs follow standard patterns for resource operations.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'POST to create new resource',
+    'GET to retrieve resource',
+    'PUT to update resource',
+    'DELETE to remove resource',
+  ],
 }
 
 export default exercise

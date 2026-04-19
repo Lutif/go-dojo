@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 31,
-  description: `## REST API — JSON Errors & Validation`,
+  description: `Add authentication and authorization. Auth protects sensitive operations.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Implement token-based auth (JWT)',
+    'Check permissions based on user role',
+    'Protect endpoints that modify data',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'advanced',
   order: 15,
-  description: `## Error Type Hierarchy`,
+  description: `Build error hierarchies for structured error handling. Error hierarchies enable granular error handling at different levels of the call stack.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Define error types in a hierarchy (base errors, specific errors)',
+    'Use errors.As() to check the specific error type',
+    'Each level adds context relevant to that layer',
+  ],
 }
 
 export default exercise

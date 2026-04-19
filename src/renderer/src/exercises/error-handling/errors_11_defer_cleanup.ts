@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Error Handling',
   difficulty: 'intermediate',
   order: 11,
-  description: `## Defer Cleanup`,
+  description: `Use defer patterns for resource cleanup. Defer patterns are the Go way to ensure resources are always released properly.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Open resource, immediately defer Close() to ensure cleanup',
+    'Check Close() error: it may indicate unsaved changes failed to flush',
+    'Nest defers in order of dependency: close in reverse of opening',
+  ],
 }
 
 export default exercise

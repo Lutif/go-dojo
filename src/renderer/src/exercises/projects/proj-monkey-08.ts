@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 108,
-  description: `## Parser — Prefix Expressions`,
+  description: `Implement conditionals (if-else) in the evaluator. If expressions choose based on truthiness.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Evaluate condition; if truthy, evaluate consequence',
+    'Otherwise evaluate alternative',
+    'Define truthiness: false and null are falsy, else truthy',
+  ],
 }
 
 export default exercise

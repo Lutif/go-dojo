@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Internals',
   difficulty: 'advanced',
   order: 2,
-  description: `## Slice Header`,
+  description: `Understand the internal structure of slices. Slices consist of a pointer, length, and capacity that Go manages.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Slice header contains: pointer to data, length, capacity',
+    'Multiple slices can reference the same underlying array',
+    'Modifying one slice's data affects other slices pointing to same array',
+  ],
 }
 
 export default exercise

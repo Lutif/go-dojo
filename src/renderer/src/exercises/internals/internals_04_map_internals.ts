@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Internals',
   difficulty: 'advanced',
   order: 4,
-  description: `## Map Internals`,
+  description: `Understand how maps work internally. Maps use hash tables for fast key lookup.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Maps hash keys into buckets for O(1) average-case lookup',
+    'Hash collisions are handled with chaining or probing',
+    'Maps grow automatically when load factor exceeds threshold',
+  ],
 }
 
 export default exercise

@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Standard Library',
   difficulty: 'beginner',
   order: 2,
-  description: `## strings Package`,
+  description: `Master string manipulation with the strings package. Strings provides functions for searching, replacing, and splitting.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'strings.Split() splits on delimiter; returns slice',
+    'strings.Contains() checks if substring exists',
+    'strings.ToUpper(), ToLower(), TrimSpace() modify strings',
+  ],
 }
 
 export default exercise

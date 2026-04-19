@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Type System',
   difficulty: 'intermediate',
   order: 15,
-  description: `## Struct Embedding`,
+  description: `Embed structs to create hierarchies and share behavior. Embedding is Go's way of code reuse and composition.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Embed struct by using its type as field without a name: type Child struct { Parent }',
+    'Parent fields and methods are promoted to Child',
+    'Prefer composition over inheritance; embedding is a form of composition',
+  ],
 }
 
 export default exercise

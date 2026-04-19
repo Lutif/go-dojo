@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Patterns',
   difficulty: 'intermediate',
   order: 4,
-  description: `## Strategy Pattern`,
+  description: `Implement strategy pattern for algorithm selection. Strategies encapsulate interchangeable algorithms.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Define Strategy interface with Execute or Process method',
+    'Create concrete strategy implementations',
+    'Context type takes strategy and delegates to it',
+  ],
 }
 
 export default exercise

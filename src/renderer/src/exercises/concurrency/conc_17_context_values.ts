@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Concurrency',
   difficulty: 'intermediate',
   order: 17,
-  description: `## Context Values`,
+  description: `Pass request-scoped data through context. Context.WithValue() stores key-value pairs that flow through the call chain, avoiding function parameter pollution.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Use context.WithValue(parent, key, value) to attach values',
+    'Retrieve with ctx.Value(key); check if nil since key might not exist',
+    'Define custom types for keys to avoid collisions and improve type safety',
+  ],
 }
 
 export default exercise

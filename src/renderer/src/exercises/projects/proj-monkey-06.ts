@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'intermediate',
   order: 106,
-  description: `## Lexer — Multi-Character Operators`,
+  description: `Build an evaluator for simple expressions. The evaluator computes expression values.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Evaluate integer literals to their values',
+    'Evaluate boolean literals',
+    'Evaluate binary operations (+, -, *, /)',
+  ],
 }
 
 export default exercise

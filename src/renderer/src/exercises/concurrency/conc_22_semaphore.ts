@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Concurrency',
   difficulty: 'advanced',
   order: 22,
-  description: `## Semaphore`,
+  description: `Implement semaphores to limit concurrent access to resources. A semaphore is a counter that controls access; only N goroutines can access a resource simultaneously.`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'A buffered channel acts as a simple semaphore: capacity = N concurrent accessors',
+    'Before accessing: \`<-sem\` (acquire), after: \`sem <- struct{}{}\` (release)',
+    'Or use weighted semaphores from golang.org/x/sync/semaphore for finer control',
+  ],
 }
 
 export default exercise

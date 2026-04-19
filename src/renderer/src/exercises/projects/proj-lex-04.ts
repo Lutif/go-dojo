@@ -7,11 +7,21 @@ const exercise: Exercise = {
   subcategory: 'Projects',
   difficulty: 'advanced',
   order: 19,
-  description: `## Lexer — Two-Char Operators & String Literals`,
+  description: `Add operator and delimiter recognition with correct precedence. Operators may be multi-character (<=, ==, &&).`,
   code: `package main\n\nfunc main() {}`,
-  testCode: `package main\n\nimport \"testing\"\n\nfunc TestExample(t *testing.T) {}`,
+  testCode: `package main
+
+import "testing"
+
+func TestExercise(t *testing.T) {
+	// TODO: Implement tests based on exercise requirements
+}`,
   solution: `package main\n\nfunc main() {}`,
-  hints: [],
+  hints: [
+    'Distinguish single-char and multi-char operators',
+    'Use lookahead to determine which operator it is',
+    'Handle ambiguous cases (e.g., < vs <=)',
+  ],
 }
 
 export default exercise
