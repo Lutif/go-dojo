@@ -42,7 +42,7 @@ func TestMain(t *testing.T) {
 	io.Copy(&buf, r)
 	output := buf.String()
 	
-	expected := "Hello, World!\n"
+	expected := "Hello, World!\\n"
 	if output != expected {
 		t.Errorf("got %q, want %q", output, expected)
 	}
