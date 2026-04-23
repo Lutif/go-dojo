@@ -55,7 +55,8 @@ func ZeroValues() (int, float64, string, bool) {
   hints: [
     'Declare with var but no assignment: var i int — i is automatically 0.',
     'Go has no "undefined" or "null" for basic types. Every type has a well-defined zero value.',
-    'You can also group declarations: var (i int; f float64; s string; b bool)'
+    'You can also group declarations: var (i int; f float64; s string; b bool)',
+    'Return the variable names (i, f, s, b), not literal 0, "", false — the point is to see var give you those values.'
   ],
 }
 
