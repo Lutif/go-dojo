@@ -11,7 +11,7 @@ const exercise: Exercise = {
 
 Common zero values: numeric types are \`0\`, \`string\` is the empty string \`""\`, and \`bool\` is \`false\`. Slices, maps, channels, and function values use \`nil\` until you construct them (you will see those in later lessons).
 
-**Your task:** use \`var\` for an \`int\`, a \`float64\`, a \`string\`, and a \`bool\` *without* assigning, then return all four to show the defaults.`,
+**Your task:** use \`var\` for an \`int\`, a \`float64\`, a \`string\`, and a \`bool\` *without* assigning, then \`return\` those four names (not literals). The starter returns wrong placeholders on purpose so the test fails until you wire it up.`,
   code: `package main
 
 // ZeroValues declares variables without assigning values
@@ -19,9 +19,9 @@ Common zero values: numeric types are \`0\`, \`string\` is the empty string \`""
 // Declare: an int, a float64, a string, and a bool.
 func ZeroValues() (int, float64, string, bool) {
 	// TODO: Declare four variables using var (without assigning values)
-	// Then return all four.
+	// Then return those variables (not literal 0, "", false — that would skip the lesson).
 
-	return 0, 0, "", false
+	return 1, 1.0, "replace me", true
 }`,
   testCode: `package main
 
