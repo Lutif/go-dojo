@@ -7,16 +7,9 @@ const exercise: Exercise = {
   subcategory: 'Strings',
   difficulty: 'beginner',
   order: 19,
-  description: `Go strings are immutable sequences of bytes (usually UTF-8 encoded). Key operations come from the \`strings\` package:
+  description: `A Go \`string\` holds a read-only **byte** slice under the hood, almost always in **UTF-8** text encoding. You cannot change a string in place: "editing" creates new strings, which is why the standard library is full of small helpers. The \`strings\` package is the first place to look: case changes (\`ToLower\` / \`ToUpper\`), substrings with \`Contains\`, \`Split\` with a separator, \`ReplaceAll\` for every occurrence, \`TrimSpace\` to strip leading and trailing whitespace, and more. The built-in \`len(s)\` counts **bytes**; to count runes, use a later exercise.
 
-- \`strings.ToUpper(s)\` / \`strings.ToLower(s)\`
-- \`strings.Contains(s, substr)\`
-- \`strings.ReplaceAll(s, old, new)\`
-- \`strings.Split(s, sep)\`
-- \`strings.TrimSpace(s)\`
-- \`len(s)\` returns byte count (not character count)
-
-Your task: use the \`strings\` package to implement the functions below.`,
+**Your task:** import \`strings\` and implement \`Normalize\`, \`Censor\`, and \`WordCount\` with the right helpers and logic.`,
   code: `package main
 
 import "strings"

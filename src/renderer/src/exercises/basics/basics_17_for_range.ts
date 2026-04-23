@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Loops',
   difficulty: 'beginner',
   order: 17,
-  description: `\`for range\` iterates over slices, arrays, strings, maps, and channels. It gives you the index and value for each element:
+  description: `The \`for range\` form walks a **sequence** and runs the body once per item. For slices and arrays you get the **index** and the **value**; for strings you get the index and a **rune** (Unicode code point) when the source is valid UTF-8. For maps you get key and value; map iteration order is **not** guaranteed to match insertion order. If you only need the value, write \`for _, v := range\`; if you only need the index, \`for i := range\` is enough. Ranging over a \`nil\` slice or map simply runs zero times, which is safe.
 
 \`\`\`
 fruits := []string{"apple", "banana", "cherry"}
@@ -16,9 +16,7 @@ for i, fruit := range fruits {
 }
 \`\`\`
 
-Use \`_\` to ignore either the index or value: \`for _, v := range items\`
-
-Your task: use \`for range\` to implement the functions below.`,
+**Your task:** use \`for range\` in \`Contains\`, \`DoubleAll\`, and \`CountChar\` as described in the file.`,
   code: `package main
 
 // Contains returns true if the slice contains the target string

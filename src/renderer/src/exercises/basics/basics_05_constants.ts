@@ -7,11 +7,9 @@ const exercise: Exercise = {
   subcategory: 'Variables & Declarations',
   difficulty: 'beginner',
   order: 5,
-  description: `Constants are declared with \`const\` and cannot be changed after declaration. Their values must be known at compile time — you can't assign a function call to a constant.
+  description: `A **constant** is a name for a value that is fixed for the whole program. You declare constants with \`const\` and the compiler will not let you reassign them. Values must be **known at compile time** — literals, other constants, and constant expressions are fine, but the result of a function call (which runs later) is not. Constants help document intent ("this never changes") and can enable optimizations. You can give an explicit type (\`const Name string = "Go"\`) or let Go infer it (\`const AppName = "GoDojo"\`). A \`const (...)\` block is common when you group many related names.
 
-Syntax: \`const Pi = 3.14159\` or \`const Name string = "Go"\`
-
-Your task: define three constants and return them from the function.`,
+**Your task:** add the three package-level constants shown in the starter comments, then return them from \`GetConstants()\`.`,
   code: `package main
 
 // TODO: Define three constants at package level:

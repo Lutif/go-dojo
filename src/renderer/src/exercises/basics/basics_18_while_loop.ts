@@ -7,19 +7,16 @@ const exercise: Exercise = {
   subcategory: 'Loops',
   difficulty: 'beginner',
   order: 18,
-  description: `Go doesn't have a \`while\` keyword. Instead, use \`for\` with just a condition:
+  description: `The same \`for\` keyword can be used with **only a condition** — that is the usual "while" pattern from other languages. The condition is checked before every iteration, and the loop body runs as long as it stays true. For a loop that should run until something inside decides to stop, you can also write \`for { ... }\` and use \`break\` (or \`return\`) to leave, which is the idiomatic "infinite" or event loop shape.
 
 \`\`\`
 n := 1
 for n < 100 {
     n *= 2
 }
-// n is now 128
 \`\`\`
 
-For infinite loops, use \`for { ... }\` with a \`break\` to exit.
-
-Your task: implement the functions using while-style for loops.`,
+**Your task:** use a condition-only \`for\` in \`CollatzSteps\` and \`Digits\` to match the problems described in the comments.`,
   code: `package main
 
 // CollatzSteps counts the number of steps to reach 1

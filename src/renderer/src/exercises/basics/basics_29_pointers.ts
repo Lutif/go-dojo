@@ -7,20 +7,15 @@ const exercise: Exercise = {
   subcategory: 'Structs & Pointers',
   difficulty: 'beginner',
   order: 29,
-  description: `A pointer holds the memory address of a value. Two key operators:
-- \`&x\` — get the address of x (creates a pointer)
-- \`*p\` — dereference p (read/write the value at the address)
+  description: `A \`*T\` (pointer to T) stores the address of a \`T\` in memory, not a copy of the \`T\` itself. The \`&\` (address of) operator takes a value and returns a pointer to it. \`*\` in a type (for example \`*int\`) means pointer; the unary \`*\` in front of a pointer **value** reads or writes **through** the pointer. This is how a function can change a variable **owned by the caller**: pass a \`*int\` to \`Double\` and the function updates the same int the caller has. A nil pointer cannot be read or written. \`new(T)\` allocates a zero \`T\` and returns \`*T\` — another common pattern, alongside taking the address of a local.
 
 \`\`\`
 x := 42
-p := &x     // p is *int, points to x
-*p = 100    // changes x to 100
-fmt.Println(x)  // 100
+p := &x
+*p = 100
 \`\`\`
 
-Pointers let functions modify values in the caller's scope (pass-by-reference).
-
-Your task: use pointers to modify values.`,
+**Your task:** use pointers in \`Double\`, \`SwapValues\`, and \`NewInt\` as the tests require.`,
   code: `package main
 
 // Double takes a pointer to an int and doubles the value it points to.

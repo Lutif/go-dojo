@@ -7,22 +7,17 @@ const exercise: Exercise = {
   subcategory: 'Structs & Pointers',
   difficulty: 'beginner',
   order: 30,
-  description: `Pointer receivers let methods modify the struct they're called on:
+  description: `When the receiver of a method is a **value**, the call passes a **copy** of the struct, so a field change inside the method is lost unless you return a new struct. When the receiver is a **pointer** (\`func (c *Counter) ...\`), the call passes the address, so the method can update the same \`Counter\` the variable refers to. Go is forgiving at call time: you may write \`c.Increment()\` even if \`c\` is a \`Counter\` value, not a pointer — the compiler will pass \`&c\` when a pointer receiver is needed. A wide rule: use pointer receivers for methods that **mutate** the receiver, or when the type is large—consistency in a type helps readers.
 
 \`\`\`
 type Counter struct { N int }
 
 func (c *Counter) Increment() {
-    c.N++  // modifies the original, not a copy
+    c.N++
 }
 \`\`\`
 
-**Value receiver** \`(c Counter)\` — gets a copy; can't modify the original.
-**Pointer receiver** \`(c *Counter)\` — gets a pointer; modifications persist.
-
-Rule of thumb: if a method needs to modify the receiver, use a pointer receiver. Go automatically takes the address when calling pointer-receiver methods: \`counter.Increment()\` works even if \`counter\` is not a pointer.
-
-Your task: use pointer receivers to build mutable types.`,
+**Your task:** implement the pointer-receiver methods for \`Stack\` and \`Player\` in the file so the tests pass.`,
   code: `package main
 
 import "fmt"

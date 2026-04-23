@@ -7,19 +7,15 @@ const exercise: Exercise = {
   subcategory: 'Collections',
   difficulty: 'beginner',
   order: 22,
-  description: `Arrays in Go have a **fixed length** that's part of the type — \`[3]int\` and \`[5]int\` are different types.
+  description: `An **array** has a length fixed at compile time, and the length is **part of the type**: \`[3]int\` and \`[5]int\` are not interchangeable. You can initialize with a literal, or use \`[...]T{a,b,c}\` to let the compiler count the size. When you pass an array to a function, Go **copies the whole value** (every element) unless you pass a pointer. That makes arrays best for small, fixed things like a row of a fixed width; most lists are built with **slices**, which the next exercise covers, but those slices are implemented with arrays under the skin.
 
 \`\`\`
-var a [3]int           // [0, 0, 0]
-b := [3]int{1, 2, 3}  // literal
-c := [...]int{1, 2, 3} // length inferred
+var a [3]int
+b := [3]int{1, 2, 3}
+c := [...]int{1, 2, 3} // [3]int
 \`\`\`
 
-Arrays are **value types** — assigning or passing an array copies all its elements.
-
-In practice, slices (next exercise) are used far more often. But arrays are foundational to understanding slices.
-
-Your task: work with fixed-size arrays.`,
+**Your task:** implement the array-based functions: summing, filling a small times table, and the copy-versus-mutate exercise \`ArraysAreValues\`.`,
   code: `package main
 
 // SumArray returns the sum of all elements in a [5]int array.

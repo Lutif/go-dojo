@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Structs & Pointers',
   difficulty: 'beginner',
   order: 27,
-  description: `Structs group related data into a single type — Go's equivalent of classes (but without inheritance):
+  description: `A **struct** is a user-defined type made of a fixed set of **fields**, each with a name and a type. It is how you model records (a rectangle with width/height, a person with a name) without classes or inheritance. You create a value with a struct literal, optionally using field names for clarity, and you read and write with dot notation. Fields whose names **start with an upper-case letter** are **exported** (visible in other packages); unexported field names are package-private, like many languages’ access rules, but the rule is a naming convention, not a keyword.
 
 \`\`\`
 type Person struct {
@@ -16,12 +16,10 @@ type Person struct {
 }
 
 p := Person{Name: "Alice", Age: 30}
-fmt.Println(p.Name)  // "Alice"
+fmt.Println(p.Name)
 \`\`\`
 
-Fields are accessed with dot notation. Exported fields (capitalized) are visible outside the package.
-
-Your task: define structs and work with them.`,
+**Your task:** define \`Rectangle\` and \`Person\` as described, and implement the helpers in the file.`,
   code: `package main
 
 import "fmt"

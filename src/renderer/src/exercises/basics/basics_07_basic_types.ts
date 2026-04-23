@@ -7,15 +7,9 @@ const exercise: Exercise = {
   subcategory: 'Types',
   difficulty: 'beginner',
   order: 7,
-  description: `Go is statically typed with several built-in types:
+  description: `Go’s built-in types are fixed at compile time: every value belongs to one of them. For whole numbers you have \`int\` (a good default whose size matches the machine) and **sized** integers like \`int8\` or \`int64\` when you care about memory layout or interop. For decimals you have \`float32\` and \`float64\`; most code uses \`float64\`. \`bool\` is for logic, \`string\` for text, \`byte\` is the same as \`uint8\` (one raw byte), and \`rune\` is the same as \`int32\` and represents a single Unicode code point. Character literals in single quotes, like \`'A'\` or \`'世'\`, have type \`rune\` when they are multi-byte in UTF-8. Unless you are optimizing or matching an external format, \`int\` + \`float64\` is enough.
 
-- **Integers**: \`int\`, \`int8\`, \`int16\`, \`int32\`, \`int64\` (and unsigned \`uint\` variants)
-- **Floats**: \`float32\`, \`float64\`
-- **Other**: \`bool\`, \`string\`, \`byte\` (alias for uint8), \`rune\` (alias for int32)
-
-In practice, use \`int\` for integers and \`float64\` for decimals unless you have a specific reason to choose a sized type.
-
-Your task: create variables of different types and return them.`,
+**Your task:** return one value of each of the required types, using the values given in the function comment.`,
   code: `package main
 
 // BasicTypes should return one value of each type:

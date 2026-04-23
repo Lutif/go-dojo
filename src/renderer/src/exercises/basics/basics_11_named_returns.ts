@@ -7,10 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Functions',
   difficulty: 'beginner',
   order: 11,
-  description: `Go lets you name your return values in the function signature. Named return values:
-1. Act as variables declared at the top of the function
-2. Are initialized to their zero values
-3. Can be returned with a bare \`return\` (no arguments)
+  description: `In the return list you can give names, e.g. \`(area, perimeter float64)\`. Those names are **pre-declared variables** in the function body, initialized to their type’s zero value. You assign to them with \`=\` as the function runs, and you may end with a **bare** \`return\` (no values after the keyword) to send back whatever is in those names. It reads well when the return values are obvious in context, but it can be harder to follow in very long functions — use it where a bare \`return\` makes the intent clearer, not muddier. A normal \`return 1, 2\` still works too.
 
 \`\`\`
 func Split(sum int) (x, y int) {
@@ -20,7 +17,7 @@ func Split(sum int) (x, y int) {
 }
 \`\`\`
 
-Your task: implement functions using named returns with bare return statements.`,
+**Your task:** implement \`RectangleProps\` and \`SplitFullName\` with named return parameters and a bare \`return\` where the starter expects it.`,
   code: `package main
 
 // RectangleProps calculates area and perimeter of a rectangle

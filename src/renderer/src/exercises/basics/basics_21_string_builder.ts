@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Strings',
   difficulty: 'beginner',
   order: 21,
-  description: `Since Go strings are immutable, repeated concatenation with \`+=\` creates a new string each time — slow for many operations. \`strings.Builder\` is the efficient alternative:
+  description: `Each time you do \`s = s + t\` or \`s += t\` in a tight loop, Go may allocate a new backing array for the growing result — fine for a few appends, expensive for thousands. \`strings.Builder\` holds a **growable buffer** of bytes: you \`WriteString\`, \`WriteByte\`, or \`WriteRune\` in place, and call \`String()\` once at the end. The implementation minimizes copies; it is the standard way to build large or loop-built strings. For tiny joins you might not bother, but this exercise is about the pattern.
 
 \`\`\`
 var b strings.Builder
@@ -17,9 +17,7 @@ b.WriteString("World!")
 result := b.String()  // "Hello, World!"
 \`\`\`
 
-Other methods: \`b.WriteByte(byte)\`, \`b.WriteRune(rune)\`
-
-Your task: use \`strings.Builder\` to build strings efficiently.`,
+**Your task:** use \`strings.Builder\` in \`RepeatString\` and \`BuildCSV\` as the comments ask.`,
   code: `package main
 
 import (

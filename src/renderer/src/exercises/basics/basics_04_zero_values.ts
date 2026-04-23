@@ -7,14 +7,11 @@ const exercise: Exercise = {
   subcategory: 'Variables & Declarations',
   difficulty: 'beginner',
   order: 4,
-  description: `In Go, every variable is automatically initialized to its **zero value** if you don't assign one. This means you never have "undefined" — every variable always has a valid value.
+  description: `If you declare a variable but do not assign a value, Go still gives it a defined starting value called the **zero value** for that type. There is no "uninitialized" or \`undefined\` like in some other languages: every name always holds something valid and predictable. This makes it easier to reason about code and safe to use a variable even before you overwrite it (for example, summing into an \`int\` that starts at \`0\`).
 
-Zero values by type:
-- \`int\`, \`float64\` → \`0\`
-- \`string\` → \`""\` (empty string)
-- \`bool\` → \`false\`
+Common zero values: numeric types are \`0\`, \`string\` is the empty string \`""\`, and \`bool\` is \`false\`. Slices, maps, channels, and function values use \`nil\` until you construct them (you will see those in later lessons).
 
-Your task: declare variables with \`var\` (no assignment) and return them to demonstrate zero values.`,
+**Your task:** use \`var\` for an \`int\`, a \`float64\`, a \`string\`, and a \`bool\` *without* assigning, then return all four to show the defaults.`,
   code: `package main
 
 // ZeroValues declares variables without assigning values

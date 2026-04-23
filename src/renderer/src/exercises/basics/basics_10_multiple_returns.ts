@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Functions',
   difficulty: 'beginner',
   order: 10,
-  description: `Go functions can return multiple values. This is most commonly used to return a result alongside an error, but it's useful anytime a function naturally produces more than one piece of data.
+  description: `A function’s result list can have more than one value. The usual pattern in Go is **value, error** — the \`error\` at the end tells the caller if something went wrong. That is not required for learning: you might return a pair of strings after a swap, or a min and max, because those belong together. Callers use **tuple assignment** on the left: \`a, b := MinMax(1, 2)\` or the blank identifier \`_\` to ignore a result.
 
 \`\`\`
 func Divide(a, b float64) (float64, error) {
@@ -18,7 +18,7 @@ func Divide(a, b float64) (float64, error) {
 }
 \`\`\`
 
-Your task: implement functions that return multiple values.`,
+**Your task:** implement \`Swap\`, \`MinMax\`, and \`SafeDivide\` with the multi-value signatures shown in the starter file.`,
   code: `package main
 
 import "errors"

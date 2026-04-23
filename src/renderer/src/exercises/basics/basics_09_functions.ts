@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Functions',
   difficulty: 'beginner',
   order: 9,
-  description: `Functions in Go are declared with \`func\`, followed by the name, parameters, and return type:
+  description: `A **function** is a named block of code you can call with arguments and (optionally) get a return value. In Go you start with \`func\`, then the function name, a parameter list in parentheses, then the return type (or a list of return types). If two or more parameters in a row share a type, you write the type once: \`func Add(a, b int) int\` instead of \`a int, b int\`. Functions can call other functions, read package-level variables, and return results with \`return\`. The name must be capitalized if you want to export it to other packages (the same rule as for variables).
 
 \`\`\`
 func Add(a int, b int) int {
@@ -15,9 +15,7 @@ func Add(a int, b int) int {
 }
 \`\`\`
 
-When consecutive parameters share a type, you can shorten it: \`func Add(a, b int) int\`
-
-Your task: implement the functions below.`,
+**Your task:** implement \`Add\`, \`Greet\`, and \`IsEven\` to match the tests.`,
   code: `package main
 
 // Add returns the sum of two integers

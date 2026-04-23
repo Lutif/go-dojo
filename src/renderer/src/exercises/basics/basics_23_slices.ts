@@ -7,21 +7,15 @@ const exercise: Exercise = {
   subcategory: 'Collections',
   difficulty: 'beginner',
   order: 23,
-  description: `Slices are Go's most-used collection type — dynamic, resizable views into arrays.
+  description: `A **slice** is a **descriptor** (pointer, length, and capacity) over a backing array, so the length can change as you \`append\` without fixing the type at \`[N]T\`. A slice literal \`[]int{1,2,3}\` or \`make([]int, 5)\` (length 5) or \`make([]int, 0, 10)\` (len 0, cap 10) is how you start. \`len\` is how many elements you may read; \`cap\` is how much room exists before a grow might reallocate. \`append\` can return a new slice header if the array needed to grow; you should always assign the result of \`append\` back. Copying a slice value copies the **header**, not every element, so two slices can share the same array until you \`append\` past capacity in a way that causes a reallocation. That sharing is the main "gotcha" to learn next.
 
 \`\`\`
-s := []int{1, 2, 3}          // slice literal
-s2 := make([]int, 5)         // length 5, all zeros
-s3 := make([]int, 0, 10)     // length 0, capacity 10
+s := []int{1, 2, 3}
+s2 := make([]int, 5)
+s3 := make([]int, 0, 10)
 \`\`\`
 
-Key properties:
-- \`len(s)\` — number of elements
-- \`cap(s)\` — capacity (underlying array size)
-- \`append(s, elem)\` — add elements (may allocate a new underlying array)
-- Slices are **reference types** — assigning a slice shares the underlying array
-
-Your task: create and manipulate slices.`,
+**Your task:** use slice creation, \`append\`, and filtering to complete the three functions in the file.`,
   code: `package main
 
 // MakeSequence returns a slice containing integers from 1 to n.

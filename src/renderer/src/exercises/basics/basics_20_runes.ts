@@ -7,15 +7,13 @@ const exercise: Exercise = {
   subcategory: 'Strings',
   difficulty: 'beginner',
   order: 20,
-  description: `A \`rune\` is Go's type for a single Unicode character (an alias for \`int32\`). This matters because:
+  description: `Text in Go is often UTF-8, so **one user-visible character** is not always **one byte**. The type \`rune\` is an alias for \`int32\` and means "one Unicode code point." The built-in \`len\` on a \`string\` counts **bytes**; a string of two Chinese characters might have \`len\` 6 in UTF-8, while \`len([]rune(s))\` (or ranging with \`for range\`) counts **code points** — usually what you want for "length in letters." For reversing or slicing "by character," work with \`[]rune\` first, then convert back to \`string\`.
 
-- \`len("Hello")\` = 5 (bytes)
-- \`len("世界")\` = 6 (bytes — each character is 3 bytes in UTF-8)
-- \`len([]rune("世界"))\` = 2 (characters)
+- \`len("Hello")\` = 5 bytes, 5 runes
+- \`len("世界")\` = 6 bytes, 2 runes
+- \`[]rune("世界")\` has length 2
 
-When you \`range\` over a string, you get runes (not bytes). To get the true character count, convert to \`[]rune\`.
-
-Your task: work with runes to handle Unicode correctly.`,
+**Your task:** use runes in \`CharCount\`, \`Reverse\`, and \`FirstN\` so the behavior is correct for non-ASCII text.`,
   code: `package main
 
 // CharCount returns the number of Unicode characters in a string.

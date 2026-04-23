@@ -7,20 +7,17 @@ const exercise: Exercise = {
   subcategory: 'Collections',
   difficulty: 'beginner',
   order: 25,
-  description: `Maps are Go's built-in hash table / dictionary type:
+  description: `A \`map[K]V\` is an associative container: you look up values of type V by a **key** of type K. Insert or update with \`m[key] = value\`, read with \`m[key]\` (if the key is missing, you get the value type’s **zero value**, which is ambiguous — the next exercise fixes that with a two-value lookup). A map variable is \`nil\` until you assign a map created with a composite literal or \`make\`; a **nil** map can be read from (it behaves like empty) but must not be **written** to — you need a real map for assignment. The zero value of a map is \`nil\`; the zero value of an entry is separate.
 
 \`\`\`
 ages := map[string]int{
     "Alice": 30,
     "Bob":   25,
 }
-ages["Charlie"] = 35    // add/update
-fmt.Println(ages["Alice"]) // 30
+ages["Charlie"] = 35
 \`\`\`
 
-Maps must be initialized before use — a nil map will panic on writes. Use a literal \`map[K]V{}\` or \`make(map[K]V)\`.
-
-Your task: create and use maps.`,
+**Your task:** build a letter-counting map, invert a string map, and merge two integer maps with the "later wins" rule in \`Merge\`.`,
   code: `package main
 
 // CountLetters returns a map from each lowercase letter to its count.

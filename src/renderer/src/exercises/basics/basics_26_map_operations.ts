@@ -7,21 +7,14 @@ const exercise: Exercise = {
   subcategory: 'Collections',
   difficulty: 'beginner',
   order: 26,
-  description: `Important map operations:
+  description: `Because a missing key still yields a value (the type’s **zero**), a single \`m[k]\` cannot tell you whether the key was stored or "just absent." The **comma-ok** form, \`v, ok := m[k]\`, returns both the value and a \`bool\` that is \`true\` when the key is present, \`false\` when it is not. Use that whenever zero is a legitimate stored value. The built-in \`delete(m, k)\` removes a key; it is safe to call on a missing key. Iteration is \`for k, v := range m\`; order is **not** defined, so if you need sorted order, copy keys to a slice and sort (as in this exercise’s \`Keys\` function).
 
-**Check if key exists** (comma ok pattern):
 \`\`\`
 val, ok := m["key"]
 if ok { /* key exists */ }
 \`\`\`
 
-**Delete a key**: \`delete(m, "key")\`
-
-**Iterate**: \`for key, val := range m { ... }\`
-
-Reading a missing key returns the zero value (0 for int, "" for string) — the comma ok pattern lets you distinguish "key missing" from "key present with zero value".
-
-Your task: implement the map operations below.`,
+**Your task:** use comma-ok, \`delete\`, and ranging where needed for \`GetOrDefault\`, \`Keys\`, and \`RemoveZeros\`.`,
   code: `package main
 
 // GetOrDefault returns the value for key if it exists,

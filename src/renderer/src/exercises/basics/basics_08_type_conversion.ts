@@ -7,15 +7,9 @@ const exercise: Exercise = {
   subcategory: 'Types',
   difficulty: 'beginner',
   order: 8,
-  description: `Go requires **explicit** type conversions — it never converts types implicitly (no automatic int-to-float promotion).
+  description: `Unlike some languages, Go will **not** silently widen or narrow types for you — \`3\` and \`3.0\` are different types, and mixing them without a conversion is a compile error. That keeps programs predictable: you always see where precision might change. Conversions use the form \`TargetType(value)\`. For example \`float64(42)\` becomes \`42.0\`, and \`int(3.99)\` **truncates** toward zero to \`3\` (it does not round). Converting between string and number types needs \`strconv\` (you will use that later); here, practice only numeric casts.
 
-Syntax: \`targetType(value)\`
-- \`float64(42)\` → 42.0
-- \`int(3.99)\` → 3 (truncates, doesn't round)
-
-To convert numbers to/from strings, use the \`strconv\` package (covered later). For now, focus on numeric conversions.
-
-Your task: implement the conversion functions below.`,
+**Your task:** fill in \`IntToFloat\`, \`FloatToInt\`, and \`IntToInt32\` as specified in the comments.`,
   code: `package main
 
 // IntToFloat converts an int to float64

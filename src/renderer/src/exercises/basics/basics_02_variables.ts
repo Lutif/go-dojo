@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Variables & Declarations',
   difficulty: 'beginner',
   order: 2,
-  description: `Go is **statically typed**: every variable has a type known at compile time. The \`var\` keyword is how you introduce one. Unlike Python or JavaScript where a name is just bound to any value at runtime, Go needs to know the type up front so it can lay out memory efficiently, pick the right machine instructions, and catch type mismatches before the program runs.
+  description: `This exercise uses the \`var\` keyword, the long-form way to name a new variable. Go is **statically typed**: every variable has a type known at compile time. Unlike Python or JavaScript, where a name is bound to any value at runtime, Go needs a declared type (or a right-hand side the compiler can infer from) so it can lay out memory, pick the right instructions, and report type errors before the program runs.
 
 You have three ways to write a \`var\` declaration:
 

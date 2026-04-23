@@ -7,18 +7,15 @@ const exercise: Exercise = {
   subcategory: 'Loops',
   difficulty: 'beginner',
   order: 16,
-  description: `Go has only one loop keyword: \`for\`. It replaces \`for\`, \`while\`, and \`do-while\` from other languages.
+  description: `There is no separate \`while\` or \`do\` keyword in Go: **every** loop is written with \`for\`. The familiar three-part form (init; condition; post) works like in C — the init runs once, the condition is checked before each iteration, the post runs at the end of each iteration. No parentheses are required (or expected) around the three parts, and the body is always in braces. You will use other \`for\` shapes in the next lessons; this one is what you use for indexed counting, accumulators, and "repeat N times" patterns.
 
-**C-style for loop:**
 \`\`\`
 for i := 0; i < 10; i++ {
     // runs 10 times
 }
 \`\`\`
 
-Note: no parentheses around the three clauses, and braces are always required.
-
-Your task: use C-style for loops to implement the functions below.`,
+**Your task:** use a C-style \`for\` in \`SumRange\` and \`Factorial\` to match the comment behavior.`,
   code: `package main
 
 // SumRange returns the sum of integers from 1 to n (inclusive).

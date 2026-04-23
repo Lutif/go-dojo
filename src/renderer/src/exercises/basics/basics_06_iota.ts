@@ -7,9 +7,10 @@ const exercise: Exercise = {
   subcategory: 'Variables & Declarations',
   difficulty: 'beginner',
   order: 6,
-  description: `\`iota\` is Go's auto-incrementing constant generator. Inside a \`const\` block, \`iota\` starts at 0 and increments by 1 for each constant.
+  description: `Inside a \`const\` **block** (a parenthesized list of \`const\` lines), the identifier \`iota\` is a small counter. On the first line in the block it is \`0\`; each time you go down one line, it increases by \`1\`. The next unbroken \`const\` block in the same file starts \`iota\` over at \`0\` again. It saves you from hand-writing \`0, 1, 2, ...\` when you just need distinct ordered numbers.
 
-This is commonly used to create enumerations:
+A typical pattern is an enumeration (days, states, or option codes) where the exact numbers are not magic as long as they are unique and stable.
+
 \`\`\`
 const (
     Red   = iota  // 0
@@ -18,7 +19,7 @@ const (
 )
 \`\`\`
 
-Your task: create a set of day-of-week constants using \`iota\`, starting with Sunday = 0.`,
+**Your task:** use one \`const\` block and \`iota\` so the days Sunday through Saturday are \`0\` through \`6\`, and return all seven from \`GetDays()\`.`,
   code: `package main
 
 // TODO: Define constants for days of the week using iota

@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Control Flow',
   difficulty: 'beginner',
   order: 14,
-  description: `Go's \`switch\` is cleaner than in C/Java — cases do **not** fall through by default (no need for \`break\`).
+  description: `A \`switch\` compares one expression against a list of \`case\` values. In Go, when a case body finishes, **execution does not fall through** to the next case: there is an implicit "break" after each case, so you rarely write \`break\`. You can list several values in one case, separated by commas, if they should share the same code. A \`default\` case runs if nothing matches. If you really need the old C-style fall-through, add the \`fallthrough\` keyword explicitly. This usually leads to flatter, easier-to-read code than a long \`if/else\` chain when you compare the same value many ways.
 
 \`\`\`
 switch day {
@@ -20,9 +20,7 @@ default:
 }
 \`\`\`
 
-Cases can match multiple values with commas. Use \`fallthrough\` if you explicitly want fall-through behavior.
-
-Your task: implement the functions using switch statements.`,
+**Your task:** use \`switch\` in \`DayType\` and \`Grade\` as the comments describe.`,
   code: `package main
 
 // DayType returns "weekday", "weekend", or "unknown"

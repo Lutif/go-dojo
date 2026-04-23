@@ -7,9 +7,9 @@ const exercise: Exercise = {
   subcategory: 'Getting Started',
   difficulty: 'beginner',
   order: 1,
-  description: `Write your first Go program! Every Go executable starts with \`package main\` and a \`main()\` function — this is the entry point, like \`int main()\` in C. Use \`fmt.Println()\` to print text to the console.
+  description: `This is your first program in Go. Each source file lives in a **package**; programs you run with \`go run\` use \`package main\` so the toolchain knows to build a command, not a library. The one function called \`main\` in that package is the **entry point** where execution begins — the same idea as \`int main()\` in C. To show text in the terminal, import the standard library package \`fmt\` and call \`fmt.Println\`, which prints a line and adds a newline at the end.
 
-Your task: print exactly \`Hello, World!\` (with the comma and exclamation mark).`,
+**Your task:** call \`fmt.Println\` so the program outputs exactly \`Hello, World!\` (keep the comma and the exclamation mark; the test checks the exact string).`,
   code: `package main
 
 import "fmt"

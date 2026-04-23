@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Structs & Pointers',
   difficulty: 'beginner',
   order: 28,
-  description: `Methods are functions with a **receiver** — they're attached to a type:
+  description: `A **method** is like a function but declares a **receiver** before the function name, tying the function to a type. You call it with a value: \`circle.Area()\`. The receiver (here \`c\`) is how the method body gets the struct’s fields. If the method takes a **value** receiver, the method call receives a **copy** of the struct, which matters when you return "updated" state without mutating the original — the exercises below use that idea for \`Counter\` methods. Pointer receivers, which you will use later, are for mutating the original value in place. Method names are exported the same way as other identifiers (capital first letter to export from the package).
 
 \`\`\`
 type Circle struct {
@@ -17,14 +17,9 @@ type Circle struct {
 func (c Circle) Area() float64 {
     return math.Pi * c.Radius * c.Radius
 }
-
-circle := Circle{Radius: 5}
-fmt.Println(circle.Area())  // 78.5398...
 \`\`\`
 
-The receiver \`(c Circle)\` comes before the method name. The method can access all fields of the struct through the receiver variable.
-
-Your task: add methods to the Counter and BankAccount types.`,
+**Your task:** add the methods to \`Counter\` and \`BankAccount\` listed in the starter, following the "no mutation" hint where stated.`,
   code: `package main
 
 import "fmt"

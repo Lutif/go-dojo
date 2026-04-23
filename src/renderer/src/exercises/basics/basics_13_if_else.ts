@@ -7,18 +7,9 @@ const exercise: Exercise = {
   subcategory: 'Control Flow',
   difficulty: 'beginner',
   order: 13,
-  description: `Go's \`if/else\` works like other languages, but with two differences:
-1. **No parentheses** around the condition (they're optional but not idiomatic)
-2. **Braces are required**, even for single-line bodies
+  description: `Branching in Go uses \`if\`, optional \`else if\`, and \`else\` much like in C, Java, or JavaScript, with a few style rules: the condition does **not** go in parentheses (unusual at first, but the norm in Go), and the body must always be in **braces** even for a single line — that avoids mistakes when someone adds a second line later. An \`if\` may start with a short **init** statement: \`if x := f(); x > 0\` where \`x\` only exists in that \`if\` / \`else\` block, which keeps temporary values narrow in scope.
 
-Go also supports an **init statement** in if:
-\`\`\`
-if x := compute(); x > 10 {
-    // x is only in scope here
-}
-\`\`\`
-
-Your task: implement the classification functions below.`,
+**Your task:** use \`if/else\` to implement \`Classify\` and \`FizzBuzz\` to match the comments in the file.`,
   code: `package main
 
 // Classify returns "positive", "negative", or "zero"

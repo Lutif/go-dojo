@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Functions',
   difficulty: 'beginner',
   order: 12,
-  description: `Variadic functions accept a variable number of arguments using the \`...\` syntax. Inside the function, the variadic parameter is a slice.
+  description: `A **variadic** parameter is written as the last parameter with \`...Type\` — callers may pass **zero, one, or many** arguments, and the function body sees a **slice** of that element type (for example \`...int\` becomes \`[]int\` inside the function). That is how you write helpers like "sum or join any number of things" without a separate overload for every arity. You can also unpack an existing slice at the call site with the same three dots: \`Sum(list...)\` if \`list\` is a \`[]int\` and \`Sum\` takes \`...int\`.
 
 \`\`\`
 func PrintAll(args ...string) {
@@ -15,12 +15,10 @@ func PrintAll(args ...string) {
         fmt.Println(s)
     }
 }
-PrintAll("a", "b", "c")  // pass individual args
+PrintAll("a", "b", "c")
 \`\`\`
 
-You can also spread a slice into a variadic call: \`PrintAll(mySlice...)\`
-
-Your task: implement the variadic functions below.`,
+**Your task:** implement \`Sum\` and \`JoinWith\` using a variadic parameter in the right place in each signature.`,
   code: `package main
 
 // Sum returns the sum of all provided integers.

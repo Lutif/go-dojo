@@ -7,7 +7,7 @@ const exercise: Exercise = {
   subcategory: 'Control Flow',
   difficulty: 'beginner',
   order: 15,
-  description: `A \`switch\` without a condition is equivalent to \`switch true\` — each case is evaluated as a boolean expression. This is a clean way to write long if/else chains.
+  description: `You may write \`switch\` with no value after the keyword. That is the same as \`switch true\` and is read as: **evaluate each case in order, run the first whose condition is true**. The first match wins, like \`if / else if / else\` but in a form that is easy to extend with new ranges. Stylistically, many Gophers use this for comparisons that do not all come from a single value (e.g. checking a number in bands).
 
 \`\`\`
 switch {
@@ -20,7 +20,7 @@ default:
 }
 \`\`\`
 
-Your task: implement the functions using conditionless switch statements.`,
+**Your task:** use a conditionless \`switch\` in \`Season\` and \`BMICategory\` to implement the rules in the comments.`,
   code: `package main
 
 // Season returns the season name for a given month (1-12):

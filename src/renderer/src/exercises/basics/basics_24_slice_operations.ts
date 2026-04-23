@@ -7,18 +7,16 @@ const exercise: Exercise = {
   subcategory: 'Collections',
   difficulty: 'beginner',
   order: 24,
-  description: `Slice expressions create sub-slices using \`[low:high]\` syntax (half-open: includes low, excludes high):
+  description: `You can take a **window** over an existing slice with \`s[low:high]\`. The interval is **half-open**: index \`low\` is included, \`high\` is excluded, like many APIs in other languages. Omit \`low\` and it is \`0\`; omit \`high\` and it is \`len(s)\`. These windows are usually **shallow** views: the new header points at the same backing array, so an element in the overlap is **one** storage cell — a write through one sub-slice can be seen through another. If you need a true duplicate, use \`copy\` (or \`append\` into a new slice) so the new data is independent. Reslicing and \`append\` are the tools for delete, split, and chunk patterns in application code.
 
 \`\`\`
 s := []int{0, 1, 2, 3, 4}
 s[1:3]  // [1, 2]
-s[:3]   // [0, 1, 2]   (low defaults to 0)
-s[2:]   // [2, 3, 4]   (high defaults to len)
+s[:3]   // [0, 1, 2]
+s[2:]   // [2, 3, 4]
 \`\`\`
 
-**Important**: sub-slices share the underlying array — modifying one affects the other. Use \`copy\` for independent copies.
-
-Your task: implement the slice operations below.`,
+**Your task:** use slicing and the ideas above to implement \`RemoveIndex\`, \`Chunk\`, and \`Unique\`.`,
   code: `package main
 
 // RemoveIndex removes the element at index i from the slice
