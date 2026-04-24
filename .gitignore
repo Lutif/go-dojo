@@ -45,7 +45,7 @@ tmp/
 temp/
 *.tmp
 .cache/
-
+.yarn/
 # Go Dojo specific
 /tmp/go-dojo-*
 ~/.go-dojo-progress.json

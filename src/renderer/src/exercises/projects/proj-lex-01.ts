@@ -8,6 +8,7 @@ const exercise: Exercise = {
   difficulty: 'intermediate',
   order: 16,
   projectId: 'proj-lex',
+  projectTitle: 'Lexer',
   step: 1,
   totalSteps: 6,
   description: `Build a lexer from scratch! Start by defining token types and the Token struct.

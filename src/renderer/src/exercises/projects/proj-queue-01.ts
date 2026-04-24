@@ -148,6 +148,7 @@ func main() {}
     'Always check length before accessing items[0] to avoid panics.',
   ],
   projectId: 'proj-queue',
+  projectTitle: 'Message Queue',
   step: 1,
   totalSteps: 6,
 }

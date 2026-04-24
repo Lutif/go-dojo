@@ -8,6 +8,7 @@ const exercise: Exercise = {
   difficulty: 'intermediate',
   order: 101,
   projectId: 'proj-monkey',
+  projectTitle: 'Monkey Interpreter',
   step: 1,
   totalSteps: 22,
   description: `Define token types and the Token struct for the Monkey language.

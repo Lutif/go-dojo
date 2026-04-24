@@ -171,6 +171,7 @@ func main() {}
     'The Router must have a ServeHTTP method to satisfy http.Handler.',
   ],
   projectId: 'proj-rest',
+  projectTitle: 'REST Framework',
   step: 1,
   totalSteps: 6,
 }

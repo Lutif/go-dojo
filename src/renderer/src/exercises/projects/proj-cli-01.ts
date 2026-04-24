@@ -8,6 +8,7 @@ const exercise: Exercise = {
   difficulty: 'intermediate',
   order: 10,
   projectId: 'proj-cli',
+  projectTitle: 'CLI Parser',
   step: 1,
   totalSteps: 6,
   description: `Build a CLI argument parser from scratch! In this first step, implement a function that parses
