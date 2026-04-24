@@ -1,10 +1,50 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { join, delimiter } from 'path'
 import { execSync, exec } from 'child_process'
 import { mkdirSync, writeFileSync, existsSync, readFileSync, rmSync } from 'fs'
 import { tmpdir, homedir } from 'os'
 
 let mainWindow: BrowserWindow | null = null
+
+// GUI-launched apps on macOS inherit a minimal PATH that excludes Homebrew and
+// /usr/local/go/bin. Augment PATH at startup so `go` is discoverable.
+function fixPath(): void {
+  const extras: string[] = []
+  if (process.platform === 'darwin' || process.platform === 'linux') {
+    // Ask the user's login shell for its PATH (picks up .zshrc, .bash_profile, etc.)
+    try {
+      const shellBin = process.env.SHELL || '/bin/zsh'
+      const shellPath = execSync(`${shellBin} -ilc 'echo -n $PATH'`, {
+        timeout: 2000,
+        encoding: 'utf-8'
+      }).trim()
+      if (shellPath) extras.push(...shellPath.split(delimiter))
+    } catch { /* fall through to hardcoded paths */ }
+
+    // Common Go and package-manager install locations
+    extras.push(
+      '/usr/local/go/bin',
+      '/opt/homebrew/bin',
+      '/opt/homebrew/sbin',
+      '/usr/local/bin',
+      '/usr/local/sbin',
+      join(homedir(), 'go/bin'),
+      join(homedir(), '.local/bin'),
+    )
+  } else if (process.platform === 'win32') {
+    extras.push(
+      'C:\\Program Files\\Go\\bin',
+      'C:\\Go\\bin',
+      join(homedir(), 'go', 'bin'),
+    )
+  }
+
+  const existing = (process.env.PATH || '').split(delimiter)
+  const merged = [...new Set([...existing, ...extras])].filter(Boolean)
+  process.env.PATH = merged.join(delimiter)
+}
+
+fixPath()
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
