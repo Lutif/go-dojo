@@ -1,7 +1,64 @@
+/* Accessible font options — Lexend (dyslexia-friendly) and Atkinson Hyperlegible */
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Theme tokens ─────────────────────────────────────────── */
+/* Default: dark */
+:root {
+  --color-go-blue:    0 173 216;
+  --color-go-cyan:    93 201 226;
+  --color-go-dark:    10 14 23;
+  --color-go-darker:  6 10 18;
+  --color-go-surface: 17 24 39;
+  --color-go-surface2:26 35 50;
+  --color-go-border:  30 45 61;
+  --color-go-text:    226 232 240;
+  --color-go-muted:   148 163 184;
+  --color-go-success: 34 197 94;
+  --color-go-error:   239 68 68;
+  --color-go-warning: 245 158 11;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --code-bg: #1a2332;
+  --code-block-bg: #111827;
+  --code-block-border: #1e2d3d;
+  --scrollbar-thumb: #1e2d3d;
+  --scrollbar-thumb-hover: #2a3f55;
+}
+
+/* Paper: warm off-white, readable, low-glare */
+body.theme-paper {
+  --color-go-blue:    12 123 161;     /* deeper teal for contrast on cream */
+  --color-go-cyan:    23 150 187;
+  --color-go-dark:    244 238 224;    /* cream paper */
+  --color-go-darker:  237 229 210;    /* slightly darker paper */
+  --color-go-surface: 249 244 231;
+  --color-go-surface2:231 222 200;
+  --color-go-border:  201 188 156;
+  --color-go-text:    46 40 28;       /* warm near-black */
+  --color-go-muted:   107 95 68;
+  --color-go-success: 30 120 60;
+  --color-go-error:   185 40 40;
+  --color-go-warning: 180 110 20;
+
+  --code-bg: #ede3c6;
+  --code-block-bg: #f5ecd1;
+  --code-block-border: #c9bc9c;
+  --scrollbar-thumb: #c9bc9c;
+  --scrollbar-thumb-hover: #a8986c;
+}
+
+/* Dyslexia-friendly font — Lexend (clinically shown to improve reading fluency) */
+body.font-dyslexic {
+  --font-sans: 'Lexend', 'Atkinson Hyperlegible', -apple-system, sans-serif;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
 * {
   margin: 0;
   padding: 0;
@@ -15,17 +72,23 @@ html, body, #root {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #060a12;
-  color: #e2e8f0;
+  font-family: var(--font-sans);
+  background: rgb(var(--color-go-darker));
+  color: rgb(var(--color-go-text));
   -webkit-app-region: drag;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Dyslexic body: relax tracking + leading for readability */
+body.font-dyslexic {
+  letter-spacing: 0.015em;
+  line-height: 1.55;
 }
 
 button, input, select, textarea, a {
   -webkit-app-region: no-drag;
 }
 
-/* Ensure Monaco editor and interactive elements can receive events */
 .monaco-editor,
 .monaco-editor * {
   -webkit-app-region: no-drag;
@@ -36,54 +99,52 @@ button, input, select, textarea, a {
   -webkit-app-region: no-drag;
 }
 
-/* Custom scrollbar */
+/* ── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #1e2d3d;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #2a3f55;
+  background: var(--scrollbar-thumb-hover);
 }
 
-/* Monaco editor overrides */
+/* ── Monaco ──────────────────────────────────────────────── */
 .monaco-editor {
   border-radius: 8px;
 }
 
-.exercise-description h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: #00ADD8; }
-.exercise-description h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: #5DC9E2; }
-.exercise-description h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
-.exercise-description p { margin-bottom: 0.75rem; line-height: 1.6; }
+/* ── Exercise description (markdown-rendered) ────────────── */
+.exercise-description h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: rgb(var(--color-go-blue)); }
+.exercise-description h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: rgb(var(--color-go-cyan)); }
+.exercise-description h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; color: rgb(var(--color-go-text)); }
+.exercise-description p  { margin-bottom: 0.75rem; line-height: 1.6; }
 .exercise-description code {
-  background: #1a2332;
+  background: var(--code-bg);
   padding: 0.125rem 0.375rem;
   border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.85em;
-  color: #5DC9E2;
+  color: rgb(var(--color-go-cyan));
 }
 .exercise-description pre {
-  background: #111827;
+  background: var(--code-block-bg);
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 0.75rem;
   overflow-x: auto;
-  border: 1px solid #1e2d3d;
+  border: 1px solid var(--code-block-border);
 }
 .exercise-description pre code {
   background: none;
   padding: 0;
-  color: #e2e8f0;
+  color: rgb(var(--color-go-text));
 }
 .exercise-description ul, .exercise-description ol {
   margin-left: 1.5rem;
@@ -94,21 +155,19 @@ button, input, select, textarea, a {
   line-height: 1.6;
 }
 
-/* Animations */
+/* ── Animations ──────────────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in {
   animation: fadeIn 0.2s ease-out;
 }
 
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 0 0 rgba(0, 173, 216, 0); }
-  50% { box-shadow: 0 0 20px 4px rgba(0, 173, 216, 0.15); }
+  50%      { box-shadow: 0 0 20px 4px rgba(0, 173, 216, 0.15); }
 }
-
 .pulse-glow {
   animation: pulse-glow 2s infinite;
 }

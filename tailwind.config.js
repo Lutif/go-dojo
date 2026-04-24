@@ -4,21 +4,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'go-blue': '#00ADD8',
-        'go-cyan': '#5DC9E2',
-        'go-dark': '#0a0e17',
-        'go-darker': '#060a12',
-        'go-surface': '#111827',
-        'go-surface2': '#1a2332',
-        'go-border': '#1e2d3d',
-        'go-text': '#e2e8f0',
-        'go-muted': '#94a3b8',
-        'go-success': '#22c55e',
-        'go-error': '#ef4444',
-        'go-warning': '#f59e0b',
+        'go-blue':    'rgb(var(--color-go-blue) / <alpha-value>)',
+        'go-cyan':    'rgb(var(--color-go-cyan) / <alpha-value>)',
+        'go-dark':    'rgb(var(--color-go-dark) / <alpha-value>)',
+        'go-darker':  'rgb(var(--color-go-darker) / <alpha-value>)',
+        'go-surface': 'rgb(var(--color-go-surface) / <alpha-value>)',
+        'go-surface2':'rgb(var(--color-go-surface2) / <alpha-value>)',
+        'go-border':  'rgb(var(--color-go-border) / <alpha-value>)',
+        'go-text':    'rgb(var(--color-go-text) / <alpha-value>)',
+        'go-muted':   'rgb(var(--color-go-muted) / <alpha-value>)',
+        'go-success': 'rgb(var(--color-go-success) / <alpha-value>)',
+        'go-error':   'rgb(var(--color-go-error) / <alpha-value>)',
+        'go-warning': 'rgb(var(--color-go-warning) / <alpha-value>)',
       },
       fontFamily: {
-        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        sans: ['var(--font-sans)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       }
     }
   },

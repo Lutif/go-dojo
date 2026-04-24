@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Editor, { OnMount } from '@monaco-editor/react'
 
 interface Props {
@@ -7,24 +7,51 @@ interface Props {
   editorRef: React.MutableRefObject<any>
 }
 
+function currentTheme(): 'go-dojo' | 'go-dojo-paper' {
+  return document.body.classList.contains('theme-paper') ? 'go-dojo-paper' : 'go-dojo'
+}
+function currentFont(): string {
+  return document.body.classList.contains('font-dyslexic')
+    ? "'Lexend', 'Atkinson Hyperlegible', 'JetBrains Mono', monospace"
+    : "'JetBrains Mono', 'Fira Code', monospace"
+}
+
 export default function EditorPanel({ code, onChange, editorRef }: Props) {
+  const monacoRef = useRef<any>(null)
+  const [themeName, setThemeName] = useState(currentTheme())
+  const [fontFamily, setFontFamily] = useState(currentFont())
+
   useEffect(() => {
     // Configure Monaco environment for Electron
     if (typeof window !== 'undefined') {
       (window as any).MonacoEnvironment = {
         getWorkerUrl: function(moduleId: string, label: string) {
-          // Return empty function for workers - they'll run inline
           return 'data:text/javascript;charset=utf-8,' + encodeURIComponent('self.MonacoEnvironment={};')
         }
       }
     }
   }, [])
 
+  // Watch body class changes to refresh editor theme/font
+  useEffect(() => {
+    const obs = new MutationObserver(() => {
+      setThemeName(currentTheme())
+      setFontFamily(currentFont())
+    })
+    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const m = monacoRef.current
+    if (m) m.editor.setTheme(themeName)
+  }, [themeName])
+
   const handleMount: OnMount = (editor, monaco) => {
     editorRef.current = editor
-    console.log('Editor mounted')
+    monacoRef.current = monaco
 
-    // Configure theme
+    // Dark theme
     monaco.editor.defineTheme('go-dojo', {
       base: 'vs-dark',
       inherit: true,
@@ -51,7 +78,34 @@ export default function EditorPanel({ code, onChange, editorRef }: Props) {
         'editorWhitespace.foreground': '#1e2d3d',
       }
     })
-    monaco.editor.setTheme('go-dojo')
+    // Paper theme — warm off-white, low-glare
+    monaco.editor.defineTheme('go-dojo-paper', {
+      base: 'vs',
+      inherit: true,
+      rules: [
+        { token: 'comment', foreground: '7a6f52', fontStyle: 'italic' },
+        { token: 'keyword', foreground: '0c5a7a', fontStyle: 'bold' },
+        { token: 'string',  foreground: 'a0502d' },
+        { token: 'number',  foreground: '5a6f2d' },
+        { token: 'type',    foreground: '175a7a' },
+        { token: 'function',foreground: '7a5a1a' },
+        { token: 'variable',foreground: '2e3a50' },
+        { token: 'operator',foreground: '3a2e1a' },
+      ],
+      colors: {
+        'editor.background': '#f9f4e7',
+        'editor.foreground': '#2e281c',
+        'editor.lineHighlightBackground': '#ede3c6',
+        'editor.selectionBackground': '#d8c89a',
+        'editorLineNumber.foreground': '#b4a47a',
+        'editorLineNumber.activeForeground': '#0c5a7a',
+        'editor.inactiveSelectionBackground': '#ede3c6',
+        'editorIndentGuide.background': '#d8c89a',
+        'editorCursor.foreground': '#0c5a7a',
+        'editorWhitespace.foreground': '#d8c89a',
+      }
+    })
+    monaco.editor.setTheme(themeName)
 
     // Focus and layout
     setTimeout(() => {
@@ -61,7 +115,7 @@ export default function EditorPanel({ code, onChange, editorRef }: Props) {
   }
 
   return (
-    <div className="h-full w-full flex flex-col bg-[#0d1117]">
+    <div className="h-full w-full flex flex-col bg-go-dark">
       <div className="h-8 flex items-center px-4 bg-go-surface/50 border-b border-go-border text-xs text-go-muted shrink-0">
         <span className="text-go-blue font-mono mr-2">&#9679;</span>
         exercise.go
@@ -77,7 +131,7 @@ export default function EditorPanel({ code, onChange, editorRef }: Props) {
           onMount={handleMount}
           options={{
             fontSize: 14,
-            fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+            fontFamily: fontFamily,
             fontLigatures: true,
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
@@ -98,7 +152,7 @@ export default function EditorPanel({ code, onChange, editorRef }: Props) {
             domReadOnly: false,
             readOnly: false,
           }}
-          theme="go-dojo"
+          theme={themeName}
           loading={<div className="text-go-muted">Loading...</div>}
         />
       </div>

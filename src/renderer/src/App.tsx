@@ -28,6 +28,21 @@ export default function App() {
   const [filterCategory, setFilterCategory] = useState<Category | 'all' | 'bookmarks'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [lockedToast, setLockedToast] = useState<string | null>(null)
+  const [theme, setTheme] = useState<'dark' | 'paper'>(() =>
+    (localStorage.getItem('go-dojo-theme') as 'dark' | 'paper') || 'dark'
+  )
+  const [dyslexicFont, setDyslexicFont] = useState<boolean>(() =>
+    localStorage.getItem('go-dojo-font-dyslexic') === '1'
+  )
+
+  useEffect(() => {
+    document.body.classList.toggle('theme-paper', theme === 'paper')
+    localStorage.setItem('go-dojo-theme', theme)
+  }, [theme])
+  useEffect(() => {
+    document.body.classList.toggle('font-dyslexic', dyslexicFont)
+    localStorage.setItem('go-dojo-font-dyslexic', dyslexicFont ? '1' : '0')
+  }, [dyslexicFont])
   const editorRef = useRef<any>(null)
   const progressRef = useRef(progress)
   const currentCodeRef = useRef(currentCode)
@@ -425,6 +440,26 @@ export default function App() {
                 </button>
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setTheme(theme === 'dark' ? 'paper' : 'dark')}
+                  className="px-2 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                  title={theme === 'dark' ? 'Switch to paper theme' : 'Switch to dark theme'}
+                  aria-label="Toggle theme"
+                >
+                  {theme === 'dark' ? '☽' : '☼'}
+                </button>
+                <button
+                  onClick={() => setDyslexicFont(!dyslexicFont)}
+                  className={`px-2 py-1.5 text-xs border rounded-md transition-all ${
+                    dyslexicFont
+                      ? 'bg-go-blue/20 border-go-blue/40 text-go-blue'
+                      : 'bg-go-surface hover:bg-go-surface2 border-go-border text-go-muted hover:text-go-text'
+                  }`}
+                  title={dyslexicFont ? 'Use default font' : 'Use dyslexia-friendly font (Lexend)'}
+                  aria-pressed={dyslexicFont}
+                >
+                  Aa
+                </button>
                 <button
                   onClick={resetExercise}
                   className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
