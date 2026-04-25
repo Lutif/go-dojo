@@ -21,9 +21,9 @@ import _basics_20_runes from './basics_20_runes'
 import _basics_21_string_builder from './basics_21_string_builder'
 import _basics_22_arrays from './basics_22_arrays'
 import _basics_23_slices from './basics_23_slices'
-import _basics_24_slice_operations from './basics_24_slice_operations'
-import _basics_25_maps from './basics_25_maps'
-import _basics_26_map_operations from './basics_26_map_operations'
+import _basics_24_maps from './basics_24_maps'
+import _basics_25_map_operations from './basics_25_map_operations'
+import _basics_26_slice_operations from './basics_26_slice_operations'
 import _basics_27_structs from './basics_27_structs'
 import _basics_28_struct_methods from './basics_28_struct_methods'
 import _basics_29_pointers from './basics_29_pointers'
@@ -53,9 +53,9 @@ export const exercises = [
   _basics_21_string_builder,
   _basics_22_arrays,
   _basics_23_slices,
-  _basics_24_slice_operations,
-  _basics_25_maps,
-  _basics_26_map_operations,
+  _basics_24_maps,
+  _basics_25_map_operations,
+  _basics_26_slice_operations,
   _basics_27_structs,
   _basics_28_struct_methods,
   _basics_29_pointers,

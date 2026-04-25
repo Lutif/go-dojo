@@ -1,12 +1,12 @@
 import { Exercise } from '../../types'
 
 const exercise: Exercise = {
-  id: 'types_04_empty_interface',
+  id: 'types_06_empty_interface',
   title: 'Empty Interface',
   category: 'Type System',
   subcategory: 'Interfaces',
   difficulty: 'beginner',
-  order: 4,
+  order: 6,
   description: `The empty interface \`interface{}\` (or \`any\` since Go 1.18) has no methods, so every type satisfies it. It's Go's version of "accept anything":
 
 \`\`\`

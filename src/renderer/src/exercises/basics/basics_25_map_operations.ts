@@ -1,12 +1,12 @@
 import { Exercise } from '../../types'
 
 const exercise: Exercise = {
-  id: 'basics_26_map_operations',
+  id: 'basics_25_map_operations',
   title: 'Map Operations',
   category: 'Basics',
   subcategory: 'Collections',
   difficulty: 'beginner',
-  order: 26,
+  order: 25,
   description: `Because a missing key still yields a value (the type’s **zero**), a single \`m[k]\` cannot tell you whether the key was stored or "just absent." The **comma-ok** form, \`v, ok := m[k]\`, returns both the value and a \`bool\` that is \`true\` when the key is present, \`false\` when it is not. Use that whenever zero is a legitimate stored value. The built-in \`delete(m, k)\` removes a key; it is safe to call on a missing key. Iteration is \`for k, v := range m\`; order is **not** defined, so if you need sorted order, copy keys to a slice and sort (as in this exercise’s \`Keys\` function).
 
 \`\`\`

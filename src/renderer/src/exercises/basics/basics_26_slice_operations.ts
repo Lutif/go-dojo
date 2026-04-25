@@ -1,12 +1,12 @@
 import { Exercise } from '../../types'
 
 const exercise: Exercise = {
-  id: 'basics_24_slice_operations',
+  id: 'basics_26_slice_operations',
   title: 'Slice Operations',
   category: 'Basics',
   subcategory: 'Collections',
   difficulty: 'beginner',
-  order: 24,
+  order: 26,
   description: `You can take a **window** over an existing slice with \`s[low:high]\`. The interval is **half-open**: index \`low\` is included, \`high\` is excluded, like many APIs in other languages. Omit \`low\` and it is \`0\`; omit \`high\` and it is \`len(s)\`. These windows are usually **shallow** views: the new header points at the same backing array, so an element in the overlap is **one** storage cell — a write through one sub-slice can be seen through another. If you need a true duplicate, use \`copy\` (or \`append\` into a new slice) so the new data is independent. Reslicing and \`append\` are the tools for delete, split, and chunk patterns in application code.
 
 \`\`\`

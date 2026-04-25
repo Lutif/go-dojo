@@ -33,7 +33,8 @@ Your task: use WaitGroup to coordinate concurrent work.`,
 import "sync"
 
 // ConcurrentSum adds all numbers concurrently, one goroutine per number.
-// Each goroutine adds its number to a shared result (use a mutex).
+// Have each goroutine write its value into a unique slot of a partials slice
+// (so no synchronization is needed), then sum the slice after Wait returns.
 // Use WaitGroup to wait for all goroutines.
 func ConcurrentSum(nums []int) int {
 	// TODO
@@ -138,21 +139,23 @@ func TestBarrier(t *testing.T) {
 import "sync"
 
 func ConcurrentSum(nums []int) int {
-	var mu sync.Mutex
+	partials := make([]int, len(nums))
 	var wg sync.WaitGroup
-	sum := 0
 
-	for _, n := range nums {
+	for i, n := range nums {
 		wg.Add(1)
-		go func(val int) {
+		go func(idx, val int) {
 			defer wg.Done()
-			mu.Lock()
-			sum += val
-			mu.Unlock()
-		}(n)
+			partials[idx] = val
+		}(i, n)
 	}
 
 	wg.Wait()
+
+	sum := 0
+	for _, p := range partials {
+		sum += p
+	}
 	return sum
 }
 
@@ -191,7 +194,7 @@ func Barrier(n int) <-chan bool {
 	return done
 }`,
   hints: [
-    'ConcurrentSum: protect the shared sum with sync.Mutex. Each goroutine locks, adds, unlocks. Pass the number as a parameter to avoid closure capture issues.',
+    'ConcurrentSum: pre-allocate a partials slice the same length as nums. Each goroutine writes its value to partials[i] — different indices, so no synchronization is needed. After Wait, fold the slice into a sum.',
     'ParallelMap: pre-allocate the results slice, write to results[idx] in each goroutine — no mutex needed since each writes to a different index.',
     'Barrier: create n goroutines with wg.Add(n), launch another goroutine that calls wg.Wait() then sends on the channel.'
   ],

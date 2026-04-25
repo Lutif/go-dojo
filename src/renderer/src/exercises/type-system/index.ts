@@ -1,9 +1,9 @@
 import _types_01_interfaces from './types_01_interfaces'
 import _types_02_implicit_implementation from './types_02_implicit_implementation'
 import _types_03_interface_composition from './types_03_interface_composition'
-import _types_04_empty_interface from './types_04_empty_interface'
-import _types_05_type_assertions from './types_05_type_assertions'
-import _types_06_type_switch from './types_06_type_switch'
+import _types_04_type_assertions from './types_04_type_assertions'
+import _types_05_type_switch from './types_05_type_switch'
+import _types_06_empty_interface from './types_06_empty_interface'
 import _types_07_custom_types from './types_07_custom_types'
 import _types_08_type_aliases from './types_08_type_aliases'
 import _types_09_stringer_interface from './types_09_stringer_interface'
@@ -23,9 +23,9 @@ export const exercises = [
   _types_01_interfaces,
   _types_02_implicit_implementation,
   _types_03_interface_composition,
-  _types_04_empty_interface,
-  _types_05_type_assertions,
-  _types_06_type_switch,
+  _types_04_type_assertions,
+  _types_05_type_switch,
+  _types_06_empty_interface,
   _types_07_custom_types,
   _types_08_type_aliases,
   _types_09_stringer_interface,

@@ -1,12 +1,12 @@
 import { Exercise } from '../../types'
 
 const exercise: Exercise = {
-  id: 'basics_25_maps',
+  id: 'basics_24_maps',
   title: 'Maps',
   category: 'Basics',
   subcategory: 'Collections',
   difficulty: 'beginner',
-  order: 25,
+  order: 24,
   description: `A \`map[K]V\` is an associative container: you look up values of type V by a **key** of type K. Insert or update with \`m[key] = value\`, read with \`m[key]\` (if the key is missing, you get the value type’s **zero value**, which is ambiguous — the next exercise fixes that with a two-value lookup). A map variable is \`nil\` until you assign a map created with a composite literal or \`make\`; a **nil** map can be read from (it behaves like empty) but must not be **written** to — you need a real map for assignment. The zero value of a map is \`nil\`; the zero value of an entry is separate.
 
 \`\`\`

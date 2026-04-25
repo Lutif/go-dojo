@@ -1,12 +1,12 @@
 import { Exercise } from '../../types'
 
 const exercise: Exercise = {
-  id: 'types_06_type_switch',
+  id: 'types_05_type_switch',
   title: 'Type Switch',
   category: 'Type System',
   subcategory: 'Interfaces',
   difficulty: 'intermediate',
-  order: 6,
+  order: 5,
   description: `A type switch is like a regular switch but tests types instead of values:
 
 \`\`\`

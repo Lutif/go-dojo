@@ -1,12 +1,12 @@
 import { Exercise } from '../../types'
 
 const exercise: Exercise = {
-  id: 'types_05_type_assertions',
+  id: 'types_04_type_assertions',
   title: 'Type Assertions',
   category: 'Type System',
   subcategory: 'Interfaces',
   difficulty: 'intermediate',
-  order: 5,
+  order: 4,
   description: `Type assertions extract the concrete type from an interface value:
 
 \`\`\`
