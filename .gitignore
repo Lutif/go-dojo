@@ -6,7 +6,8 @@ pnpm-lock.yaml
 # Build outputs
 dist/
 out/
-build/
+build/*
+!build/entitlements.mac.plist
 *.exe
 *.dmg
 *.AppImage
