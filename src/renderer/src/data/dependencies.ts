@@ -51,7 +51,7 @@ export const REQUIRES: Record<string, string[]> = {
   'types_13_generic_constraints':    ['types_12_generic_types'],
   'types_14_type_sets':              ['types_13_generic_constraints'],
   'types_15_struct_embedding':       ['basics_27_structs'],
-  'types_16_interface_embedding':    ['types_03_interface_composition', 'errors_01_basics'],
+  'types_16_interface_embedding':    ['types_03_interface_composition'],
   'types_17_comparable_constraint':  ['types_11_generic_functions'],
   'types_18_method_sets':            ['types_01_interfaces', 'basics_28_struct_methods'],
   'types_19_type_parameters':        ['types_13_generic_constraints'],

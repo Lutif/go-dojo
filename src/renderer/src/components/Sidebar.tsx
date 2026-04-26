@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Exercise, Category, ProgressData, ExerciseStatus } from '../types'
 
 interface Props {
@@ -114,11 +114,12 @@ function ProjectRow({
             return (
               <button
                 key={ex.id}
+                data-exercise-id={ex.id}
                 onClick={() => onSelectExercise(ex)}
-                disabled={locked}
-                className={`w-full text-left px-3 py-1.5 flex items-center gap-2 transition-all ${
-                  locked ? 'cursor-not-allowed' : 'hover:bg-go-surface2/50'
-                } ${active ? 'bg-go-surface2 border-r-2 border-go-blue' : ''}`}
+                title={locked ? 'Locked — click to see prerequisites' : undefined}
+                className={`w-full text-left px-3 py-1.5 flex items-center gap-2 transition-all hover:bg-go-surface2/50 ${
+                  active ? 'bg-go-surface2 border-r-2 border-go-blue' : ''
+                }`}
               >
                 {/* Step indicator */}
                 <span className={`w-5 h-5 rounded flex items-center justify-center text-[9px] font-bold shrink-0 ${
@@ -161,6 +162,17 @@ export default function Sidebar({
   const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
   const bookmarks = progress.bookmarks ?? {}
   const bookmarkCount = Object.keys(bookmarks).filter((id) => bookmarks[id]).length
+
+  // Scroll the selected exercise into view when it changes (e.g. via locked-modal navigation)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!selectedExercise) return
+    const id = selectedExercise.id
+    requestAnimationFrame(() => {
+      const el = scrollContainerRef.current?.querySelector<HTMLElement>(`[data-exercise-id="${id}"]`)
+      if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    })
+  }, [selectedExercise?.id])
 
   // Group exercises by category first
   const grouped = exercises.reduce<Record<string, Exercise[]>>((acc, ex) => {
@@ -292,7 +304,7 @@ export default function Sidebar({
       </div>
 
       {/* Exercise list */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto" ref={scrollContainerRef}>
         {filterCategory === 'bookmarks' && bookmarkCount === 0 && (
           <div className="px-4 py-8 text-center text-go-muted text-sm">
             <div className="text-2xl mb-2 opacity-60">☆</div>
@@ -338,11 +350,12 @@ export default function Sidebar({
                   return (
                     <button
                       key={ex.id}
+                      data-exercise-id={ex.id}
                       onClick={() => onSelectExercise(ex)}
-                      disabled={locked}
-                      className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-all ${
-                        locked ? 'cursor-not-allowed' : 'hover:bg-go-surface2/50'
-                      } ${active ? 'bg-go-surface2 border-l-2 border-go-blue' : 'border-l-2 border-transparent'}`}
+                      title={locked ? 'Locked — click to see prerequisites' : undefined}
+                      className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-all hover:bg-go-surface2/50 ${
+                        active ? 'bg-go-surface2 border-l-2 border-go-blue' : 'border-l-2 border-transparent'
+                      }`}
                     >
                       <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 ${
                         done

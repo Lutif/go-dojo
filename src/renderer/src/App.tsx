@@ -27,7 +27,7 @@ export default function App() {
   const [goVersion, setGoVersion] = useState<string | null>(null)
   const [filterCategory, setFilterCategory] = useState<Category | 'all' | 'bookmarks'>('all')
   const [searchQuery, setSearchQuery] = useState('')
-  const [lockedToast, setLockedToast] = useState<string | null>(null)
+  const [lockedExercise, setLockedExercise] = useState<Exercise | null>(null)
   const [theme, setTheme] = useState<'dark' | 'paper'>(() =>
     (localStorage.getItem('go-dojo-theme') as 'dark' | 'paper') || 'dark'
   )
@@ -116,15 +116,13 @@ export default function App() {
   const selectExercise = useCallback(
     async (exercise: Exercise) => {
       if (status[exercise.id] === 'locked') {
-        const prereqs = REQUIRES[exercise.id] ?? []
-        const missing = prereqs.filter((id) => !progressRef.current.completed[id])
-        const missingTitles = missing.slice(0, 2).map((id) => {
-          const ex = exercises.find((e) => e.id === id)
-          return ex?.title ?? id
-        })
-        setLockedToast(`Complete prerequisites first: ${missingTitles.join(', ')}`)
-        setTimeout(() => setLockedToast(null), 3500)
+        setLockedExercise(exercise)
         return
+      }
+
+      // If filtered out by category, reveal it
+      if (filterCategory !== 'all' && filterCategory !== 'bookmarks' && filterCategory !== exercise.category) {
+        setFilterCategory(exercise.category)
       }
 
       let stored = progressRef.current
@@ -345,10 +343,66 @@ export default function App() {
 
   return (
     <div className="h-screen flex bg-go-darker overflow-hidden">
-      {/* Locked exercise toast */}
-      {lockedToast && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-go-surface border border-go-warning/50 rounded-lg text-go-warning text-sm shadow-lg animate-fade-in">
-          {lockedToast}
+      {/* Locked exercise modal */}
+      {lockedExercise && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 animate-fade-in"
+          onClick={() => setLockedExercise(null)}
+        >
+          <div
+            className="max-w-md w-full mx-4 bg-go-surface border border-go-border rounded-lg shadow-xl p-5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-2xl">🔒</span>
+              <h3 className="text-go-text text-base font-semibold flex-1">
+                {lockedExercise.title}
+              </h3>
+              <button
+                onClick={() => setLockedExercise(null)}
+                className="text-go-muted hover:text-go-text text-xl leading-none"
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+            <p className="text-go-muted text-sm mb-3">
+              Complete these first:
+            </p>
+            <ul className="space-y-1.5">
+              {(REQUIRES[lockedExercise.id] ?? [])
+                .filter((id) => !progress.completed[id])
+                .map((id) => {
+                  const ex = exercises.find((e) => e.id === id)
+                  if (!ex) return null
+                  const reqStatus = status[id] ?? 'available'
+                  const reqLocked = reqStatus === 'locked'
+                  return (
+                    <li key={id}>
+                      <button
+                        onClick={() => {
+                          setLockedExercise(null)
+                          selectExercise(ex)
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-md border transition-colors ${
+                          reqLocked
+                            ? 'border-go-border/40 bg-go-surface2/30 text-go-muted'
+                            : 'border-go-blue/40 bg-go-blue/10 text-go-blue hover:bg-go-blue/20'
+                        }`}
+                      >
+                        <span className="text-[10px] uppercase tracking-wide text-go-muted/70 mr-2">
+                          {ex.category}
+                        </span>
+                        <span className="text-sm">{ex.title}</span>
+                        {reqLocked && (
+                          <span className="ml-2 text-[10px] text-go-muted">also locked</span>
+                        )}
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
+          </div>
         </div>
       )}
 

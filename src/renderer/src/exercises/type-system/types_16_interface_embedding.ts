@@ -116,10 +116,7 @@ func TestProcessDocumentInvalid(t *testing.T) {
 }`,
   solution: `package main
 
-import (
-	"errors"
-	"fmt"
-)
+import "fmt"
 
 type Printer interface {
 	Print() string
@@ -154,7 +151,7 @@ func (r Report) Save() string {
 
 func (r Report) Validate() error {
 	if r.Title == "" {
-		return errors.New("title is required")
+		return fmt.Errorf("title is required")
 	}
 	return nil
 }
@@ -169,7 +166,7 @@ func ProcessDocument(doc Document) string {
   hints: [
     'Compose interfaces: type Document interface { Printer; Saver; Validator }',
     'Report must implement all three methods (Print, Save, Validate) to satisfy Document.',
-    'For Validate, return errors.New("message") for invalid, nil for valid. Import "errors".'
+    'For Validate, return fmt.Errorf("message") for invalid, nil for valid.'
   ],
 }
 
