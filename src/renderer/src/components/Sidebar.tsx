@@ -17,6 +17,8 @@ interface Props {
   onSearchQuery: (q: string) => void
   onToggleCollapse: () => void
   onGoToDashboard: () => void
+  onStartTest?: () => void
+  testModeActive?: boolean
 }
 
 const categoryIcons: Record<string, string> = {
@@ -158,6 +160,7 @@ export default function Sidebar({
   filterCategory, searchQuery, collapsed,
   completedCount, totalCount,
   onSelectExercise, onFilterCategory, onSearchQuery, onToggleCollapse, onGoToDashboard,
+  onStartTest, testModeActive,
 }: Props) {
   const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
   const bookmarks = progress.bookmarks ?? {}
@@ -291,6 +294,23 @@ export default function Sidebar({
           >
             ★ {bookmarkCount > 0 ? bookmarkCount : ''}
           </button>
+          {onStartTest && (
+            <button
+              type="button"
+              onClick={onStartTest}
+              disabled={bookmarkCount === 0}
+              title={bookmarkCount === 0 ? 'Bookmark exercises to enable test mode' : 'Quiz: random bookmarked exercise, no hints'}
+              className={`px-2 py-0.5 text-xs rounded transition-all ${
+                testModeActive
+                  ? 'bg-go-blue text-white'
+                  : bookmarkCount === 0
+                  ? 'bg-go-surface text-go-muted/40 cursor-not-allowed'
+                  : 'bg-go-surface text-go-muted hover:text-go-blue'
+              }`}
+            >
+              🎯 Test
+            </button>
+          )}
           {categories.map((cat) => (
             <button
               key={cat.name}

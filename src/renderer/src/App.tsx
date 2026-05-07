@@ -28,6 +28,7 @@ export default function App() {
   const [filterCategory, setFilterCategory] = useState<Category | 'all' | 'bookmarks'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [lockedExercise, setLockedExercise] = useState<Exercise | null>(null)
+  const [testMode, setTestMode] = useState(false)
   const [theme, setTheme] = useState<'dark' | 'paper'>(() =>
     (localStorage.getItem('go-dojo-theme') as 'dark' | 'paper') || 'dark'
   )
@@ -114,7 +115,7 @@ export default function App() {
   }, [])
 
   const selectExercise = useCallback(
-    async (exercise: Exercise) => {
+    async (exercise: Exercise, opts?: { freshCode?: string }) => {
       if (status[exercise.id] === 'locked') {
         setLockedExercise(exercise)
         return
@@ -126,7 +127,10 @@ export default function App() {
       }
 
       let stored = progressRef.current
-      if (selectedExercise && selectedExercise.id !== exercise.id) {
+      // Persist the leaving exercise's draft — but NOT if we're in test mode,
+      // where currentCode is the comment-stripped scratchpad and would clobber
+      // the real draft.
+      if (selectedExercise && selectedExercise.id !== exercise.id && !testMode) {
         const next: ProgressData = {
           ...stored,
           drafts: { ...stored.drafts, [selectedExercise.id]: currentCodeRef.current },
@@ -143,15 +147,19 @@ export default function App() {
       setHintIndex(0)
       setShowSolution(false)
 
-      const draft = stored.drafts?.[exercise.id]
-      const submitted = stored.submitted?.[exercise.id]
-      setCurrentCode(draft ?? submitted ?? exercise.code)
+      if (opts?.freshCode != null) {
+        setCurrentCode(opts.freshCode)
+      } else {
+        const draft = stored.drafts?.[exercise.id]
+        const submitted = stored.submitted?.[exercise.id]
+        setCurrentCode(draft ?? submitted ?? exercise.code)
+      }
     },
-    [status, exercises, selectedExercise]
+    [status, exercises, selectedExercise, testMode]
   )
 
   const goToDashboard = useCallback(() => {
-    if (selectedExercise) {
+    if (selectedExercise && !testMode) {
       const prev = progressRef.current
       const next: ProgressData = {
         ...prev,
@@ -161,12 +169,14 @@ export default function App() {
       setProgress(next)
       progressRef.current = next
     }
+    if (testMode) setTestMode(false)
     setSelectedExercise(null)
-  }, [selectedExercise])
+  }, [selectedExercise, testMode])
 
-  // Autosave draft while editing (debounced)
+  // Autosave draft while editing (debounced) — skipped in test mode so the
+  // real draft/submitted solution isn't clobbered by a test-mode rewrite.
   useEffect(() => {
-    if (!selectedExercise) return
+    if (!selectedExercise || testMode) return
     const id = selectedExercise.id
     const code = currentCode
     const t = window.setTimeout(() => {
@@ -181,7 +191,7 @@ export default function App() {
       progressRef.current = next
     }, 1500)
     return () => clearTimeout(t)
-  }, [currentCode, selectedExercise])
+  }, [currentCode, selectedExercise, testMode])
 
   const runCode = useCallback(async () => {
     if (!selectedExercise || running) return
@@ -191,13 +201,16 @@ export default function App() {
 
     try {
       const prev = progressRef.current
-      const withDraft: ProgressData = {
-        ...prev,
-        drafts: { ...prev.drafts, [id]: currentCode },
+      // In test mode, don't persist the run code to drafts — it would overwrite
+      // the user's saved solution with the comment-stripped starter / test answer.
+      const withDraft: ProgressData = testMode
+        ? prev
+        : { ...prev, drafts: { ...prev.drafts, [id]: currentCode } }
+      if (!testMode) {
+        setProgress(withDraft)
+        progressRef.current = withDraft
+        await window.api.saveProgress(withDraft)
       }
-      setProgress(withDraft)
-      progressRef.current = withDraft
-      await window.api.saveProgress(withDraft)
 
       const result = await window.api.runExercise(
         currentCode,
@@ -207,12 +220,22 @@ export default function App() {
 
       setOutput(result)
 
-      if (result.passed) {
+      if (result.passed && !testMode) {
         const next: ProgressData = {
           ...withDraft,
           completed: { ...withDraft.completed, [id]: true },
           drafts: { ...withDraft.drafts, [id]: currentCode },
           submitted: { ...withDraft.submitted, [id]: currentCode },
+        }
+        setProgress(next)
+        progressRef.current = next
+        await window.api.saveProgress(next)
+      } else if (result.passed && testMode) {
+        // Mark complete (user proved they can still solve it) but keep the
+        // existing submitted solution intact.
+        const next: ProgressData = {
+          ...prev,
+          completed: { ...prev.completed, [id]: true },
         }
         setProgress(next)
         progressRef.current = next
@@ -223,7 +246,7 @@ export default function App() {
     } finally {
       setRunning(false)
     }
-  }, [selectedExercise, currentCode, running])
+  }, [selectedExercise, currentCode, running, testMode])
 
   const resetExercise = useCallback(async () => {
     if (!selectedExercise) return
@@ -259,6 +282,98 @@ export default function App() {
       selectExercise(filtered[idx - 1])
     }
   }, [selectedExercise, filterCategory, searchQuery, status, progress.bookmarks, exercises, selectExercise])
+
+  // Strip Go comments — test mode hides them so the user gets a blank canvas.
+  // Preserves strings (// or /* inside a string literal stays intact).
+  const stripGoComments = (src: string): string => {
+    let out = ''
+    let i = 0
+    const n = src.length
+    while (i < n) {
+      const c = src[i]
+      // double-quoted string
+      if (c === '"') {
+        out += c; i++
+        while (i < n && src[i] !== '"') {
+          if (src[i] === '\\' && i + 1 < n) { out += src[i] + src[i+1]; i += 2; continue }
+          out += src[i]; i++
+        }
+        if (i < n) { out += src[i]; i++ }
+        continue
+      }
+      // raw string
+      if (c === '`') {
+        out += c; i++
+        while (i < n && src[i] !== '`') { out += src[i]; i++ }
+        if (i < n) { out += src[i]; i++ }
+        continue
+      }
+      // line comment
+      if (c === '/' && src[i+1] === '/') {
+        while (i < n && src[i] !== '\n') i++
+        continue
+      }
+      // block comment
+      if (c === '/' && src[i+1] === '*') {
+        i += 2
+        while (i < n && !(src[i] === '*' && src[i+1] === '/')) i++
+        i += 2
+        continue
+      }
+      out += c; i++
+    }
+    // Collapse runs of blank lines and trim trailing whitespace per line
+    return out
+      .split('\n')
+      .map((line) => line.replace(/[ \t]+$/, ''))
+      .join('\n')
+      .replace(/\n{3,}/g, '\n\n')
+  }
+
+  const pickRandomBookmark = useCallback((excludeId?: string) => {
+    const bookmarkIds = Object.keys(progressRef.current.bookmarks ?? {}).filter(
+      (id) => progressRef.current.bookmarks?.[id]
+    )
+    const candidates = bookmarkIds
+      .filter((id) => id !== excludeId)
+      .map((id) => exercises.find((e) => e.id === id))
+      .filter((e): e is Exercise => !!e && status[e.id] !== 'locked')
+    if (candidates.length === 0) {
+      // fallback: include the excluded one if it's the only bookmark
+      const all = bookmarkIds
+        .map((id) => exercises.find((e) => e.id === id))
+        .filter((e): e is Exercise => !!e && status[e.id] !== 'locked')
+      if (all.length === 0) return null
+      return all[Math.floor(Math.random() * all.length)]
+    }
+    return candidates[Math.floor(Math.random() * candidates.length)]
+  }, [exercises, status])
+
+  const startTestMode = useCallback(() => {
+    const next = pickRandomBookmark(selectedExercise?.id)
+    if (!next) return
+    setTestMode(true)
+    setShowHints(false)
+    setShowSolution(false)
+    selectExercise(next, { freshCode: stripGoComments(next.code) })
+  }, [pickRandomBookmark, selectExercise, selectedExercise?.id])
+
+  const nextRandomTest = useCallback(() => {
+    const next = pickRandomBookmark(selectedExercise?.id)
+    if (!next) { setTestMode(false); return }
+    selectExercise(next, { freshCode: stripGoComments(next.code) })
+  }, [pickRandomBookmark, selectExercise, selectedExercise?.id])
+
+  const exitTestMode = useCallback(() => {
+    setTestMode(false)
+    // Restore the saved draft/submitted solution for the current exercise
+    if (selectedExercise) {
+      const stored = progressRef.current
+      const draft = stored.drafts?.[selectedExercise.id]
+      const submitted = stored.submitted?.[selectedExercise.id]
+      setCurrentCode(draft ?? submitted ?? selectedExercise.code)
+    }
+  }, [selectedExercise])
 
   const toggleBookmark = useCallback(
     async (exerciseId: string) => {
@@ -423,6 +538,8 @@ export default function App() {
         onSearchQuery={setSearchQuery}
         onToggleCollapse={() => toggleExerciseUi('sidebarCollapsed')}
         onGoToDashboard={goToDashboard}
+        onStartTest={startTestMode}
+        testModeActive={testMode}
       />
 
       {/* Main content */}
@@ -521,18 +638,40 @@ export default function App() {
                 >
                   Reset
                 </button>
-                <button
-                  onClick={() => { setShowHints(!showHints); setShowSolution(false) }}
-                  className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
-                >
-                  {showHints ? 'Hide Hints' : 'Hints'}
-                </button>
-                <button
-                  onClick={() => { setShowSolution(!showSolution); setShowHints(false) }}
-                  className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
-                >
-                  {showSolution ? 'Hide Solution' : 'Solution'}
-                </button>
+                {!testMode && (
+                  <>
+                    <button
+                      onClick={() => { setShowHints(!showHints); setShowSolution(false) }}
+                      className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                    >
+                      {showHints ? 'Hide Hints' : 'Hints'}
+                    </button>
+                    <button
+                      onClick={() => { setShowSolution(!showSolution); setShowHints(false) }}
+                      className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                    >
+                      {showSolution ? 'Hide Solution' : 'Solution'}
+                    </button>
+                  </>
+                )}
+                {testMode && (
+                  <>
+                    <button
+                      onClick={nextRandomTest}
+                      className="px-3 py-1.5 text-xs bg-go-blue/20 border border-go-blue/40 text-go-blue hover:bg-go-blue/30 rounded-md transition-all"
+                      title="Skip to another random bookmarked exercise"
+                    >
+                      🎯 Next
+                    </button>
+                    <button
+                      onClick={exitTestMode}
+                      className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                      title="Exit test mode"
+                    >
+                      Exit Test
+                    </button>
+                  </>
+                )}
                 <button
                   onClick={runCode}
                   disabled={running}
@@ -580,9 +719,10 @@ export default function App() {
                     <div className="flex-1 min-h-0 overflow-hidden flex flex-col border-b border-go-border/50">
                       <ExerciseInfo
                         exercise={selectedExercise}
-                        showHints={showHints}
+                        showHints={showHints && !testMode}
                         hintIndex={hintIndex}
-                        showSolution={showSolution}
+                        showSolution={showSolution && !testMode}
+                        testMode={testMode}
                         status={status}
                         allExercises={exercises}
                         onNextHint={() =>

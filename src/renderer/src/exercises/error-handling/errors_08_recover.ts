@@ -6,7 +6,7 @@ const exercise: Exercise = {
   category: 'Error Handling',
   subcategory: 'Panic & Recover',
   difficulty: 'intermediate',
-  order: 8,
+  order: 9,
   description: `\`recover()\` catches a panic and returns the panic value. It only works inside a \`defer\`red function:
 
 \`\`\`

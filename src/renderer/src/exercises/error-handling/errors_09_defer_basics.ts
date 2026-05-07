@@ -6,29 +6,31 @@ const exercise: Exercise = {
   category: 'Error Handling',
   subcategory: 'Defer',
   difficulty: 'beginner',
-  order: 9,
+  order: 8,
   description: `\`defer\` schedules a function call to run when the enclosing function returns. Key rules:
 1. Deferred calls execute in **LIFO** order (last deferred = first executed)
 2. Arguments are evaluated **immediately** when defer is called
-3. Deferred functions run even if the function panics
+3. Deferred functions run **after** the return value is set but **before** the function exits
+4. To modify the return value from a defer, use **named return values**
 
 \`\`\`
-func example() {
-    defer fmt.Println("first")
-    defer fmt.Println("second")
-    fmt.Println("main")
+func example() (result string) {
+    defer func() { result += " world" }()
+    result = "hello"
+    return result // returns "hello world"
 }
-// Output: main, second, first
 \`\`\`
 
-Your task: predict and work with defer execution order.`,
+Without a named return, \`return result\` copies the value and deferred modifications to the local variable are lost.
+
+Your task: predict and work with defer execution order using named returns.`,
   code: `package main
 
 // DeferOrder returns a slice showing the order of execution
 // when multiple defers are stacked.
 // Use append in deferred calls and in regular code.
-func DeferOrder() []string {
-	result := []string{}
+// Hint: use named return so deferred closures can modify the result.
+func DeferOrder() (result []string) {
 	// TODO: Append "a" normally
 	// Defer appending "b"
 	// Append "c" normally
@@ -39,13 +41,12 @@ func DeferOrder() []string {
 }
 
 // CountDown returns ["3", "2", "1", "Go!"]
-// Use defer with an argument to capture values.
-// Remember: defer arguments are evaluated immediately!
-func CountDown() []string {
-	result := []string{}
-	// TODO: Use a loop from 3 to 1 with defer
-	// Then append "Go!" normally
-	// Hint: defer evaluates args at defer time, not at execution time
+// Use defer for everything — remember LIFO order!
+// Hint: use named return so deferred closures can modify the result.
+func CountDown() (result []string) {
+	// TODO: Defer appending "Go!" first (so it runs last — LIFO)
+	// Then loop from 1 to 3, deferring each number
+	// LIFO means 3 runs first, then 2, then 1, then "Go!"
 	return result
 }
 
@@ -95,8 +96,7 @@ func TestWithCleanup(t *testing.T) {
 
 import "fmt"
 
-func DeferOrder() []string {
-	result := []string{}
+func DeferOrder() (result []string) {
 	result = append(result, "a")
 	defer func() { result = append(result, "b") }()
 	result = append(result, "c")
@@ -105,13 +105,12 @@ func DeferOrder() []string {
 	return result
 }
 
-func CountDown() []string {
-	result := []string{}
+func CountDown() (result []string) {
+	defer func() { result = append(result, "Go!") }()
 	for i := 1; i <= 3; i++ {
 		i := i // capture loop variable
 		defer func() { result = append(result, fmt.Sprintf("%d", i)) }()
 	}
-	result = append(result, "Go!")
 	return result
 }
 
@@ -120,8 +119,8 @@ func WithCleanup(action func() string, cleanup func()) string {
 	return action()
 }`,
   hints: [
-    'Defers run in LIFO order: the last defer runs first. So defer "b" then defer "d" → d runs before b.',
-    'For CountDown, use closures with a captured loop variable: i := i inside the loop.',
+    'Named return values let deferred closures modify the return value. Defers run in LIFO order: the last defer runs first.',
+    'For CountDown, use closures with a captured loop variable: i := i inside the loop. Named return is key here too.',
     'WithCleanup: just defer cleanup() on the first line, then call and return action().'
   ],
 }

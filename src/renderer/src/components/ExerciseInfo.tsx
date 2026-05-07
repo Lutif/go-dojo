@@ -6,14 +6,28 @@ interface Props {
   showHints: boolean
   hintIndex: number
   showSolution: boolean
+  testMode?: boolean
   status: Record<string, ExerciseStatus>
   allExercises: Exercise[]
   onNextHint: () => void
   onSelectExercise: (e: Exercise) => void
 }
 
+// In test mode, strip teaching prose and keep only the task statement.
+// Looks for a "Your task:" / "**Your task:**" marker; otherwise falls back to the last paragraph.
+function extractTaskOnly(description: string): string {
+  const taskRe = /\*\*\s*Your task\s*:?\s*\*\*|Your task\s*:/i
+  const m = description.match(taskRe)
+  if (m && m.index != null) {
+    return description.slice(m.index)
+  }
+  // fallback: last non-empty paragraph
+  const paragraphs = description.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+  return paragraphs[paragraphs.length - 1] || description
+}
+
 export default function ExerciseInfo({
-  exercise, showHints, hintIndex, showSolution,
+  exercise, showHints, hintIndex, showSolution, testMode = false,
   status, allExercises, onNextHint, onSelectExercise
 }: Props) {
   const prereqs = exercise.requires ?? []
@@ -88,10 +102,22 @@ export default function ExerciseInfo({
         <h1 className="text-xl font-bold text-go-text mb-1">{exercise.title}</h1>
 
         {/* Description */}
-        <div
-          className="exercise-description text-sm text-go-text/80 mt-3"
-          dangerouslySetInnerHTML={{ __html: formatDescription(exercise.description) }}
-        />
+        {testMode ? (
+          <div className="mt-3">
+            <div className="mb-2 text-[10px] uppercase tracking-wider text-go-blue font-semibold">
+              🎯 Test mode — task only
+            </div>
+            <div
+              className="exercise-description text-sm text-go-text/90"
+              dangerouslySetInnerHTML={{ __html: formatDescription(extractTaskOnly(exercise.description)) }}
+            />
+          </div>
+        ) : (
+          <div
+            className="exercise-description text-sm text-go-text/80 mt-3"
+            dangerouslySetInnerHTML={{ __html: formatDescription(exercise.description) }}
+          />
+        )}
 
         {/* Hints */}
         {showHints && exercise.hints.length > 0 && (

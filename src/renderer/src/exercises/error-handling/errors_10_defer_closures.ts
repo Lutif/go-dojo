@@ -27,26 +27,25 @@ Your task: demonstrate correct variable capture with deferred closures.`,
 
 import "fmt"
 
-// TrackChanges returns a slice of recorded changes.
-// The deferred closure should capture the FINAL value of status.
-func TrackChanges() string {
+// TrackChanges returns the final value of status.
+// The deferred closure should capture the FINAL value of status
+// and assign it to the named return value.
+func TrackChanges() (finalStatus string) {
 	status := "pending"
-	var finalStatus string
 
 	// TODO: Defer a closure that captures status by reference
-	// and assigns it to finalStatus
+	// and assigns it to finalStatus (the named return)
 
 	status = "processing"
 	status = "complete"
 
-	_ = finalStatus
 	return finalStatus
 }
 
 // LoopCapture demonstrates the loop variable capture problem.
 // It should return [0, 1, 2] by correctly capturing each loop value.
-func LoopCapture() []int {
-	result := []int{}
+// Use a named return so deferred closures can modify the result.
+func LoopCapture() (result []int) {
 	// TODO: Loop i from 0 to 2
 	// Use defer with proper variable capture to append i values
 	// Remember: defers run in LIFO, so last deferred runs first
@@ -95,9 +94,8 @@ func TestModifyReturn(t *testing.T) {
 
 import "fmt"
 
-func TrackChanges() string {
+func TrackChanges() (finalStatus string) {
 	status := "pending"
-	var finalStatus string
 
 	defer func() {
 		finalStatus = status // captures status by reference — sees "complete"
@@ -109,8 +107,7 @@ func TrackChanges() string {
 	return finalStatus
 }
 
-func LoopCapture() []int {
-	result := []int{}
+func LoopCapture() (result []int) {
 	for i := 2; i >= 0; i-- {
 		i := i // shadow loop variable to capture current value
 		defer func() {
@@ -130,7 +127,7 @@ func ModifyReturn() (result int) {
 
 var _ = fmt.Sprintf`,
   hints: [
-    'Closures capture variables by reference — the deferred function sees the variable\'s value at execution time, not defer time.',
+    'Deferred closures can only modify the return value through named returns. Use a named return so the defer can set finalStatus.',
     'To capture the current value in a loop: i := i (shadow the variable), or pass as parameter: defer func(v int){...}(i)',
     'ModifyReturn: deferred closures can modify named return values because they run after the return statement sets them.'
   ],

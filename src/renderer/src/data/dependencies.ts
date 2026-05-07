@@ -65,7 +65,7 @@ export const REQUIRES: Record<string, string[]> = {
   'errors_05_as':           ['errors_03_wrapping'],
   'errors_06_sentinel':     ['errors_01_basics'],
   'errors_07_panic':        ['errors_01_basics'],
-  'errors_08_recover':      ['errors_07_panic'],
+  'errors_08_recover':      ['errors_07_panic', 'errors_09_defer_basics'],
   'errors_09_defer_basics': ['basics_09_functions'],
   'errors_10_defer_closures':['errors_09_defer_basics'],
   'errors_11_defer_cleanup': ['errors_09_defer_basics', 'errors_01_basics'],
