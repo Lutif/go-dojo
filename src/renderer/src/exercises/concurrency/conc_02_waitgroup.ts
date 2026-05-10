@@ -6,7 +6,7 @@ const exercise: Exercise = {
   category: 'Concurrency',
   subcategory: 'Goroutines',
   difficulty: 'beginner',
-  order: 2,
+  order: 4,
   description: `\`sync.WaitGroup\` waits for a collection of goroutines to finish:
 
 \`\`\`

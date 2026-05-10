@@ -6,7 +6,7 @@ const exercise: Exercise = {
   category: 'Concurrency',
   subcategory: 'Channels',
   difficulty: 'beginner',
-  order: 3,
+  order: 1,
   description: `Channels are Go's mechanism for goroutine communication. An **unbuffered** channel synchronizes sender and receiver:
 
 \`\`\`

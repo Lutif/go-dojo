@@ -80,9 +80,9 @@ export const REQUIRES: Record<string, string[]> = {
   // 05_channel_direction, 06_range_channel, 07_select_basic, 08_select_default,
   // 09_select_timeout, 10_mutex, 11_rwmutex, 12_once, 13_atomic,
   // 14_context_basic … 25_graceful_shutdown
-  'conc_01_goroutines':       ['basics_09_functions'],
+  'conc_03_channels_basic':   ['basics_09_functions'],
+  'conc_01_goroutines':       ['conc_03_channels_basic'],
   'conc_02_waitgroup':        ['conc_01_goroutines'],
-  'conc_03_channels_basic':   ['conc_01_goroutines'],
   'conc_04_buffered_channels':['conc_03_channels_basic'],
   'conc_05_channel_direction':['conc_03_channels_basic'],
   'conc_06_range_channel':    ['conc_03_channels_basic', 'basics_17_for_range'],
