@@ -6,7 +6,7 @@ const exercise: Exercise = {
   category: 'Concurrency',
   subcategory: 'Channels',
   difficulty: 'beginner',
-  order: 2,
+  order: 3,
   description: `Buffered channels have capacity — sends don't block until the buffer is full:
 
 \`\`\`

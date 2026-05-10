@@ -26,8 +26,8 @@ import _conc_25_graceful_shutdown from './conc_25_graceful_shutdown'
 
 export const exercises = [
   _conc_03_channels_basic,
-  _conc_04_buffered_channels,
   _conc_01_goroutines,
+  _conc_04_buffered_channels,
   _conc_02_waitgroup,
   _conc_05_channel_direction,
   _conc_06_range_channel,

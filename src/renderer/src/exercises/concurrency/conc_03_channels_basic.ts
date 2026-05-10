@@ -7,94 +7,81 @@ const exercise: Exercise = {
   subcategory: 'Channels',
   difficulty: 'beginner',
   order: 1,
-  description: `Channels are Go's mechanism for goroutine communication. An **unbuffered** channel synchronizes sender and receiver:
+  description: `Channels are typed conduits for passing values around. Create one with \`make\`:
 
+\`\`\`go
+ch := make(chan int)      // unbuffered (blocks on send until a receiver is ready)
+ch := make(chan int, 3)   // buffered with capacity 3
 \`\`\`
-ch := make(chan int)    // unbuffered channel
-go func() { ch <- 42 }()  // send (blocks until someone receives)
-val := <-ch               // receive (blocks until someone sends)
+
+With a **buffered** channel, sends don't block until the buffer is full, and receives don't block as long as there's data:
+
+\`\`\`go
+ch := make(chan string, 2)
+ch <- "hello"    // send a value
+ch <- "world"    // buffer has room, no block
+msg := <-ch      // receive: "hello"
 \`\`\`
 
-- Sending blocks until a receiver is ready
-- Receiving blocks until a sender is ready
-- This makes unbuffered channels a synchronization point
+You can also **close** a channel to signal no more values will be sent:
 
-Your task: use channels to communicate between goroutines.`,
+\`\`\`go
+close(ch)
+val, ok := <-ch  // ok is false when channel is closed and empty
+\`\`\`
+
+Your task: practice creating, sending, receiving, and closing channels.`,
   code: `package main
 
-// Sum sends the sum of nums on the returned channel.
-func Sum(nums []int) <-chan int {
-	// TODO: Create channel, launch goroutine to compute sum, send it
+// MakeMailbox creates a buffered string channel with the given capacity,
+// sends all messages into it, then returns the channel.
+func MakeMailbox(messages []string, capacity int) chan string {
+	// TODO: create a buffered channel, send each message, return the channel
 	return nil
 }
 
-// Ping sends "ping" on the channel, Pong receives from ping
-// and sends "pong" on its own channel.
-func Ping() <-chan string {
-	// TODO: Return a channel that will receive "ping"
+// Drain receives all values from ch until it is closed and returns them as a slice.
+func Drain(ch chan int) []int {
+	// TODO: use "for v := range ch" to collect values
 	return nil
 }
 
-func Pong(ping <-chan string) <-chan string {
-	// TODO: Read from ping, send "pong" on returned channel
-	return nil
-}
-
-// Generator returns a channel that produces the values in items, then closes.
-func Generator(items []int) <-chan int {
-	// TODO
-	return nil
+// Sum reads exactly count values from ch and returns their sum.
+func Sum(ch chan int, count int) int {
+	// TODO: receive count values from ch, add them up
+	return 0
 }`,
   testCode: `package main
 
-import (
-	"testing"
-	"time"
-)
+import "testing"
 
-func TestSum(t *testing.T) {
-	ch := Sum([]int{1, 2, 3, 4, 5})
-	select {
-	case got := <-ch:
-		if got != 15 {
-			t.Errorf("Sum = %d, want 15", got)
-		}
-	case <-time.After(time.Second):
-		t.Fatal("Sum timed out")
+func TestMakeMailbox(t *testing.T) {
+	ch := MakeMailbox([]string{"a", "b", "c"}, 5)
+	if got := <-ch; got != "a" {
+		t.Errorf("first = %q, want %q", got, "a")
+	}
+	if got := <-ch; got != "b" {
+		t.Errorf("second = %q, want %q", got, "b")
+	}
+	if got := <-ch; got != "c" {
+		t.Errorf("third = %q, want %q", got, "c")
 	}
 }
 
-func TestSumEmpty(t *testing.T) {
-	ch := Sum([]int{})
-	select {
-	case got := <-ch:
-		if got != 0 {
-			t.Errorf("Sum([]) = %d, want 0", got)
-		}
-	case <-time.After(time.Second):
-		t.Fatal("timed out")
+func TestMakeMailboxEmpty(t *testing.T) {
+	ch := MakeMailbox([]string{}, 1)
+	if ch == nil {
+		t.Fatal("returned nil channel")
 	}
 }
 
-func TestPingPong(t *testing.T) {
-	ping := Ping()
-	pong := Pong(ping)
-	select {
-	case msg := <-pong:
-		if msg != "pong" {
-			t.Errorf("got %q, want pong", msg)
-		}
-	case <-time.After(time.Second):
-		t.Fatal("PingPong timed out")
-	}
-}
-
-func TestGenerator(t *testing.T) {
-	ch := Generator([]int{10, 20, 30})
-	var got []int
-	for v := range ch {
-		got = append(got, v)
-	}
+func TestDrain(t *testing.T) {
+	ch := make(chan int, 3)
+	ch <- 10
+	ch <- 20
+	ch <- 30
+	close(ch)
+	got := Drain(ch)
 	want := []int{10, 20, 30}
 	if len(got) != len(want) {
 		t.Fatalf("got %v, want %v", got, want)
@@ -106,61 +93,64 @@ func TestGenerator(t *testing.T) {
 	}
 }
 
-func TestGeneratorEmpty(t *testing.T) {
-	ch := Generator([]int{})
-	var got []int
-	for v := range ch {
-		got = append(got, v)
-	}
+func TestDrainEmpty(t *testing.T) {
+	ch := make(chan int)
+	close(ch)
+	got := Drain(ch)
 	if len(got) != 0 {
 		t.Errorf("got %v, want empty", got)
+	}
+}
+
+func TestSum(t *testing.T) {
+	ch := make(chan int, 4)
+	ch <- 1
+	ch <- 2
+	ch <- 3
+	ch <- 4
+	got := Sum(ch, 4)
+	if got != 10 {
+		t.Errorf("Sum = %d, want 10", got)
+	}
+}
+
+func TestSumSingle(t *testing.T) {
+	ch := make(chan int, 1)
+	ch <- 42
+	got := Sum(ch, 1)
+	if got != 42 {
+		t.Errorf("Sum = %d, want 42", got)
 	}
 }`,
   solution: `package main
 
-func Sum(nums []int) <-chan int {
-	ch := make(chan int, 1)
-	go func() {
-		total := 0
-		for _, n := range nums {
-			total += n
-		}
-		ch <- total
-	}()
+func MakeMailbox(messages []string, capacity int) chan string {
+	ch := make(chan string, capacity)
+	for _, msg := range messages {
+		ch <- msg
+	}
 	return ch
 }
 
-func Ping() <-chan string {
-	ch := make(chan string, 1)
-	go func() {
-		ch <- "ping"
-	}()
-	return ch
+func Drain(ch chan int) []int {
+	var result []int
+	for v := range ch {
+		result = append(result, v)
+	}
+	return result
 }
 
-func Pong(ping <-chan string) <-chan string {
-	ch := make(chan string, 1)
-	go func() {
-		<-ping // consume the ping
-		ch <- "pong"
-	}()
-	return ch
-}
-
-func Generator(items []int) <-chan int {
-	ch := make(chan int)
-	go func() {
-		for _, item := range items {
-			ch <- item
-		}
-		close(ch)
-	}()
-	return ch
+func Sum(ch chan int, count int) int {
+	total := 0
+	for i := 0; i < count; i++ {
+		total += <-ch
+	}
+	return total
 }`,
   hints: [
-    'Sum: create a buffered channel (size 1), compute the sum in a goroutine, send the result.',
-    'Pong: read from the ping channel (<-ping), then send "pong" on your own channel. The read blocks until Ping sends.',
-    'Generator: loop over items, send each one, then close(ch) so the receiver\'s range loop exits.'
+    'MakeMailbox: make(chan string, capacity) creates the channel. Loop over messages and send each with ch <- msg.',
+    'Drain: "for v := range ch" loops until the channel is closed. Append each v to a slice.',
+    'Sum: use a for loop with count iterations. Each iteration receives from ch with <-ch and adds to a running total.',
   ],
 }
 

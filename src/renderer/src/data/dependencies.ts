@@ -83,7 +83,7 @@ export const REQUIRES: Record<string, string[]> = {
   'conc_03_channels_basic':   ['basics_09_functions'],
   'conc_01_goroutines':       ['conc_03_channels_basic'],
   'conc_02_waitgroup':        ['conc_01_goroutines'],
-  'conc_04_buffered_channels':['conc_03_channels_basic'],
+  'conc_04_buffered_channels':['conc_01_goroutines'],
   'conc_05_channel_direction':['conc_03_channels_basic'],
   'conc_06_range_channel':    ['conc_03_channels_basic', 'basics_17_for_range'],
   'conc_07_select_basic':     ['conc_03_channels_basic'],

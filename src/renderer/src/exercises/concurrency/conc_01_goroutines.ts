@@ -6,7 +6,7 @@ const exercise: Exercise = {
   category: 'Concurrency',
   subcategory: 'Goroutines',
   difficulty: 'beginner',
-  order: 3,
+  order: 2,
   description: `A goroutine is a lightweight thread managed by the Go runtime. Launch one with the \`go\` keyword:
 
 \`\`\`
