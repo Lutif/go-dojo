@@ -88,53 +88,24 @@ jobs:
           security find-identity -v -p codesigning build.keychain
           rm $RUNNER_TEMP/cert.p12
 
-      - name: Verify notarization prerequisites
+      - name: Import Apple API Key
         env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
         run: |
-          echo "::group::Xcode & notarytool"
-          xcodebuild -version
-          xcrun --find notarytool
-          xcrun notarytool --version 2>&1 || true
-          echo "::endgroup::"
-
-          echo "::group::Credential check"
-          echo "APPLE_ID length=${#APPLE_ID} first4=$(echo -n "${APPLE_ID:0:4}" | base64)"
-          echo "APPLE_APP_SPECIFIC_PASSWORD length=${#APPLE_APP_SPECIFIC_PASSWORD} first4=$(echo -n "${APPLE_APP_SPECIFIC_PASSWORD:0:4}" | base64)"
-          echo "APPLE_TEAM_ID length=${#APPLE_TEAM_ID} first4=$(echo -n "${APPLE_TEAM_ID:0:4}" | base64)"
-          echo "::endgroup::"
-
-          echo "::group::Signing identity"
-          security find-identity -v -p codesigning build.keychain
-          echo "::endgroup::"
-
-          echo "::group::Test notarytool auth"
-          xcrun notarytool history \
-            --apple-id "$APPLE_ID" \
-            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
-            --team-id "$APPLE_TEAM_ID" \
-            2>&1 | head -20 || echo "⚠ notarytool auth test failed (see output above)"
-          echo "::endgroup::"
+          mkdir -p ~/private_keys
+          echo "$APPLE_API_KEY" | base64 --decode > ~/private_keys/AuthKey_${{ secrets.APPLE_API_KEY_ID }}.p8
+          echo "API key written to ~/private_keys/AuthKey_${{ secrets.APPLE_API_KEY_ID }}.p8"
+          ls -la ~/private_keys/
 
       - name: Build (macOS) — sign + notarize
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CSC_KEYCHAIN: build.keychain
+          APPLE_API_KEY: ~/private_keys/AuthKey_${{ secrets.APPLE_API_KEY_ID }}.p8
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
           DEBUG: electron-notarize*
-        run: |
-          for attempt in 1 2 3; do
-            echo "=== Attempt $attempt ==="
-            npm run dist:mac && exit 0
-            echo "Attempt $attempt failed, waiting 30s before retry..."
-            sleep 30
-          done
-          echo "All 3 attempts failed"
-          exit 1
+        run: npm run dist:mac
 
       - name: List release output
         run: ls -lh release/
