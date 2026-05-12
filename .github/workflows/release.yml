@@ -56,7 +56,7 @@ jobs:
   build-mac:
     name: Build macOS
     needs: tag
-    runs-on: macos-latest
+    runs-on: macos-14
     environment: build
     permissions:
       contents: write
@@ -119,7 +119,6 @@ jobs:
           echo "::endgroup::"
 
       - name: Build (macOS) — sign + notarize
-        run: npm run dist:mac
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -127,6 +126,15 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CSC_KEYCHAIN: build.keychain
           DEBUG: electron-notarize*
+        run: |
+          for attempt in 1 2 3; do
+            echo "=== Attempt $attempt ==="
+            npm run dist:mac && exit 0
+            echo "Attempt $attempt failed, waiting 30s before retry..."
+            sleep 30
+          done
+          echo "All 3 attempts failed"
+          exit 1
 
       - name: List release output
         run: ls -lh release/
