@@ -57,6 +57,7 @@ jobs:
     name: Build macOS
     needs: tag
     runs-on: macos-latest
+    environment: build
     permissions:
       contents: write
     steps:
