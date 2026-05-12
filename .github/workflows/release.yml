@@ -87,6 +87,36 @@ jobs:
           security find-identity -v -p codesigning build.keychain
           rm $RUNNER_TEMP/cert.p12
 
+      - name: Verify notarization prerequisites
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+        run: |
+          echo "::group::Xcode & notarytool"
+          xcodebuild -version
+          xcrun --find notarytool
+          xcrun notarytool --version 2>&1 || true
+          echo "::endgroup::"
+
+          echo "::group::Credential check (redacted)"
+          [[ -n "$APPLE_ID" ]]                   && echo "✓ APPLE_ID is set (${APPLE_ID:0:3}...)" || echo "✗ APPLE_ID is EMPTY"
+          [[ -n "$APPLE_APP_SPECIFIC_PASSWORD" ]] && echo "✓ APPLE_APP_SPECIFIC_PASSWORD is set"   || echo "✗ APPLE_APP_SPECIFIC_PASSWORD is EMPTY"
+          [[ -n "$APPLE_TEAM_ID" ]]               && echo "✓ APPLE_TEAM_ID is set (${APPLE_TEAM_ID:0:3}...)" || echo "✗ APPLE_TEAM_ID is EMPTY"
+          echo "::endgroup::"
+
+          echo "::group::Signing identity"
+          security find-identity -v -p codesigning build.keychain
+          echo "::endgroup::"
+
+          echo "::group::Test notarytool auth"
+          xcrun notarytool history \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            2>&1 | head -20 || echo "⚠ notarytool auth test failed (see output above)"
+          echo "::endgroup::"
+
       - name: Build (macOS) — sign + notarize
         run: npm run dist:mac
         env:
@@ -95,6 +125,7 @@ jobs:
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CSC_KEYCHAIN: build.keychain
+          DEBUG: electron-notarize*
 
       - name: List release output
         run: ls -lh release/

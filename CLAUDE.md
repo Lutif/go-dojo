@@ -8,6 +8,7 @@ Go Dojo is an Electron desktop app (React + TypeScript) that provides an interac
 
 Go 1.21+ must be installed on the host for exercise execution.
 
+
 ## Commands
 
 ```bash
