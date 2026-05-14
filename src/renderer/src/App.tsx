@@ -1,19 +1,23 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
-import { Exercise, Category, ProgressData, RunResult, ExerciseStatus, ExerciseUi, isWorkspaceExercise } from './types'
-import { getAllExercises, getCategories } from './exercises'
+import { Exercise, Category, ProgressData, RunResult, ExerciseStatus, ExerciseUi, WorkspaceProject, ProjectStep } from './types'
+import { getAllExercises, getCategories, getAllWorkspaceProjects } from './exercises'
 import { computeStatus, REQUIRES, PREREQ_HINTS } from './data/dependencies'
 import Sidebar from './components/Sidebar'
 import EditorPanel from './components/EditorPanel'
 import WorkspaceEditor from './components/WorkspaceEditor'
 import OutputPanel from './components/OutputPanel'
 import ExerciseInfo from './components/ExerciseInfo'
+import StepPanel from './components/StepPanel'
 import ProgressDashboard from './components/ProgressDashboard'
 import { useWorkspace } from './hooks/useWorkspace'
 
 export default function App() {
   const [rawExercises] = useState<Exercise[]>(getAllExercises())
+  const [wsProjects] = useState<WorkspaceProject[]>(getAllWorkspaceProjects())
   const [categories] = useState<{ name: Category; count: number }[]>(getCategories())
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null)
+  const [activeProject, setActiveProject] = useState<WorkspaceProject | null>(null)
+  const [activeStep, setActiveStep] = useState<ProjectStep | null>(null)
   const [currentCode, setCurrentCode] = useState('')
   const [output, setOutput] = useState<RunResult | null>(null)
   const [running, setRunning] = useState(false)
@@ -38,8 +42,29 @@ export default function App() {
     localStorage.getItem('go-dojo-font-dyslexic') === '1'
   )
 
-  const isWorkspace = selectedExercise ? isWorkspaceExercise(selectedExercise) : false
-  const ws = useWorkspace(isWorkspace ? selectedExercise : null)
+  const wsExerciseShim = useMemo<Exercise | null>(() => {
+    if (!activeProject || !activeStep) return null
+    return {
+      id: activeStep.id,
+      title: activeStep.title,
+      category: activeProject.category,
+      subcategory: activeProject.subcategory,
+      difficulty: activeStep.difficulty,
+      order: activeProject.order,
+      description: activeStep.description,
+      code: '',
+      testCode: '',
+      solution: activeStep.solution,
+      hints: activeStep.hints,
+      workspaceId: activeProject.projectId,
+      workspaceScaffold: {
+        ...activeProject.workspaceScaffold,
+        testFiles: activeStep.testFiles,
+      },
+      testRunPattern: activeStep.testRunPattern,
+    }
+  }, [activeProject, activeStep])
+  const ws = useWorkspace(wsExerciseShim)
 
   useEffect(() => {
     document.body.classList.toggle('theme-paper', theme === 'paper')
@@ -147,6 +172,8 @@ export default function App() {
       }
 
       setSelectedExercise(exercise)
+      setActiveProject(null)
+      setActiveStep(null)
       setOutput(null)
       setShowHints(false)
       setHintIndex(0)
@@ -163,6 +190,25 @@ export default function App() {
     [status, exercises, selectedExercise, testMode]
   )
 
+  const selectProject = useCallback((project: WorkspaceProject) => {
+    setSelectedExercise(null)
+    setActiveProject(project)
+    const first = project.steps.find((s) => s.requires.length === 0) ?? project.steps[0]
+    setActiveStep(first)
+    setOutput(null)
+    setShowHints(false)
+    setHintIndex(0)
+    setShowSolution(false)
+  }, [])
+
+  const selectStep = useCallback((step: ProjectStep) => {
+    setActiveStep(step)
+    setOutput(null)
+    setShowHints(false)
+    setHintIndex(0)
+    setShowSolution(false)
+  }, [])
+
   const goToDashboard = useCallback(() => {
     if (selectedExercise && !testMode) {
       const prev = progressRef.current
@@ -176,12 +222,14 @@ export default function App() {
     }
     if (testMode) setTestMode(false)
     setSelectedExercise(null)
+    setActiveProject(null)
+    setActiveStep(null)
   }, [selectedExercise, testMode])
 
   // Autosave draft while editing (debounced) — skipped in test mode so the
   // real draft/submitted solution isn't clobbered by a test-mode rewrite.
   useEffect(() => {
-    if (!selectedExercise || testMode || isWorkspace) return
+    if (!selectedExercise || testMode) return
     const id = selectedExercise.id
     const code = currentCode
     const t = window.setTimeout(() => {
@@ -199,15 +247,14 @@ export default function App() {
   }, [currentCode, selectedExercise, testMode])
 
   const runCode = useCallback(async () => {
-    if (!selectedExercise || running || ws.running) return
-
-    if (isWorkspace) {
+    if (activeProject && activeStep) {
+      if (ws.running) return
       const result = await ws.runTests()
       if (result.passed) {
         const prev = progressRef.current
         const next: ProgressData = {
           ...prev,
-          completed: { ...prev.completed, [selectedExercise.id]: true },
+          completed: { ...prev.completed, [activeStep.id]: true },
         }
         setProgress(next)
         progressRef.current = next
@@ -215,6 +262,8 @@ export default function App() {
       }
       return
     }
+
+    if (!selectedExercise || running) return
 
     setRunning(true)
     setOutput(null)
@@ -263,7 +312,7 @@ export default function App() {
     } finally {
       setRunning(false)
     }
-  }, [selectedExercise, currentCode, running, testMode, isWorkspace, ws])
+  }, [selectedExercise, currentCode, running, testMode, activeProject, activeStep, ws])
 
   const resetExercise = useCallback(async () => {
     if (!selectedExercise) return
@@ -428,8 +477,10 @@ export default function App() {
   }
 
   const filteredExercises = getFilteredExercises()
-  const completedCount = Object.keys(progress.completed).filter((k) => progress.completed[k]).length
-  const totalCount = exercises.length
+  const wsStepIds = useMemo(() => wsProjects.flatMap((p) => p.steps.map((s) => s.id)), [wsProjects])
+  const allTrackableIds = useMemo(() => [...exercises.map((e) => e.id), ...wsStepIds], [exercises, wsStepIds])
+  const completedCount = allTrackableIds.filter((id) => progress.completed[id]).length
+  const totalCount = allTrackableIds.length
 
   const solutionMatchesSubmitted = useMemo(() => {
     if (!selectedExercise) return false
@@ -541,8 +592,10 @@ export default function App() {
       {/* Sidebar */}
       <Sidebar
         exercises={filteredExercises}
+        workspaceProjects={wsProjects}
         categories={categories}
         selectedExercise={selectedExercise}
+        activeProjectId={activeProject?.projectId ?? null}
         progress={progress}
         status={status}
         filterCategory={filterCategory}
@@ -551,6 +604,7 @@ export default function App() {
         completedCount={completedCount}
         totalCount={totalCount}
         onSelectExercise={selectExercise}
+        onSelectProject={selectProject}
         onFilterCategory={setFilterCategory}
         onSearchQuery={setSearchQuery}
         onToggleCollapse={() => toggleExerciseUi('sidebarCollapsed')}
@@ -561,7 +615,138 @@ export default function App() {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
-        {selectedExercise ? (
+        {activeProject && activeStep ? (
+          <>
+            {/* Workspace project top bar */}
+            <div className="h-12 border-b border-go-border flex items-center px-4 justify-between bg-go-darker shrink-0">
+              <div className="flex items-center gap-3">
+                <span className={`inline-block w-2 h-2 rounded-full ${
+                  progress.completed[activeStep.id] ? 'bg-go-success' : 'bg-go-muted'
+                }`} />
+                <span className="font-semibold text-go-text text-sm">
+                  {activeProject.title}
+                </span>
+                <span className="text-go-muted text-xs">/</span>
+                <span className="text-go-text/80 text-sm">{activeStep.title}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${
+                  activeStep.difficulty === 'beginner' ? 'bg-green-900/50 text-green-400' :
+                  activeStep.difficulty === 'intermediate' ? 'bg-yellow-900/50 text-yellow-400' :
+                  activeStep.difficulty === 'advanced' ? 'bg-orange-900/50 text-orange-400' :
+                  'bg-red-900/50 text-red-400'
+                }`}>
+                  {activeStep.difficulty}
+                </span>
+                <span
+                  className="text-[10px] px-1.5 py-0.5 rounded bg-go-blue/15 text-go-blue/80 border border-go-blue/25"
+                  title="Multi-file workspace — files saved to disk automatically"
+                >
+                  Workspace
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setTheme(theme === 'dark' ? 'paper' : 'dark')}
+                  className="px-2 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                  title={theme === 'dark' ? 'Switch to paper theme' : 'Switch to dark theme'}
+                >
+                  {theme === 'dark' ? '☽' : '☼'}
+                </button>
+                <button
+                  onClick={() => setDyslexicFont(!dyslexicFont)}
+                  className={`px-2 py-1.5 text-xs border rounded-md transition-all ${
+                    dyslexicFont
+                      ? 'bg-go-blue/20 border-go-blue/40 text-go-blue'
+                      : 'bg-go-surface hover:bg-go-surface2 border-go-border text-go-muted hover:text-go-text'
+                  }`}
+                  title={dyslexicFont ? 'Use default font' : 'Use dyslexia-friendly font (Lexend)'}
+                >
+                  Aa
+                </button>
+                <button
+                  onClick={() => { setShowHints(!showHints); setShowSolution(false) }}
+                  className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                >
+                  {showHints ? 'Hide Hints' : 'Hints'}
+                </button>
+                <button
+                  onClick={() => { setShowSolution(!showSolution); setShowHints(false) }}
+                  className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                >
+                  {showSolution ? 'Hide Solution' : 'Solution'}
+                </button>
+                <button
+                  onClick={() => ws.runBuild()}
+                  disabled={ws.running}
+                  className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                  title="Build (go build)"
+                >
+                  Build
+                </button>
+                <button
+                  onClick={ws.openInFinder}
+                  className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                  title="Open workspace folder"
+                >
+                  Folder
+                </button>
+                <button
+                  onClick={runCode}
+                  disabled={ws.running}
+                  className={`px-4 py-1.5 text-xs font-semibold rounded-md transition-all ${
+                    ws.running
+                      ? 'bg-go-surface text-go-muted cursor-not-allowed'
+                      : 'bg-go-blue hover:bg-go-cyan text-white pulse-glow'
+                  }`}
+                  title="Run (Cmd+Enter)"
+                >
+                  {ws.running ? 'Running...' : '▶ Run Tests'}
+                </button>
+              </div>
+            </div>
+
+            {/* Workspace content area */}
+            <div className="flex-1 flex min-h-0 w-full overflow-hidden">
+              {/* Tutorial guide */}
+              <StepPanel
+                steps={activeProject.steps}
+                activeStepId={activeStep.id}
+                progress={progress}
+                output={ws.output ? { passed: ws.output.passed, output: ws.output.output, error: ws.output.error } : null}
+                running={ws.running}
+                showHints={showHints}
+                hintIndex={hintIndex}
+                showSolution={showSolution}
+                onSelectStep={selectStep}
+                onNextHint={() => setHintIndex(Math.min(hintIndex + 1, activeStep.hints.length - 1))}
+              />
+
+              {/* Workspace editor */}
+              <div className="flex-1 min-w-0 h-full overflow-hidden">
+                {ws.loading ? (
+                  <div className="h-full flex items-center justify-center text-go-muted">
+                    <div className="text-center space-y-2">
+                      <div className="inline-block w-4 h-4 border-2 border-go-blue border-t-transparent rounded-full animate-spin" />
+                      <div className="text-xs">Initializing workspace...</div>
+                    </div>
+                  </div>
+                ) : ws.workspace ? (
+                  <WorkspaceEditor
+                    files={ws.workspace.files}
+                    activeFile={ws.activeFile}
+                    onSelectFile={ws.setActiveFile}
+                    getFileContent={ws.getFileContent}
+                    onFileChange={ws.updateFileContent}
+                    onCreateFile={ws.createFile}
+                    onDeleteFile={ws.deleteFile}
+                    onRenameFile={ws.renameFile}
+                    onOpenInFinder={ws.openInFinder}
+                    editorRef={editorRef}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </>
+        ) : selectedExercise ? (
           <>
             {/* Top bar */}
             <div className="h-12 border-b border-go-border flex items-center px-4 justify-between bg-go-darker shrink-0">
@@ -587,14 +772,7 @@ export default function App() {
                   }`}>
                     {selectedExercise.difficulty}
                   </span>
-                  {isWorkspace ? (
-                    <span
-                      className="text-[10px] px-1.5 py-0.5 rounded bg-go-blue/15 text-go-blue/80 border border-go-blue/25"
-                      title="Multi-file workspace — files saved to disk automatically"
-                    >
-                      Workspace
-                    </span>
-                  ) : solutionMatchesSubmitted ? (
+                  {solutionMatchesSubmitted ? (
                     <span
                       className="text-[10px] px-1.5 py-0.5 rounded bg-go-success/15 text-go-success/90 border border-go-success/25"
                       title="Your code passed all tests and is saved as your solution"
@@ -696,36 +874,17 @@ export default function App() {
                     </button>
                   </>
                 )}
-                {isWorkspace && (
-                  <button
-                    onClick={() => ws.runBuild()}
-                    disabled={ws.running}
-                    className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
-                    title="Build (go build)"
-                  >
-                    Build
-                  </button>
-                )}
-                {isWorkspace && (
-                  <button
-                    onClick={ws.openInFinder}
-                    className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
-                    title="Open workspace folder"
-                  >
-                    Folder
-                  </button>
-                )}
                 <button
                   onClick={runCode}
-                  disabled={running || ws.running}
+                  disabled={running}
                   className={`px-4 py-1.5 text-xs font-semibold rounded-md transition-all ${
-                    running || ws.running
+                    running
                       ? 'bg-go-surface text-go-muted cursor-not-allowed'
                       : 'bg-go-blue hover:bg-go-cyan text-white pulse-glow'
                   }`}
                   title="Run (Cmd+Enter)"
                 >
-                  {running || ws.running ? 'Running...' : '\u25B6 Run Tests'}
+                  {running ? 'Running...' : '\u25B6 Run Tests'}
                 </button>
               </div>
             </div>
@@ -776,8 +935,8 @@ export default function App() {
                     </div>
                     <div className={`flex flex-col min-h-0 ${outputCollapsed ? 'shrink-0' : 'flex-1'}`}>
                       <OutputPanel
-                        output={isWorkspace ? (ws.output ? { passed: ws.output.passed, output: ws.output.output, error: ws.output.error } : null) : output}
-                        running={isWorkspace ? ws.running : running}
+                        output={output}
+                        running={running}
                         collapsed={outputCollapsed}
                         onToggleCollapse={() => toggleExerciseUi('outputCollapsed')}
                       />
@@ -788,33 +947,11 @@ export default function App() {
 
               {/* Right: Editor */}
               <div className="flex-1 min-w-0 h-full overflow-hidden">
-                {isWorkspace && ws.loading ? (
-                  <div className="h-full flex items-center justify-center text-go-muted">
-                    <div className="text-center space-y-2">
-                      <div className="inline-block w-4 h-4 border-2 border-go-blue border-t-transparent rounded-full animate-spin" />
-                      <div className="text-xs">Initializing workspace...</div>
-                    </div>
-                  </div>
-                ) : isWorkspace && ws.workspace ? (
-                  <WorkspaceEditor
-                    files={ws.workspace.files}
-                    activeFile={ws.activeFile}
-                    onSelectFile={ws.setActiveFile}
-                    getFileContent={ws.getFileContent}
-                    onFileChange={ws.updateFileContent}
-                    onCreateFile={ws.createFile}
-                    onDeleteFile={ws.deleteFile}
-                    onRenameFile={ws.renameFile}
-                    onOpenInFinder={ws.openInFinder}
-                    editorRef={editorRef}
-                  />
-                ) : (
-                  <EditorPanel
-                    code={currentCode}
-                    onChange={setCurrentCode}
-                    editorRef={editorRef}
-                  />
-                )}
+                <EditorPanel
+                  code={currentCode}
+                  onChange={setCurrentCode}
+                  editorRef={editorRef}
+                />
               </div>
             </div>
           </>

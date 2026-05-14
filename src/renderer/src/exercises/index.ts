@@ -1,4 +1,4 @@
-import { Exercise, Category } from '../types'
+import { Exercise, Category, WorkspaceProject } from '../types'
 
 import { exercises as basicsExercises } from './basics'
 import { exercises as typeSystemExercises } from './type-system'
@@ -10,6 +10,7 @@ import { exercises as internalsExercises } from './internals'
 import { exercises as networkingExercises } from './networking'
 import { exercises as dataStorageExercises } from './data-storage'
 import { exercises as projectsExercises } from './projects'
+import { workspaceProjects } from './projects/workspaceProjects'
 
 const allExercises: Exercise[] = [
   ...basicsExercises,
@@ -49,4 +50,12 @@ export function getCategories(): { name: Category; count: number }[] {
 
 export function getExerciseById(id: string): Exercise | undefined {
   return allExercises.find((e) => e.id === id)
+}
+
+export function getAllWorkspaceProjects(): WorkspaceProject[] {
+  return workspaceProjects
+}
+
+export function getWorkspaceProject(projectId: string): WorkspaceProject | undefined {
+  return workspaceProjects.find((p) => p.projectId === projectId)
 }

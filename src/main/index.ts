@@ -292,6 +292,12 @@ ipcMain.handle(
       }
     }
 
+    const newTestNames = new Set(scaffold.testFiles.map((f) => f.name))
+    for (const existing of readdirSync(dir)) {
+      if (existing.endsWith('_test.go') && !newTestNames.has(existing)) {
+        unlinkSync(join(dir, existing))
+      }
+    }
     for (const f of scaffold.testFiles) {
       writeFileSync(join(dir, f.name), f.content)
     }

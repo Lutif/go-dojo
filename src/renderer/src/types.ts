@@ -47,6 +47,29 @@ export function isWorkspaceExercise(exercise: Exercise): boolean {
   return !!exercise.workspaceId
 }
 
+export interface ProjectStep {
+  id: string
+  title: string
+  description: string
+  difficulty: Difficulty
+  testFiles: { name: string; content: string }[]
+  testRunPattern?: string
+  hints: string[]
+  solution: string
+  requires: string[]
+}
+
+export interface WorkspaceProject {
+  projectId: string
+  title: string
+  category: Category
+  subcategory: string
+  order: number
+  difficulty: Difficulty
+  workspaceScaffold: WorkspaceScaffold
+  steps: ProjectStep[]
+}
+
 export interface RunResult {
   passed: boolean
   output: string

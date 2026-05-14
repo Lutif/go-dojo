@@ -241,7 +241,7 @@ export const REQUIRES: Record<string, string[]> = {
   'data_15_column_store':      ['data_12_query_engine', 'errors_01_basics', 'stdlib_03_strconv'],
 
   // ── Projects ─────────────────────────────────────────────────────────────
-  'proj-cli-01': ['basics_27_structs', 'basics_24_maps', 'stdlib_02_strings', 'stdlib_03_strconv'],
+  'proj-cli-01': [],
   'proj-cli-02': ['proj-cli-01'],
   'proj-cli-03': ['proj-cli-02'],
   'proj-cli-04': ['proj-cli-03'],
@@ -544,10 +544,6 @@ const EXERCISE_TITLES: Record<string, string> = {
 
 // ── Prereq hints ─────────────────────────────────────────────────────────────
 export const PREREQ_HINTS: Record<string, Array<{ text: string; exerciseId: string; exerciseTitle: string }>> = {
-  'proj-cli-01': [
-    { text: "Iterate over args with a for loop — review For Loop.", exerciseId: 'basics_16_for_loop', exerciseTitle: 'For Loop' },
-    { text: "strings.HasPrefix detects the '-' prefix — see strings Package.", exerciseId: 'stdlib_02_strings', exerciseTitle: 'strings Package' },
-  ],
   'proj-cli-02': [
     { text: "Use strings.Contains and SplitN to split on '=' — see strings Package.", exerciseId: 'stdlib_02_strings', exerciseTitle: 'strings Package' },
   ],

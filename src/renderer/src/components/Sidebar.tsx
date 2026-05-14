@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Exercise, Category, ProgressData, ExerciseStatus } from '../types'
+import { Exercise, Category, ProgressData, ExerciseStatus, WorkspaceProject } from '../types'
 
 interface Props {
   exercises: Exercise[]
+  workspaceProjects: WorkspaceProject[]
   categories: { name: Category; count: number }[]
   selectedExercise: Exercise | null
+  activeProjectId: string | null
   progress: ProgressData
   status: Record<string, ExerciseStatus>
   filterCategory: Category | 'all' | 'bookmarks'
@@ -13,6 +15,7 @@ interface Props {
   completedCount: number
   totalCount: number
   onSelectExercise: (e: Exercise) => void
+  onSelectProject: (p: WorkspaceProject) => void
   onFilterCategory: (c: Category | 'all') => void
   onSearchQuery: (q: string) => void
   onToggleCollapse: () => void
@@ -155,11 +158,58 @@ function ProjectRow({
   )
 }
 
+function WorkspaceProjectRow({
+  project,
+  activeProjectId,
+  progress,
+  onSelectProject,
+}: {
+  project: WorkspaceProject
+  activeProjectId: string | null
+  progress: ProgressData
+  onSelectProject: (p: WorkspaceProject) => void
+}) {
+  const completed = project.steps.filter((s) => progress.completed[s.id]).length
+  const total = project.steps.length
+  const allDone = completed === total
+  const isActive = activeProjectId === project.projectId
+
+  return (
+    <button
+      onClick={() => onSelectProject(project)}
+      data-exercise-id={project.projectId}
+      className={`w-full text-left px-3 py-2.5 flex items-center gap-2 transition-all hover:bg-go-surface2/40 border-l-2 ml-2 mb-1 ${
+        isActive ? 'border-go-blue bg-go-surface2/30' : 'border-go-border/30'
+      }`}
+    >
+      <span className={`w-5 h-5 rounded flex items-center justify-center text-[9px] font-bold shrink-0 ${
+        allDone
+          ? 'bg-go-success text-white'
+          : isActive
+          ? 'bg-go-blue/20 border-2 border-go-blue text-go-blue'
+          : 'bg-go-surface border-2 border-go-border text-go-muted'
+      }`}>
+        {allDone ? '✓' : '⬡'}
+      </span>
+      <span className={`flex-1 text-xs font-semibold truncate ${
+        allDone ? 'text-go-success' : isActive ? 'text-go-blue' : 'text-go-text/70'
+      }`}>
+        {project.title}
+      </span>
+      <span className={`text-[10px] shrink-0 px-1.5 py-0.5 rounded-full ${
+        allDone ? 'bg-go-success/20 text-go-success' : 'bg-go-surface text-go-muted'
+      }`}>
+        {completed}/{total}
+      </span>
+    </button>
+  )
+}
+
 export default function Sidebar({
-  exercises, categories, selectedExercise, progress, status,
+  exercises, workspaceProjects, categories, selectedExercise, activeProjectId, progress, status,
   filterCategory, searchQuery, collapsed,
   completedCount, totalCount,
-  onSelectExercise, onFilterCategory, onSearchQuery, onToggleCollapse, onGoToDashboard,
+  onSelectExercise, onSelectProject, onFilterCategory, onSearchQuery, onToggleCollapse, onGoToDashboard,
   onStartTest, testModeActive,
 }: Props) {
   const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
@@ -183,6 +233,9 @@ export default function Sidebar({
     acc[ex.category].push(ex)
     return acc
   }, {})
+  for (const wp of workspaceProjects) {
+    if (!grouped[wp.category]) grouped[wp.category] = []
+  }
 
   if (collapsed) {
     return (
@@ -332,8 +385,15 @@ export default function Sidebar({
             <p className="text-xs mt-1 text-go-muted/70">Open an exercise and click the star in the header to save it here.</p>
           </div>
         )}
-        {Object.entries(grouped).map(([category, exs]) => {
-          const catDone = exs.filter((e) => progress.completed[e.id]).length
+        {categories.map((c) => c.name).filter((c) => c in grouped).map((category) => {
+          const exs = grouped[category]
+          const catWsProjects = workspaceProjects.filter((p) => p.category === category)
+          const wsStepsDone = catWsProjects.reduce(
+            (n, p) => n + p.steps.filter((s) => progress.completed[s.id]).length, 0
+          )
+          const wsStepsTotal = catWsProjects.reduce((n, p) => n + p.steps.length, 0)
+          const catDone = exs.filter((e) => progress.completed[e.id]).length + wsStepsDone
+          const catTotal = exs.length + wsStepsTotal
           const items = groupByProject(exs)
 
           return (
@@ -341,11 +401,21 @@ export default function Sidebar({
               {/* Category header */}
               <div className="px-4 py-2 text-xs font-semibold text-go-muted uppercase tracking-wider bg-go-surface/30 sticky top-0 z-10">
                 {categoryIcons[category]} · {category}
-                <span className="float-right font-normal">{catDone}/{exs.length}</span>
+                <span className="float-right font-normal">{catDone}/{catTotal}</span>
               </div>
 
               {/* Items: either plain exercises or grouped project steps */}
               <div className="py-1">
+                {/* Workspace projects (single row per project) */}
+                {catWsProjects.map((proj) => (
+                  <WorkspaceProjectRow
+                    key={proj.projectId}
+                    project={proj}
+                    activeProjectId={activeProjectId}
+                    progress={progress}
+                    onSelectProject={onSelectProject}
+                  />
+                ))}
                 {items.map((item) => {
                   if (isProjectGroup(item)) {
                     return (

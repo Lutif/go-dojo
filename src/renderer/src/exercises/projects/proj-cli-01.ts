@@ -21,7 +21,13 @@ flags in the -key=value format.
 - Return a map of key-value pairs
 - Ignore arguments that don't match -key=value format
 - Handle flags with double dashes too: --name=Alice`,
-  code: `package main
+  workspaceId: 'proj-cli',
+  workspaceScaffold: {
+    goMod: 'module cli-parser\n\ngo 1.21\n',
+    files: [
+      {
+        name: 'main.go',
+        content: `package main
 
 // ParseFlags parses command-line arguments in -key=value format.
 // It returns a map of flag names to their values.
@@ -37,8 +43,13 @@ func ParseFlags(args []string) map[string]string {
 }
 
 func main() {}
-`,
-  testCode: `package main
+`
+      }
+    ],
+    testFiles: [
+      {
+        name: 'main_test.go',
+        content: `package main
 
 import (
 	"testing"
@@ -102,36 +113,10 @@ func TestParseFlagsValueWithEquals(t *testing.T) {
 		t.Errorf("expected expr=a=b, got expr=%s", flags["expr"])
 	}
 }
-`,
-  solution: `package main
-
-import "strings"
-
-// ParseFlags parses command-line arguments in -key=value format.
-// It returns a map of flag names to their values.
-// Both -key=value and --key=value are supported.
-func ParseFlags(args []string) map[string]string {
-	flags := make(map[string]string)
-	for _, arg := range args {
-		if !strings.HasPrefix(arg, "-") {
-			continue
-		}
-		// Strip leading dashes
-		trimmed := strings.TrimLeft(arg, "-")
-		// Split on first "=" only
-		eqIdx := strings.Index(trimmed, "=")
-		if eqIdx < 0 {
-			continue
-		}
-		key := trimmed[:eqIdx]
-		value := trimmed[eqIdx+1:]
-		flags[key] = value
-	}
-	return flags
-}
-
-func main() {}
-`,
+`
+      }
+    ]
+  },
   hints: [
     'Use strings.HasPrefix to check for "-" or "--"',
     'Use strings.TrimLeft(arg, "-") to strip leading dashes',
