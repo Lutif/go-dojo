@@ -156,6 +156,116 @@ func main() {}
   projectTitle: 'Key-Value Store',
   step: 1,
   totalSteps: 8,
+  workspaceId: 'proj-kv',
+  workspaceScaffold: {
+    goMod: 'module kvstore\n\ngo 1.21\n',
+    files: [
+      {
+        name: 'store.go',
+        content: `package main
+
+// TODO: Define a Store struct backed by a map.
+
+// TODO: Implement NewStore() *Store.
+
+// TODO: Implement Set(key, value string).
+
+// TODO: Implement Get(key string) (string, bool).
+
+// TODO: Implement Delete(key string) bool.
+
+// TODO: Implement Len() int.
+
+func main() {}
+`,
+      },
+    ],
+    testFiles: [
+      {
+        name: 'store_test.go',
+        content: `package main
+
+import "testing"
+
+func TestStoreSetAndGet(t *testing.T) {
+\ts := NewStore()
+\ts.Set("name", "Go")
+\tval, ok := s.Get("name")
+\tif !ok || val != "Go" {
+\t\tt.Fatalf("expected (Go, true), got (%s, %v)", val, ok)
+\t}
+}
+
+func TestStoreGetMissing(t *testing.T) {
+\ts := NewStore()
+\t_, ok := s.Get("nope")
+\tif ok {
+\t\tt.Fatal("expected Get on missing key to return false")
+\t}
+}
+
+func TestStoreOverwrite(t *testing.T) {
+\ts := NewStore()
+\ts.Set("k", "v1")
+\ts.Set("k", "v2")
+\tval, ok := s.Get("k")
+\tif !ok || val != "v2" {
+\t\tt.Fatalf("expected overwritten value v2, got %s", val)
+\t}
+\tif s.Len() != 1 {
+\t\tt.Fatalf("overwrite should not increase Len, got %d", s.Len())
+\t}
+}
+
+func TestStoreDelete(t *testing.T) {
+\ts := NewStore()
+\ts.Set("x", "1")
+\tif !s.Delete("x") {
+\t\tt.Fatal("Delete existing key should return true")
+\t}
+\tif s.Delete("x") {
+\t\tt.Fatal("Delete missing key should return false")
+\t}
+\t_, ok := s.Get("x")
+\tif ok {
+\t\tt.Fatal("Get after Delete should return false")
+\t}
+}
+
+func TestStoreLen(t *testing.T) {
+\ts := NewStore()
+\tif s.Len() != 0 {
+\t\tt.Fatalf("empty store Len should be 0, got %d", s.Len())
+\t}
+\ts.Set("a", "1")
+\ts.Set("b", "2")
+\ts.Set("c", "3")
+\tif s.Len() != 3 {
+\t\tt.Fatalf("expected Len 3, got %d", s.Len())
+\t}
+\ts.Delete("b")
+\tif s.Len() != 2 {
+\t\tt.Fatalf("expected Len 2 after delete, got %d", s.Len())
+\t}
+}
+
+func TestStoreEmptyKeyAndValue(t *testing.T) {
+\ts := NewStore()
+\ts.Set("", "empty-key")
+\tval, ok := s.Get("")
+\tif !ok || val != "empty-key" {
+\t\tt.Fatalf("empty key should work, got (%s, %v)", val, ok)
+\t}
+\ts.Set("empty-val", "")
+\tval, ok = s.Get("empty-val")
+\tif !ok || val != "" {
+\t\tt.Fatalf("empty value should work, got (%s, %v)", val, ok)
+\t}
+}
+`,
+      },
+    ],
+  },
 }
 
 export default exercise

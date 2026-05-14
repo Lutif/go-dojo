@@ -31,6 +31,8 @@ export function useWorkspace(exercise: Exercise | null): UseWorkspaceResult {
   const saveTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
   const workspaceIdRef = useRef<string | null>(null)
 
+  const exerciseIdRef = useRef<string | null>(null)
+
   useEffect(() => {
     if (!exercise || !isWorkspaceExercise(exercise)) {
       setWorkspace(null)
@@ -39,26 +41,35 @@ export function useWorkspace(exercise: Exercise | null): UseWorkspaceResult {
       setOutput(null)
       localEdits.current = {}
       workspaceIdRef.current = null
+      exerciseIdRef.current = null
       return
     }
 
     const wsId = exercise.workspaceId!
-    if (wsId === workspaceIdRef.current) return
+    const exId = exercise.id
+    const sameWorkspace = wsId === workspaceIdRef.current
+    const sameExercise = exId === exerciseIdRef.current
+    if (sameWorkspace && sameExercise) return
 
     workspaceIdRef.current = wsId
-    setLoading(true)
+    exerciseIdRef.current = exId
+    if (!sameWorkspace) {
+      setLoading(true)
+      localEdits.current = {}
+    }
     setError(null)
     setOutput(null)
-    localEdits.current = {}
 
     window.api.workspace
       .init(wsId, exercise.workspaceScaffold!)
       .then((state) => {
         if (workspaceIdRef.current !== wsId) return
         setWorkspace(state)
-        const userFiles = state.files.filter((f) => !f.isReadOnly)
-        const firstFile = userFiles[0]?.name ?? state.files[0]?.name ?? null
-        setActiveFile(firstFile)
+        if (!sameWorkspace) {
+          const userFiles = state.files.filter((f) => !f.isReadOnly)
+          const firstFile = userFiles[0]?.name ?? state.files[0]?.name ?? null
+          setActiveFile(firstFile)
+        }
         setLoading(false)
       })
       .catch((err: Error) => {
@@ -71,7 +82,7 @@ export function useWorkspace(exercise: Exercise | null): UseWorkspaceResult {
       Object.values(saveTimers.current).forEach(clearTimeout)
       saveTimers.current = {}
     }
-  }, [exercise?.workspaceId])
+  }, [exercise?.workspaceId, exercise?.id])
 
   const getFileContent = useCallback(
     (name: string): string => {

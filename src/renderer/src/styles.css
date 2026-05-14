@@ -115,6 +115,9 @@ button, input, select, textarea, a {
   background: var(--scrollbar-thumb-hover);
 }
 
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* ── Monaco ──────────────────────────────────────────────── */
 .monaco-editor {
   border-radius: 8px;
