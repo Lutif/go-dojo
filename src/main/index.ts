@@ -1,7 +1,10 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join, delimiter } from 'path'
+import { join, delimiter, sep } from 'path'
 import { execSync, exec } from 'child_process'
-import { mkdirSync, writeFileSync, existsSync, readFileSync, rmSync } from 'fs'
+import {
+  mkdirSync, writeFileSync, existsSync, readFileSync, rmSync,
+  readdirSync, renameSync, unlinkSync, statSync
+} from 'fs'
 import { tmpdir, homedir } from 'os'
 
 let mainWindow: BrowserWindow | null = null
@@ -207,6 +210,216 @@ ipcMain.handle('load-progress', async () => {
 ipcMain.handle('save-progress', async (_event, data: Record<string, any>) => {
   saveProgress(data)
   return true
+})
+
+// ---------------------------------------------------------------------------
+// Workspace helpers
+// ---------------------------------------------------------------------------
+
+const WORKSPACES_BASE = join(homedir(), '.go-dojo', 'workspaces')
+
+function workspaceDir(workspaceId: string): string {
+  if (!workspaceId || /[/\\.]/.test(workspaceId)) {
+    throw new Error(`Invalid workspace ID: ${workspaceId}`)
+  }
+  return join(WORKSPACES_BASE, workspaceId)
+}
+
+function resolveWorkspaceFile(workspaceId: string, fileName: string): string {
+  const base = workspaceDir(workspaceId)
+  const resolved = join(base, fileName)
+  if (!resolved.startsWith(base + sep)) {
+    throw new Error('Invalid file path')
+  }
+  return resolved
+}
+
+interface WorkspaceFile {
+  name: string
+  content: string
+  isReadOnly: boolean
+}
+
+interface WorkspaceState {
+  workspaceId: string
+  projectDir: string
+  files: WorkspaceFile[]
+  goMod: string
+}
+
+function readWorkspaceState(workspaceId: string): WorkspaceState {
+  const dir = workspaceDir(workspaceId)
+  const entries = readdirSync(dir).filter((f) => {
+    const full = join(dir, f)
+    return statSync(full).isFile() && f !== 'go.mod' && f !== 'go.sum'
+  })
+
+  const files: WorkspaceFile[] = entries.map((name) => ({
+    name,
+    content: readFileSync(join(dir, name), 'utf-8'),
+    isReadOnly: name.endsWith('_test.go')
+  }))
+
+  const goMod = existsSync(join(dir, 'go.mod'))
+    ? readFileSync(join(dir, 'go.mod'), 'utf-8')
+    : ''
+
+  return { workspaceId, projectDir: dir, files, goMod }
+}
+
+interface WorkspaceScaffold {
+  goMod: string
+  files: { name: string; content: string }[]
+  testFiles: { name: string; content: string }[]
+}
+
+// ---------------------------------------------------------------------------
+// Workspace IPC handlers
+// ---------------------------------------------------------------------------
+
+ipcMain.handle(
+  'workspace:init',
+  async (_event, workspaceId: string, scaffold: WorkspaceScaffold) => {
+    const dir = workspaceDir(workspaceId)
+    const isNew = !existsSync(dir)
+
+    mkdirSync(dir, { recursive: true })
+
+    if (isNew) {
+      writeFileSync(join(dir, 'go.mod'), scaffold.goMod)
+      for (const f of scaffold.files) {
+        writeFileSync(join(dir, f.name), f.content)
+      }
+    }
+
+    for (const f of scaffold.testFiles) {
+      writeFileSync(join(dir, f.name), f.content)
+    }
+
+    return readWorkspaceState(workspaceId)
+  }
+)
+
+ipcMain.handle('workspace:load', async (_event, workspaceId: string) => {
+  const dir = workspaceDir(workspaceId)
+  if (!existsSync(dir)) return null
+  return readWorkspaceState(workspaceId)
+})
+
+ipcMain.handle(
+  'workspace:readFile',
+  async (_event, workspaceId: string, fileName: string) => {
+    const filePath = resolveWorkspaceFile(workspaceId, fileName)
+    return readFileSync(filePath, 'utf-8')
+  }
+)
+
+ipcMain.handle(
+  'workspace:writeFile',
+  async (_event, workspaceId: string, fileName: string, content: string) => {
+    if (fileName.endsWith('_test.go')) {
+      throw new Error('Cannot write to test files')
+    }
+    const filePath = resolveWorkspaceFile(workspaceId, fileName)
+    writeFileSync(filePath, content)
+  }
+)
+
+ipcMain.handle(
+  'workspace:createFile',
+  async (_event, workspaceId: string, fileName: string) => {
+    if (!fileName.endsWith('.go')) {
+      throw new Error('Only .go files can be created')
+    }
+    if (fileName.endsWith('_test.go')) {
+      throw new Error('Cannot create test files')
+    }
+    const filePath = resolveWorkspaceFile(workspaceId, fileName)
+    if (existsSync(filePath)) {
+      throw new Error(`File already exists: ${fileName}`)
+    }
+    writeFileSync(filePath, 'package main\n')
+    return readWorkspaceState(workspaceId)
+  }
+)
+
+ipcMain.handle(
+  'workspace:deleteFile',
+  async (_event, workspaceId: string, fileName: string) => {
+    if (fileName.endsWith('_test.go')) {
+      throw new Error('Cannot delete test files')
+    }
+    const filePath = resolveWorkspaceFile(workspaceId, fileName)
+    unlinkSync(filePath)
+    return readWorkspaceState(workspaceId)
+  }
+)
+
+ipcMain.handle(
+  'workspace:renameFile',
+  async (_event, workspaceId: string, oldName: string, newName: string) => {
+    if (oldName.endsWith('_test.go')) {
+      throw new Error('Cannot rename test files')
+    }
+    if (newName.endsWith('_test.go')) {
+      throw new Error('Cannot rename to a test file name')
+    }
+    if (!newName.endsWith('.go')) {
+      throw new Error('Only .go files are allowed')
+    }
+    const oldPath = resolveWorkspaceFile(workspaceId, oldName)
+    const newPath = resolveWorkspaceFile(workspaceId, newName)
+    if (existsSync(newPath)) {
+      throw new Error(`File already exists: ${newName}`)
+    }
+    renameSync(oldPath, newPath)
+    return readWorkspaceState(workspaceId)
+  }
+)
+
+ipcMain.handle(
+  'workspace:runTests',
+  async (_event, workspaceId: string, testPattern?: string) => {
+    const dir = workspaceDir(workspaceId)
+    const runFlag = testPattern ? ` -run ${testPattern}` : ''
+    const cmd = `go test -v -count=1 -timeout 30s${runFlag} ./...`
+
+    return new Promise((resolve) => {
+      exec(cmd, { cwd: dir, timeout: 35000, env: { ...process.env, GOFLAGS: '' } },
+        (error, stdout, stderr) => {
+          const output = stdout + (stderr ? '\n' + stderr : '')
+          resolve({
+            passed: !error,
+            output: output.trim(),
+            error: error ? error.message : null,
+            stepTestFile: testPattern || undefined
+          })
+        }
+      )
+    })
+  }
+)
+
+ipcMain.handle('workspace:runBuild', async (_event, workspaceId: string) => {
+  const dir = workspaceDir(workspaceId)
+
+  return new Promise((resolve) => {
+    exec('go build ./...', { cwd: dir, timeout: 30000, env: { ...process.env, GOFLAGS: '' } },
+      (error, stdout, stderr) => {
+        const output = stdout + (stderr ? '\n' + stderr : '')
+        resolve({
+          passed: !error,
+          output: output.trim(),
+          error: error ? error.message : null
+        })
+      }
+    )
+  })
+})
+
+ipcMain.handle('workspace:openInFinder', async (_event, workspaceId: string) => {
+  const dir = workspaceDir(workspaceId)
+  await shell.openPath(dir)
 })
 
 // App lifecycle

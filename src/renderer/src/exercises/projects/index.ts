@@ -28,6 +28,65 @@ import _proj_queue_04 from './proj-queue-04'
 import _proj_queue_05 from './proj-queue-05'
 import _proj_queue_06 from './proj-queue-06'
 
+// Key-Value Store (8 steps)
+import _proj_kv_01 from './proj-kv-01'
+import _proj_kv_02 from './proj-kv-02'
+import _proj_kv_03 from './proj-kv-03'
+import _proj_kv_04 from './proj-kv-04'
+import _proj_kv_05 from './proj-kv-05'
+import _proj_kv_06 from './proj-kv-06'
+import _proj_kv_07 from './proj-kv-07'
+import _proj_kv_08 from './proj-kv-08'
+
+// Pipeline Framework (6 steps)
+import _proj_pipe_01 from './proj-pipe-01'
+import _proj_pipe_02 from './proj-pipe-02'
+import _proj_pipe_03 from './proj-pipe-03'
+import _proj_pipe_04 from './proj-pipe-04'
+import _proj_pipe_05 from './proj-pipe-05'
+import _proj_pipe_06 from './proj-pipe-06'
+
+// Connection Pool (6 steps)
+import _proj_pool_01 from './proj-pool-01'
+import _proj_pool_02 from './proj-pool-02'
+import _proj_pool_03 from './proj-pool-03'
+import _proj_pool_04 from './proj-pool-04'
+import _proj_pool_05 from './proj-pool-05'
+import _proj_pool_06 from './proj-pool-06'
+
+// Structured Logger (6 steps)
+import _proj_log_01 from './proj-log-01'
+import _proj_log_02 from './proj-log-02'
+import _proj_log_03 from './proj-log-03'
+import _proj_log_04 from './proj-log-04'
+import _proj_log_05 from './proj-log-05'
+import _proj_log_06 from './proj-log-06'
+
+// File Watcher (5 steps)
+import _proj_watcher_01 from './proj-watcher-01'
+import _proj_watcher_02 from './proj-watcher-02'
+import _proj_watcher_03 from './proj-watcher-03'
+import _proj_watcher_04 from './proj-watcher-04'
+import _proj_watcher_05 from './proj-watcher-05'
+
+// Git Internals (8 steps)
+import _proj_git_01 from './proj-git-01'
+import _proj_git_02 from './proj-git-02'
+import _proj_git_03 from './proj-git-03'
+import _proj_git_04 from './proj-git-04'
+import _proj_git_05 from './proj-git-05'
+import _proj_git_06 from './proj-git-06'
+import _proj_git_07 from './proj-git-07'
+import _proj_git_08 from './proj-git-08'
+
+// Test Framework (6 steps)
+import _proj_test_01 from './proj-test-01'
+import _proj_test_02 from './proj-test-02'
+import _proj_test_03 from './proj-test-03'
+import _proj_test_04 from './proj-test-04'
+import _proj_test_05 from './proj-test-05'
+import _proj_test_06 from './proj-test-06'
+
 // Monkey Interpreter - Complete Project (22 steps)
 import _proj_monkey_01 from './proj-monkey-01'
 import _proj_monkey_02 from './proj-monkey-02'
@@ -82,6 +141,65 @@ export const exercises = [
   _proj_queue_04,
   _proj_queue_05,
   _proj_queue_06,
+
+  // Key-Value Store (8 steps)
+  _proj_kv_01,
+  _proj_kv_02,
+  _proj_kv_03,
+  _proj_kv_04,
+  _proj_kv_05,
+  _proj_kv_06,
+  _proj_kv_07,
+  _proj_kv_08,
+
+  // Pipeline Framework (6 steps)
+  _proj_pipe_01,
+  _proj_pipe_02,
+  _proj_pipe_03,
+  _proj_pipe_04,
+  _proj_pipe_05,
+  _proj_pipe_06,
+
+  // Connection Pool (6 steps)
+  _proj_pool_01,
+  _proj_pool_02,
+  _proj_pool_03,
+  _proj_pool_04,
+  _proj_pool_05,
+  _proj_pool_06,
+
+  // Structured Logger (6 steps)
+  _proj_log_01,
+  _proj_log_02,
+  _proj_log_03,
+  _proj_log_04,
+  _proj_log_05,
+  _proj_log_06,
+
+  // File Watcher (5 steps)
+  _proj_watcher_01,
+  _proj_watcher_02,
+  _proj_watcher_03,
+  _proj_watcher_04,
+  _proj_watcher_05,
+
+  // Git Internals (8 steps)
+  _proj_git_01,
+  _proj_git_02,
+  _proj_git_03,
+  _proj_git_04,
+  _proj_git_05,
+  _proj_git_06,
+  _proj_git_07,
+  _proj_git_08,
+
+  // Test Framework (6 steps)
+  _proj_test_01,
+  _proj_test_02,
+  _proj_test_03,
+  _proj_test_04,
+  _proj_test_05,
+  _proj_test_06,
 
   // Monkey Interpreter (22 steps)
   _proj_monkey_01,

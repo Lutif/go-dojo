@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
-import { Exercise, Category, ProgressData, RunResult, ExerciseStatus, ExerciseUi } from './types'
+import { Exercise, Category, ProgressData, RunResult, ExerciseStatus, ExerciseUi, isWorkspaceExercise } from './types'
 import { getAllExercises, getCategories } from './exercises'
 import { computeStatus, REQUIRES, PREREQ_HINTS } from './data/dependencies'
 import Sidebar from './components/Sidebar'
 import EditorPanel from './components/EditorPanel'
+import WorkspaceEditor from './components/WorkspaceEditor'
 import OutputPanel from './components/OutputPanel'
 import ExerciseInfo from './components/ExerciseInfo'
 import ProgressDashboard from './components/ProgressDashboard'
+import { useWorkspace } from './hooks/useWorkspace'
 
 export default function App() {
   const [rawExercises] = useState<Exercise[]>(getAllExercises())
@@ -35,6 +37,9 @@ export default function App() {
   const [dyslexicFont, setDyslexicFont] = useState<boolean>(() =>
     localStorage.getItem('go-dojo-font-dyslexic') === '1'
   )
+
+  const isWorkspace = selectedExercise ? isWorkspaceExercise(selectedExercise) : false
+  const ws = useWorkspace(isWorkspace ? selectedExercise : null)
 
   useEffect(() => {
     document.body.classList.toggle('theme-paper', theme === 'paper')
@@ -176,7 +181,7 @@ export default function App() {
   // Autosave draft while editing (debounced) — skipped in test mode so the
   // real draft/submitted solution isn't clobbered by a test-mode rewrite.
   useEffect(() => {
-    if (!selectedExercise || testMode) return
+    if (!selectedExercise || testMode || isWorkspace) return
     const id = selectedExercise.id
     const code = currentCode
     const t = window.setTimeout(() => {
@@ -194,15 +199,29 @@ export default function App() {
   }, [currentCode, selectedExercise, testMode])
 
   const runCode = useCallback(async () => {
-    if (!selectedExercise || running) return
+    if (!selectedExercise || running || ws.running) return
+
+    if (isWorkspace) {
+      const result = await ws.runTests()
+      if (result.passed) {
+        const prev = progressRef.current
+        const next: ProgressData = {
+          ...prev,
+          completed: { ...prev.completed, [selectedExercise.id]: true },
+        }
+        setProgress(next)
+        progressRef.current = next
+        await window.api.saveProgress(next)
+      }
+      return
+    }
+
     setRunning(true)
     setOutput(null)
     const id = selectedExercise.id
 
     try {
       const prev = progressRef.current
-      // In test mode, don't persist the run code to drafts — it would overwrite
-      // the user's saved solution with the comment-stripped starter / test answer.
       const withDraft: ProgressData = testMode
         ? prev
         : { ...prev, drafts: { ...prev.drafts, [id]: currentCode } }
@@ -231,8 +250,6 @@ export default function App() {
         progressRef.current = next
         await window.api.saveProgress(next)
       } else if (result.passed && testMode) {
-        // Mark complete (user proved they can still solve it) but keep the
-        // existing submitted solution intact.
         const next: ProgressData = {
           ...prev,
           completed: { ...prev.completed, [id]: true },
@@ -246,7 +263,7 @@ export default function App() {
     } finally {
       setRunning(false)
     }
-  }, [selectedExercise, currentCode, running, testMode])
+  }, [selectedExercise, currentCode, running, testMode, isWorkspace, ws])
 
   const resetExercise = useCallback(async () => {
     if (!selectedExercise) return
@@ -570,7 +587,14 @@ export default function App() {
                   }`}>
                     {selectedExercise.difficulty}
                   </span>
-                  {solutionMatchesSubmitted ? (
+                  {isWorkspace ? (
+                    <span
+                      className="text-[10px] px-1.5 py-0.5 rounded bg-go-blue/15 text-go-blue/80 border border-go-blue/25"
+                      title="Multi-file workspace — files saved to disk automatically"
+                    >
+                      Workspace
+                    </span>
+                  ) : solutionMatchesSubmitted ? (
                     <span
                       className="text-[10px] px-1.5 py-0.5 rounded bg-go-success/15 text-go-success/90 border border-go-success/25"
                       title="Your code passed all tests and is saved as your solution"
@@ -672,17 +696,36 @@ export default function App() {
                     </button>
                   </>
                 )}
+                {isWorkspace && (
+                  <button
+                    onClick={() => ws.runBuild()}
+                    disabled={ws.running}
+                    className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                    title="Build (go build)"
+                  >
+                    Build
+                  </button>
+                )}
+                {isWorkspace && (
+                  <button
+                    onClick={ws.openInFinder}
+                    className="px-3 py-1.5 text-xs bg-go-surface hover:bg-go-surface2 border border-go-border rounded-md text-go-muted hover:text-go-text transition-all"
+                    title="Open workspace folder"
+                  >
+                    Folder
+                  </button>
+                )}
                 <button
                   onClick={runCode}
-                  disabled={running}
+                  disabled={running || ws.running}
                   className={`px-4 py-1.5 text-xs font-semibold rounded-md transition-all ${
-                    running
+                    running || ws.running
                       ? 'bg-go-surface text-go-muted cursor-not-allowed'
                       : 'bg-go-blue hover:bg-go-cyan text-white pulse-glow'
                   }`}
                   title="Run (Cmd+Enter)"
                 >
-                  {running ? 'Running...' : '\u25B6 Run Tests'}
+                  {running || ws.running ? 'Running...' : '\u25B6 Run Tests'}
                 </button>
               </div>
             </div>
@@ -733,8 +776,8 @@ export default function App() {
                     </div>
                     <div className={`flex flex-col min-h-0 ${outputCollapsed ? 'shrink-0' : 'flex-1'}`}>
                       <OutputPanel
-                        output={output}
-                        running={running}
+                        output={isWorkspace ? (ws.output ? { passed: ws.output.passed, output: ws.output.output, error: ws.output.error } : null) : output}
+                        running={isWorkspace ? ws.running : running}
                         collapsed={outputCollapsed}
                         onToggleCollapse={() => toggleExerciseUi('outputCollapsed')}
                       />
@@ -745,11 +788,33 @@ export default function App() {
 
               {/* Right: Editor */}
               <div className="flex-1 min-w-0 h-full overflow-hidden">
-                <EditorPanel
-                  code={currentCode}
-                  onChange={setCurrentCode}
-                  editorRef={editorRef}
-                />
+                {isWorkspace && ws.loading ? (
+                  <div className="h-full flex items-center justify-center text-go-muted">
+                    <div className="text-center space-y-2">
+                      <div className="inline-block w-4 h-4 border-2 border-go-blue border-t-transparent rounded-full animate-spin" />
+                      <div className="text-xs">Initializing workspace...</div>
+                    </div>
+                  </div>
+                ) : isWorkspace && ws.workspace ? (
+                  <WorkspaceEditor
+                    files={ws.workspace.files}
+                    activeFile={ws.activeFile}
+                    onSelectFile={ws.setActiveFile}
+                    getFileContent={ws.getFileContent}
+                    onFileChange={ws.updateFileContent}
+                    onCreateFile={ws.createFile}
+                    onDeleteFile={ws.deleteFile}
+                    onRenameFile={ws.renameFile}
+                    onOpenInFinder={ws.openInFinder}
+                    editorRef={editorRef}
+                  />
+                ) : (
+                  <EditorPanel
+                    code={currentCode}
+                    onChange={setCurrentCode}
+                    editorRef={editorRef}
+                  />
+                )}
               </div>
             </div>
           </>
