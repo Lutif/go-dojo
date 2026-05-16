@@ -2,6 +2,8 @@
 
 A comprehensive, interactive Go learning platform built with Electron, React, and TypeScript. Go Dojo provides an integrated development environment with 250+ exercises across 10 categories, real-time code execution, and progress tracking.
 
+<img src="https://media.licdn.com/dms/image/v2/D4E22AQGdGDms2m0Yqg/feedshare-image-high-res/B4EZ4Q6T.vJgAU-/0/1778400184967?e=1780531200&v=beta&t=RVdOfA3qcXGAE13GchPWfNVt9pdKYQP3FL7cqiMLgkE" height="800px" width="1200px"/>
+
 ## Features
 
 - **250+ Interactive Exercises** - Organized across 10 categories from basics to advanced projects
