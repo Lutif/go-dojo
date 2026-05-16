@@ -34,7 +34,8 @@ A comprehensive, interactive Go learning platform built with Electron, React, an
 - **macOS, Windows, or Linux**
 
 ## Installation
-
+ Download your OS related binnaries from [releases](https://github.com/Lutif/go-dojo/releases/) 
+ OR
 ```bash
 # Clone the repository
 git clone https://github.com/lutif/go-dojo.git
